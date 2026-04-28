@@ -7,6 +7,8 @@ use App\Models\Media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class MediaController extends Controller
 {
@@ -29,23 +31,31 @@ class MediaController extends Controller
     {
         $request->validate([
             'files'      => 'required',
-            'files.*'    => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'files.*'    => 'image|mimes:jpeg,png,jpg,gif,webp|max:51200', // Allow up to 50MB before compression
             'collection' => 'required|string|max:50',
             'alt_text'   => 'nullable|string|max:255',
         ]);
 
         $uploaded = 0;
+        $manager = new ImageManager(new Driver());
 
         foreach ($request->file('files') as $file) {
-            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
-            $path = $file->storeAs('media/' . $request->collection, $filename, 'public');
+            $filename = Str::uuid() . '.webp';
+            $path = 'media/' . $request->collection . '/' . $filename;
+
+            // Compress and convert image
+            $image = $manager->read($file->getPathname());
+            $image->scaleDown(width: 1920, height: 1920);
+            $encoded = $image->toWebp(75);
+
+            Storage::disk('public')->put($path, (string) $encoded);
 
             Media::create([
                 'filename'      => $filename,
                 'original_name' => $file->getClientOriginalName(),
                 'path'          => $path,
-                'mime_type'     => $file->getMimeType(),
-                'size'          => $file->getSize(),
+                'mime_type'     => 'image/webp',
+                'size'          => strlen((string) $encoded),
                 'alt_text'      => $request->alt_text,
                 'collection'    => $request->collection,
             ]);
@@ -53,7 +63,7 @@ class MediaController extends Controller
             $uploaded++;
         }
 
-        return back()->with('success', "{$uploaded} file berhasil diupload!");
+        return back()->with('success', "{$uploaded} file berhasil diupload dan dikompresi!");
     }
 
     public function destroy(Media $media)

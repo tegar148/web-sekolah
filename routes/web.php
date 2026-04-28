@@ -38,7 +38,8 @@ Route::get('/guru', function () {
 
 Route::get('/galeri', function () {
     $sections = SiteSection::where('page', 'galeri')->orderBy('sort_order')->get()->keyBy('section_key');
-    return view('galeri', compact('sections'));
+    $galleries = \App\Models\Media::whereIn('collection', ['kegiatan_siswa', 'fasilitas_sekolah', 'prestasi', 'guru_staff'])->latest()->get();
+    return view('galeri', compact('sections', 'galleries'));
 })->name('galeri');
 
 Route::get('/fasilitas', function () {

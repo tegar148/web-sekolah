@@ -28,13 +28,13 @@
             <div>
                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">KOLEKSI <span class="text-red-500">*</span></label>
                 <select name="collection" required class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-3.5 appearance-none focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition">
-                    <option value="general">General</option>
-                    <option value="galeri">Galeri</option>
-                    <option value="hero">Hero Background</option>
-                    <option value="guru">Foto Guru</option>
-                    <option value="fasilitas">Fasilitas</option>
-                    <option value="berita">Berita</option>
+                    <option value="kegiatan_siswa">Kegiatan Siswa</option>
+                    <option value="fasilitas_sekolah">Fasilitas Sekolah</option>
                     <option value="prestasi">Prestasi</option>
+                    <option value="guru_staff">Guru & Staff</option>
+                    <option value="general">General</option>
+                    <option value="hero">Hero Background</option>
+                    <option value="berita">Berita</option>
                 </select>
             </div>
             <div>
