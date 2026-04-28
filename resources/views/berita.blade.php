@@ -43,68 +43,37 @@
             <div class="max-w-6xl mx-auto px-6 md:px-12">
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Card 1 -->
-                    <div class="bg-white rounded-lg border border-gray-100 shadow-sm overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
-                        <div class="w-full h-56 bg-slate-900 relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?q=80&w=600&auto=format&fit=crop" onerror="this.src='https://placehold.co/600x400/1e293b/94a3b8?text=Robotics'" alt="Robotika" class="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700">
-                            <div class="absolute top-4 left-4 bg-[#111827] text-white text-[9px] font-bold tracking-widest uppercase px-3 py-1 shadow">ACADEMIC PENCAPAIAN</div>
+                    @forelse($beritas as $item)
+                    <div class="bg-white rounded-lg border border-gray-100 shadow-sm overflow-hidden hover:shadow-xl transition-shadow duration-300 group flex flex-col">
+                        <div class="w-full h-56 bg-slate-900 relative overflow-hidden shrink-0">
+                            @if($item->image_path)
+                            <img src="{{ Storage::url($item->image_path) }}" alt="{{ $item->title }}" class="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700">
+                            @endif
+                            <div class="absolute top-4 left-4 bg-[#111827] text-white text-[9px] font-bold tracking-widest uppercase px-3 py-1 shadow">{{ $item->category }}</div>
                         </div>
-                        <div class="p-8">
+                        <div class="p-8 flex-1 flex flex-col">
                             <p class="text-[10px] text-gray-400 mb-3 uppercase tracking-widest font-semibold flex items-center gap-2">
-                                <span class="w-4 h-[1px] bg-gray-300 block"></span> 12 SEPT 2024
+                                <span class="w-4 h-[1px] bg-gray-300 block"></span> {{ \Carbon\Carbon::parse($item->published_at)->format('d M Y') }}
                             </p>
-                            <h3 class="text-xl font-bold text-gray-900 mb-4 leading-snug group-hover:text-blue-600 transition-colors">Integrasi Robotika dalam Olimpiade Sains Nasional</h3>
-                            <p class="text-sm text-gray-500 line-clamp-3 mb-6">Pencapaian luar biasa tim robotika dalam mengimplementasikan AI pada unit mikrokontroler...</p>
-                            <a href="#" class="text-[11px] font-bold text-gray-900 group-hover:text-blue-600 uppercase tracking-widest border-b border-gray-300 group-hover:border-blue-600 transition-colors pb-1">READ MORE <span class="text-lg leading-none relative top-[1px]">&rarr;</span></a>
-                        </div>
-                    </div>
-                    
-                    <!-- Card 2 -->
-                    <div class="bg-white rounded-lg border border-gray-100 shadow-sm overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
-                        <div class="w-full h-56 bg-blue-900 relative overflow-hidden">
-                            <div class="absolute inset-0 bg-gradient-to-tr from-[#111827] to-[#1e3a8a] opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                            <div class="absolute inset-0 flex flex-col justify-center items-center text-white p-6">
-                                 <div class="w-1 absolute left-6 top-8 bottom-8 bg-blue-500/50"></div>
-                                 <h4 class="text-xl font-bold text-center tracking-wide drop-shadow-md">INDUSTRY<br>SEMINAR</h4>
-                                 <p class="text-[9px] tracking-widest text-blue-200 mt-4 text-center">BINA KARYA<br>MAESAN TECH</p>
+                            <h3 class="text-xl font-bold text-gray-900 mb-4 leading-snug group-hover:text-blue-600 transition-colors">{{ $item->title }}</h3>
+                            <p class="text-sm text-gray-500 line-clamp-3 mb-6">{{ $item->excerpt }}</p>
+                            <div class="mt-auto">
+                                <a href="{{ route('berita.show', $item->slug) }}" class="text-[11px] font-bold text-gray-900 group-hover:text-blue-600 uppercase tracking-widest border-b border-gray-300 group-hover:border-blue-600 transition-colors pb-1">READ MORE <span class="text-lg leading-none relative top-[1px]">&rarr;</span></a>
                             </div>
-                            <div class="absolute top-4 left-4 bg-blue-800 text-white text-[9px] font-bold tracking-widest uppercase px-3 py-1 shadow">FORUM & SUMMIT</div>
-                        </div>
-                        <div class="p-8">
-                            <p class="text-[10px] text-gray-400 mb-3 uppercase tracking-widest font-semibold flex items-center gap-2">
-                                 <span class="w-4 h-[1px] bg-gray-300 block"></span> 10 SEPT 2024
-                            </p>
-                            <h3 class="text-xl font-bold text-gray-900 mb-4 leading-snug group-hover:text-blue-600 transition-colors">Kolaborasi Strategis dengan Tech Giant Global</h3>
-                            <p class="text-sm text-gray-500 line-clamp-3 mb-6">Mempersiapkan siswa dari program sertifikasi industri tingkat internasional dengan partner perusahaan global...</p>
-                            <a href="#" class="text-[11px] font-bold text-gray-900 group-hover:text-blue-600 uppercase tracking-widest border-b border-gray-300 group-hover:border-blue-600 transition-colors pb-1">READ MORE <span class="text-lg leading-none relative top-[1px]">&rarr;</span></a>
                         </div>
                     </div>
-                    
-                    <!-- Card 3 -->
-                    <div class="bg-white rounded-lg border border-gray-100 shadow-sm overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
-                        <div class="w-full h-56 bg-[#1A365D] relative overflow-hidden flex items-center justify-center">
-                             <div class="absolute inset-0 bg-slate-900"></div>
-                             <div class="w-32 h-32 bg-[#2B6CB0] rounded-tl-[64px] rounded-br-[64px] absolute shadow-2xl group-hover:rotate-45 transition-transform duration-700 border-4 border-[#3182CE]"></div>
-                             <div class="absolute top-4 left-4 bg-slate-800 text-white text-[9px] font-bold tracking-widest uppercase px-3 py-1 shadow">PRAKTIKUM</div>
-                        </div>
-                        <div class="p-8">
-                            <p class="text-[10px] text-gray-400 mb-3 uppercase tracking-widest font-semibold flex items-center gap-2">
-                                 <span class="w-4 h-[1px] bg-gray-300 block"></span> 08 SEPT 2024
-                            </p>
-                            <h3 class="text-xl font-bold text-gray-900 mb-4 leading-snug group-hover:text-blue-600 transition-colors">Laboratorium Agroteknologi Berbasis IoT</h3>
-                            <p class="text-sm text-gray-500 line-clamp-3 mb-6">Penerapan sensor smart system pada kebun irigasi di area kampus praktikum jurusan agribisnis...</p>
-                            <a href="#" class="text-[11px] font-bold text-gray-900 group-hover:text-blue-600 uppercase tracking-widest border-b border-gray-300 group-hover:border-blue-600 transition-colors pb-1">READ MORE <span class="text-lg leading-none relative top-[1px]">&rarr;</span></a>
-                        </div>
+                    @empty
+                    <div class="col-span-full py-12 text-center text-gray-500">
+                        Belum ada berita yang dipublikasikan.
                     </div>
+                    @endforelse
                 </div>
 
-                <!-- Load More Button -->
+                @if($beritas->hasPages())
                 <div class="mt-16 text-center">
-                    <button class="bg-white border border-gray-200 text-gray-600 font-bold text-xs px-8 py-3 rounded-full hover:bg-gray-50 hover:text-[#015B63] transition shadow-sm inline-flex items-center gap-2">
-                        Muat Lebih Banyak Artikel
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
+                    {{ $beritas->links() }}
                 </div>
+                @endif
 
             </div>
         </section>

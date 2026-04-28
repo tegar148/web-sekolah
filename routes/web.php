@@ -94,9 +94,14 @@ Route::get('/siswa/kalender', function () {
 
 Route::get('/berita', function () {
     $sections = SiteSection::where('page', 'berita')->orderBy('sort_order')->get()->keyBy('section_key');
-    return view('berita', compact('sections'));
+    $beritas = \App\Models\Berita::latest('published_at')->paginate(9);
+    return view('berita', compact('sections', 'beritas'));
 })->name('berita');
 
+Route::get('/berita/{slug}', function ($slug) {
+    $berita = \App\Models\Berita::where('slug', $slug)->firstOrFail();
+    return view('berita-show', compact('berita'));
+})->name('berita.show');
 
 // ============================================================
 // ADMIN ROUTES
@@ -119,4 +124,8 @@ Route::prefix('admin')->middleware(\App\Http\Middleware\AdminAuth::class)->group
     Route::get('/media', [MediaController::class, 'index'])->name('admin.media.index');
     Route::post('/media', [MediaController::class, 'store'])->name('admin.media.store');
     Route::delete('/media/{media}', [MediaController::class, 'destroy'])->name('admin.media.destroy');
+
+    Route::get('/berita', [\App\Http\Controllers\Admin\BeritaController::class, 'index'])->name('admin.berita.index');
+    Route::post('/berita', [\App\Http\Controllers\Admin\BeritaController::class, 'store'])->name('admin.berita.store');
+    Route::delete('/berita/{berita}', [\App\Http\Controllers\Admin\BeritaController::class, 'destroy'])->name('admin.berita.destroy');
 });
