@@ -12,6 +12,9 @@
 
     <!-- Links -->
     <div class="hidden lg:flex items-center space-x-6 text-sm font-medium text-gray-600">
+        <!-- Direct Link: Home -->
+        <a href="{{ url('/') }}" class="hover:text-blue-600 py-2 pb-1 border-b-2 border-transparent hover:border-blue-600 transition truncate">Home</a>
+
         <!-- Dropdown: Profile Sekolah -->
         <div class="relative group">
             <button class="flex items-center gap-1 hover:text-blue-600 py-2 pb-1 border-b-2 border-transparent group-hover:border-blue-600 transition truncate">
@@ -20,12 +23,12 @@
             </button>
             <div class="absolute left-0 mt-4 w-48 bg-white border border-gray-100 shadow-xl rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform origin-top translate-y-2 group-hover:translate-y-0">
                 <div class="py-2 flex flex-col">
-                    <a href="#" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Sejarah</a>
-                    <a href="#" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Visi Misi</a>
-                    <a href="#" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Prestasi</a>
-                    <a href="#" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Guru</a>
-                    <a href="#" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Galeri</a>
-                    <a href="#" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Fasilitas</a>
+                    <a href="{{ route('sejarah') }}" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Sejarah</a>
+                    <a href="{{ route('visi-misi') }}" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Visi Misi</a>
+                    <a href="{{ route('prestasi') }}" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Prestasi</a>
+                    <a href="{{ route('guru') }}" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Guru</a>
+                    <a href="{{ route('galeri') }}" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Galeri</a>
+                    <a href="{{ route('fasilitas') }}" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Fasilitas</a>
                 </div>
             </div>
         </div>
@@ -38,9 +41,9 @@
             </button>
             <div class="absolute left-0 mt-4 w-60 bg-white border border-gray-100 shadow-xl rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform origin-top translate-y-2 group-hover:translate-y-0">
                 <div class="py-2 flex flex-col">
-                    <a href="#" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Agribisnis Ruminansia</a>
-                    <a href="#" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Agribisnis Ternak Unggas</a>
-                    <a href="#" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Teknik Komputer & Jaringan</a>
+                    <a href="{{ route('jurusan.ruminansia') }}" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Agribisnis Ruminansia</a>
+                    <a href="{{ route('jurusan.unggas') }}" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Agribisnis Ternak Unggas</a>
+                    <a href="{{ route('jurusan.tkj') }}" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Teknik Komputer & Jaringan</a>
                 </div>
             </div>
         </div>
@@ -53,8 +56,8 @@
             </button>
             <div class="absolute left-0 mt-4 w-48 bg-white border border-gray-100 shadow-xl rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform origin-top translate-y-2 group-hover:translate-y-0">
                 <div class="py-2 flex flex-col">
-                    <a href="#" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Profil BKK Skama</a>
-                    <a href="#" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Info Lowongan Kerja</a>
+                    <a href="{{ route('bkk.profile') }}" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Profil BKK Skama</a>
+                    <a href="{{ route('bkk.lowongan') }}" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Info Lowongan Kerja</a>
                 </div>
             </div>
         </div>
@@ -67,21 +70,20 @@
             </button>
             <div class="absolute left-0 mt-4 w-52 bg-white border border-gray-100 shadow-xl rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform origin-top translate-y-2 group-hover:translate-y-0">
                 <div class="py-2 flex flex-col">
-                    <a href="#" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Organisasi</a>
-                    <a href="#" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Ekstrakurikuler</a>
-                    <a href="#" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Kalender Pendidikan</a>
-                    <a href="#" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Info PPDB</a>
+                    <a href="{{ route('siswa.organisasi') }}" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Organisasi</a>
+                    <a href="{{ route('siswa.ekstrakurikuler') }}" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Ekstrakurikuler</a>
+                    <a href="{{ route('siswa.kalender') }}" class="px-4 py-2 hover:bg-gray-50 hover:text-blue-600">Kalender Pendidikan</a>
                 </div>
             </div>
         </div>
 
         <!-- Direct Link: Berita -->
-        <a href="#" class="hover:text-blue-600 py-2 pb-1 border-b-2 border-transparent hover:border-blue-600 transition truncate">Berita</a>
+        <a href="{{ route('berita') }}" class="hover:text-blue-600 py-2 pb-1 border-b-2 border-transparent hover:border-blue-600 transition truncate">Berita</a>
     </div>
 
     <!-- Button -->
     <div class="hidden lg:block">
-        <a href="#" class="px-6 py-2 bg-[#1C2331] text-white text-xs tracking-wider shadow-md font-bold rounded-sm hover:bg-gray-800 transition">APLIKASI</a>
+        <a href="{{ route('info.ppdb') }}" class="px-6 py-2 bg-[#1C2331] text-white text-xs tracking-wider shadow-md font-bold rounded-sm hover:bg-gray-800 transition">INFO PPDB</a>
     </div>
     
     <!-- Mobile menu button -->

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info Lowongan Kerja - SMK Negeri 1 Maesan</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    @vite(['resources/css/app.css'])
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        /* Custom scrollbar for dropdowns or sidebars if needed */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #CBD5E1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-[#F8FAFC] antialiased text-gray-800">
+    
+    <!-- Topbar Component -->
+    <div class="sticky top-0 z-50 border-b border-gray-100 shadow-sm bg-white/95 backdrop-blur-sm">
+        <x-topbar.navbar />
+    </div>
+
+    <!-- Hero Section (Dynamic from Admin) -->
+    @if(!isset($sections['hero']) || $sections['hero']->is_visible)
+    <header class="bg-[#2D3748] pt-24 pb-48 md:pt-32 md:pb-56 relative text-center text-white overflow-hidden">
+        <!-- Subdued Background Pattern/Icon -->
+        <div class="absolute inset-0 opacity-5 flex items-center justify-center">
+            <svg class="w-96 h-96" fill="currentColor" viewBox="0 0 24 24"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-6 relative z-10 flex flex-col items-center">
+            <span class="text-[#4DD0E1] text-[10px] font-bold px-3 py-1 uppercase tracking-[0.2em] mb-4 inline-flex items-center gap-2">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                BURSA KERJA KHUSUS
+            </span>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">Info Lowongan Kerja</h1>
+            <p class="text-gray-300 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto">
+                Menjembatani lulusan SMK Negeri 1 Maesan dengan industri terkemuka. Temukan peluang karir terbaik yang sesuai dengan kompetensi keahlian Anda.
+            </p>
+        </div>
+    </header>
+    @endif
+
+    <!-- Main Content Section (Overlapping Hero) -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 -mt-24 md:-mt-32 relative z-20 pb-20">
+        
+        <div class="flex flex-col lg:flex-row gap-8">
+            
+            <!-- Left Sidebar (Filters & Proc) -->
+            <div class="w-full lg:w-1/3 xl:w-1/4 flex flex-col gap-6 shrink-0">
+                
+                <!-- Filter Box -->
+                <div class="bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 p-6">
+                    <div class="flex items-center gap-2 mb-6 text-gray-800">
+                        <svg class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
+                        <h3 class="font-bold text-[15px]">Filter Lowongan</h3>
+                    </div>
+
+                    <!-- Search Input -->
+                    <div class="mb-6">
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">CARI PEKERJAAN</label>
+                        <div class="relative relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </div>
+                            <input type="text" class="w-full bg-gray-50 border border-gray-100 text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition placeholder-gray-400" placeholder="Keywords...">
+                        </div>
+                    </div>
+
+                    <!-- Industry Dropdown -->
+                    <div class="mb-6">
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">INDUSTRI</label>
+                        <div class="relative">
+                            <select class="w-full bg-gray-50 border border-gray-100 text-sm text-gray-700 rounded-xl px-4 py-2.5 appearance-none focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition">
+                                <option>Semua Industri</option>
+                                <option>Teknologi & IT</option>
+                                <option>Otomotif</option>
+                                <option>Peternakan</option>
+                                <option>Administrasi</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-0 py-2 pr-3 flex items-center pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job Type -->
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-3">TIPE PEKERJAAN</label>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="bg-[#E0F2FE] text-blue-700 font-semibold text-xs px-4 py-2 rounded-full border border-blue-100 transition hover:bg-blue-100">Full-time</button>
+                            <button class="bg-gray-100 text-gray-600 font-medium text-xs px-4 py-2 rounded-full border border-transparent hover:bg-gray-200 transition">Magang</button>
+                            <button class="bg-gray-100 text-gray-600 font-medium text-xs px-4 py-2 rounded-full border border-transparent hover:bg-gray-200 transition">Contract</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prosedur Box -->
+                <div class="bg-[#015B63] rounded-2xl shadow-sm border border-[#014a50] p-6 text-white">
+                    <div class="flex items-center gap-2 mb-6">
+                        <svg class="w-5 h-5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 class="font-bold text-[15px]">Prosedur</h3>
+                    </div>
+
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-start gap-4">
+                            <div class="w-6 h-6 rounded-full bg-white text-[#015B63] flex justify-center items-center font-bold text-xs shrink-0 mt-0.5">1</div>
+                            <p class="text-[11px] text-teal-50 w-full leading-relaxed">Daftarkan diri Anda di database Alumni BKK Skama.</p>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-6 h-6 rounded-full bg-white text-[#015B63] flex justify-center items-center font-bold text-xs shrink-0 mt-0.5">2</div>
+                            <p class="text-[11px] text-teal-50 w-full leading-relaxed">Siapkan berkas CV dan Portofolio dalam format PDF.</p>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-6 h-6 rounded-full bg-white text-[#015B63] flex justify-center items-center font-bold text-xs shrink-0 mt-0.5">3</div>
+                            <p class="text-[11px] text-teal-50 w-full leading-relaxed">Klik "Lihat Detail" dan kirim lamaran melalui portal atau email yang tertera.</p>
+                        </div>
+                    </div>
+
+                    <a href="#" class="block w-full bg-white text-[#015B63] text-center font-bold text-xs py-3 rounded-xl hover:bg-gray-50 transition shadow-sm">Hubungi BKK Skama</a>
+                </div>
+
+            </div>
+
+            <!-- Right Content Area (Jobs List) -->
+            <div class="w-full lg:w-2/3 xl:w-3/4 flex flex-col pt-1">
+                
+                <!-- Section Header -->
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-6 pb-2">
+                    <h2 class="text-2xl font-bold text-gray-900 (sm:text-white lg:text-gray-900) z-10 hidden md:block" style="color: rgba(255, 255, 255, 0.9);">Lowongan Terbaru</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 md:hidden z-10 pt-8 mt-12">Lowongan Terbaru</h2>
+                    <p class="text-[11px] text-gray-300 font-medium md:text-gray-400 z-10" style="color: rgba(255, 255, 255, 0.6);">Menampilkan 12 Lowongan Aktif</p>
+                </div>
+                
+                <style>
+                    /* A small hack to easily make the text color adaptive depending on overlap */
+                    @media (min-width: 768px) {
+                        .adaptive-title { color: #f8fafc !important; }
+                        .adaptive-subtitle { color: #cbd5e1 !important; }
+                    }
+                    @media (min-width: 1024px) {
+                         /* For lg screens, it might be safe if margin is tight */
+                    }
+                </style>
+                <script>
+                    // Apply adaptive classes
+                    document.querySelector('h2.hidden').classList.add('adaptive-title');
+                    document.querySelector('p.z-10').classList.add('adaptive-subtitle');
+                </script>
+
+                <!-- Job List -->
+                <div class="flex flex-col gap-4">
+                    
+                    <!-- Job Card 1 -->
+                    <div class="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 p-5 flex flex-col md:flex-row gap-5 items-start md:items-center hover:border-teal-100 hover:shadow-md transition duration-300">
+                        <div class="w-16 h-16 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center p-3 shrink-0">
+                            <!-- Logo placeholder -->
+                            <img src="https://ui-avatars.com/api/?name=TN&background=e2e8f0&color=475569&font-size=0.33" alt="Logo" class="w-full h-full object-contain rounded opacity-70">
+                        </div>
+                        <div class="flex-1 w-full">
+                            <div class="flex items-center gap-3 mb-1">
+                                <h3 class="text-base font-bold text-gray-900">Junior Web Developer</h3>
+                                <span class="bg-blue-100 text-blue-700 text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-md">URGENT</span>
+                            </div>
+                            <p class="text-[13px] text-gray-500 font-medium mb-3">PT. Teknologi Nusantara Abadi</p>
+                            
+                            <div class="flex flex-wrap gap-y-2 gap-x-5 text-[11px] text-gray-500">
+                                <div class="flex items-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    Bondowoso, Jawa Timur
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    Deadline: 30 Nov 2024
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                                    IDR 3.5M - 5M
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 md:mt-0 w-full md:w-auto flex justify-end shrink-0">
+                            <a href="#" class="bg-[#017A85] hover:bg-[#01656e] text-white text-xs font-bold px-6 py-2.5 rounded-lg transition text-center w-full md:w-auto">Lihat Detail</a>
+                        </div>
+                    </div>
+
+                    <!-- Job Card 2 -->
+                    <div class="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 p-5 flex flex-col md:flex-row gap-5 items-start md:items-center hover:border-teal-100 hover:shadow-md transition duration-300">
+                        <div class="w-16 h-16 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center p-3 shrink-0">
+                            <img src="https://ui-avatars.com/api/?name=AS&background=e2e8f0&color=475569&font-size=0.33" alt="Logo" class="w-full h-full object-contain rounded opacity-70">
+                        </div>
+                        <div class="flex-1 w-full">
+                            <div class="flex items-center gap-3 mb-1">
+                                <h3 class="text-base font-bold text-gray-900">Mekanik Otomotif (Senior)</h3>
+                            </div>
+                            <p class="text-[13px] text-gray-500 font-medium mb-3">Auto Solutions Service Center</p>
+                            
+                            <div class="flex flex-wrap gap-y-2 gap-x-5 text-[11px] text-gray-500">
+                                <div class="flex items-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    Situbondo, Jawa Timur
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    Deadline: 15 Des 2024
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 md:mt-0 w-full md:w-auto flex justify-end shrink-0">
+                            <a href="#" class="bg-[#017A85] hover:bg-[#01656e] text-white text-xs font-bold px-6 py-2.5 rounded-lg transition text-center w-full md:w-auto">Lihat Detail</a>
+                        </div>
+                    </div>
+
+                    <!-- Job Card 3 -->
+                    <div class="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 p-5 flex flex-col md:flex-row gap-5 items-start md:items-center hover:border-teal-100 hover:shadow-md transition duration-300">
+                        <div class="w-16 h-16 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center p-3 shrink-0">
+                            <img src="https://ui-avatars.com/api/?name=MM&background=e2e8f0&color=475569&font-size=0.33" alt="Logo" class="w-full h-full object-contain rounded opacity-70">
+                        </div>
+                        <div class="flex-1 w-full">
+                            <div class="flex items-center gap-3 mb-1">
+                                <h3 class="text-base font-bold text-gray-900">Staff Administrasi & Keuangan</h3>
+                                <span class="bg-[#E0F2FE] text-[#0284C7] text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-md">NEW</span>
+                            </div>
+                            <p class="text-[13px] text-gray-500 font-medium mb-3">Mitra Makmur Sejahtera, CV</p>
+                            
+                            <div class="flex flex-wrap gap-y-2 gap-x-5 text-[11px] text-gray-500">
+                                <div class="flex items-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    Jember, Jawa Timur
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    Deadline: 20 Des 2024
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 md:mt-0 w-full md:w-auto flex justify-end shrink-0">
+                            <a href="#" class="bg-[#017A85] hover:bg-[#01656e] text-white text-xs font-bold px-6 py-2.5 rounded-lg transition text-center w-full md:w-auto">Lihat Detail</a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Pagination -->
+                <div class="mt-12 flex justify-center items-center gap-2">
+                    <button class="w-9 h-9 rounded-lg border border-gray-200 bg-white text-gray-400 flex items-center justify-center hover:bg-gray-50 transition" disabled>
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <button class="w-9 h-9 rounded-lg border border-[#017A85] bg-[#017A85] text-white font-bold text-sm flex items-center justify-center hover:bg-[#01656e] transition">1</button>
+                    <button class="w-9 h-9 rounded-lg border border-gray-200 bg-white text-gray-600 font-medium text-sm flex items-center justify-center hover:bg-gray-50 hover:text-[#017A85] transition">2</button>
+                    <button class="w-9 h-9 rounded-lg border border-gray-200 bg-white text-gray-600 font-medium text-sm flex items-center justify-center hover:bg-gray-50 hover:text-[#017A85] transition">3</button>
+                    <button class="w-9 h-9 rounded-lg border border-gray-200 bg-white text-gray-400 flex items-center justify-center hover:bg-gray-50 hover:text-[#017A85] transition">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Generic Footer Component used on all subpages -->
+    <footer class="bg-[#F8FAFC] pt-16 pb-8 border-t border-gray-100">
+        <div class="max-w-6xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            <div>
+                <h4 class="font-bold text-blue-600 mb-4">SMK Negeri 1 MAESAN</h4>
+                <p class="text-[11px] text-gray-500 leading-relaxed font-light">
+                    Mencetak generasi Unggul, Inovatif, dan Berkarakter siap menghadapi tantangan masa depan.
+                </p>
+            </div>
+            <div>
+                <h4 class="font-semibold text-gray-800 text-sm mb-4">BKK SKAMA</h4>
+                <ul class="space-y-3 text-[11px] text-gray-500">
+                    <li><a href="{{ route('bkk.profile') }}" class="hover:text-blue-600 transition">Profil BKK Skama</a></li>
+                    <li><a href="{{ route('bkk.lowongan') }}" class="hover:text-blue-600 transition text-[#00D1B2] font-semibold">Info Lowongan Kerja</a></li>
+                    <li><a href="#" class="hover:text-blue-600 transition">Mitra Industri</a></li>
+                    <li><a href="#" class="hover:text-blue-600 transition">Tracking Alumni</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold text-gray-800 text-sm mb-4">LAYANAN SISWA</h4>
+                <ul class="space-y-3 text-[11px] text-gray-500">
+                    <li><a href="#" class="hover:text-blue-600 transition">E-Learning</a></li>
+                    <li><a href="#" class="hover:text-blue-600 transition">Perpustakaan Digital</a></li>
+                    <li><a href="#" class="hover:text-blue-600 transition">Konsultasi Karir</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold text-gray-800 text-sm mb-4">KONTAK KAMI</h4>
+                <ul class="space-y-3 text-[11px] text-gray-500">
+                    <li>
+                        <a href="mailto:info@smkn1maesan.sch.id" class="flex items-center gap-2 hover:text-blue-600 transition">
+                            <svg class="w-4 h-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            info@smkn1maesan.sch.id
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center gap-2 hover:text-blue-600 transition">
+                            <svg class="w-4 h-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            (0332) 1234567
+                        </a>
+                    </li>
+                </ul>
+                <div class="flex gap-3 mt-4">
+                    <a href="#" class="w-8 h-8 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center hover:bg-teal-50 hover:text-teal-600 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"></path></svg></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center hover:bg-teal-50 hover:text-teal-600 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg></a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto px-6 md:px-12 pt-6 border-t border-gray-200 text-center">
+            <p class="text-[10px] text-gray-400">© 2024 SMK Negeri 1 MAESAN - UNIK (Unggul, Inovatif, Berkarakter)</p>
+        </div>
+    </footer>
+</body>
+</html>

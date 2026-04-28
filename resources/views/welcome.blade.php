@@ -20,9 +20,17 @@
         <x-topbar.navbar />
     </div>
 
-    <!-- Hero Section -->
-    <header class="relative bg-[#E8EDF2] overflow-hidden min-h-[70vh] flex flex-col justify-center">
+    <!-- Hero Section (Dynamic from Admin) -->
+    @if(!isset($sections['hero']) || $sections['hero']->is_visible)
+    <header class="relative bg-[#E8EDF2] bg-cover bg-center overflow-hidden min-h-[70vh] flex flex-col justify-center"
+            style="{{ isset($sections['hero']) && $sections['hero']->image ? 'background-image: url(' . Storage::url($sections['hero']->image) . ');' : '' }}">
+        
+        @if(isset($sections['hero']) && $sections['hero']->image)
+            <div class="absolute inset-0 bg-black/60 z-0"></div>
+        @endif
+
         <!-- Abstract gradient background representing modern tech/education -->
+        @if(!isset($sections['hero']) || !$sections['hero']->image)
         <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-white to-transparent h-32 z-10 w-full"></div>
         <div class="absolute top-0 right-0 w-1/2 h-full opacity-30 pointer-events-none hidden md:block">
             <svg viewBox="0 0 400 400" fill="none" class="w-full h-full text-blue-100" xmlns="http://www.w3.org/2000/svg">
@@ -30,25 +38,29 @@
                 <circle cx="350" cy="100" r="80" stroke="#E2E8F0" stroke-width="20"/>
             </svg>
         </div>
+        @endif
         
         <div class="max-w-6xl mx-auto px-6 md:px-12 relative z-20 w-full py-20 flex flex-col items-center text-center">
             <h3 class="text-[10px] font-bold text-blue-700 uppercase tracking-widest mb-6 bg-blue-100 border border-blue-200 inline-block px-4 py-1.5 rounded shadow-sm">
-                DIGITAL & PREMIUM EXPERIENCE
+                {{ $sections['hero']->button_text ?? 'DIGITAL & PREMIUM EXPERIENCE' }}
             </h3>
-            <h1 class="text-4xl md:text-5xl lg:text-7xl font-bold text-[#111827] leading-tight mb-4 tracking-tight">
-                Nurturing Potential into <br>
-                <span class="text-[#026773]">Professional Mastery</span>
+            <h1 class="text-4xl md:text-5xl lg:text-7xl font-bold {{ isset($sections['hero']) && $sections['hero']->image ? 'text-white' : 'text-[#111827]' }} leading-tight mb-4 tracking-tight">
+                {!! nl2br(e($sections['hero']->title ?? 'Nurturing Potential into Professional Mastery')) !!}
             </h1>
-            <p class="mt-4 text-gray-500 max-w-2xl text-base md:text-xl font-light">
-                A sanctuary for technical innovation and academic rigor, SMK Negeri 1 Maesan bridges the gap between traditional learning and modern industry demands.
+            <p class="mt-4 {{ isset($sections['hero']) && $sections['hero']->image ? 'text-gray-200' : 'text-gray-500' }} max-w-2xl text-base md:text-xl font-light">
+                {{ $sections['hero']->subtitle ?? 'A sanctuary for technical innovation and academic rigor, SMK Negeri 1 Maesan bridges the gap between traditional learning and modern industry demands.' }}
             </p>
         </div>
     </header>
+    @endif
 
-    <!-- Sambutan Component -->
+    <!-- Sambutan Component (Admin Toggle) -->
+    @if(!isset($sections['sambutan']) || $sections['sambutan']->is_visible)
     <x-about.sambutan />
+    @endif
 
-    <!-- Berita Section -->
+    <!-- Berita Section (Admin Toggle) -->
+    @if(!isset($sections['berita']) || $sections['berita']->is_visible)
     <section class="py-20 md:py-32 bg-[#F8FAFC]">
         <div class="max-w-6xl mx-auto px-6 md:px-12">
             <div class="flex justify-between items-end mb-12 border-b border-gray-200 pb-5">
@@ -120,8 +132,10 @@
             </div>
         </div>
     </section>
+    @endif
 
-    <!-- Mitra dan Alumni Section -->
+    <!-- Mitra dan Alumni Section (Admin Toggle) -->
+    @if(!isset($sections['mitra_alumni']) || $sections['mitra_alumni']->is_visible)
     <section class="py-24 bg-white relative">
          <div class="max-w-6xl mx-auto px-6 md:px-12 text-center">
              <h4 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">KONEKSI INDUSTRI</h4>
@@ -163,8 +177,10 @@
              </div>
          </div>
     </section>
+    @endif
 
-    <!-- Stats Banner Section -->
+    <!-- Stats Banner Section (Admin Toggle) -->
+    @if(!isset($sections['stats']) || $sections['stats']->is_visible)
     <section class="bg-[#1C2331] text-white py-24 relative overflow-hidden">
         <!-- Abstract background pattern -->
         <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#3b82f6 1px, transparent 1px); background-size: 30px 30px;"></div>
@@ -209,6 +225,7 @@
             </div>
         </div>
     </section>
+    @endif
 
     <!-- Footer Section -->
     <footer class="bg-white pt-24 pb-10 border-t border-gray-100">
