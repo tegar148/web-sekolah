@@ -4,7 +4,7 @@
     $subtitle = $topbar->subtitle ?? 'Kreatif, Inovatif, & Berkarakter';
     $image = $topbar->image ?? null;
 @endphp
-<nav class="flex items-center justify-between py-4 px-6 md:px-12 bg-white">
+<nav class="flex items-center justify-between py-4 px-6 md:px-12 bg-white relative z-50">
     <!-- Logo -->
     <div class="flex items-center gap-3">
         @if($image)
@@ -99,9 +99,117 @@
     </div>
     
     <!-- Mobile menu button -->
-    <button class="lg:hidden p-2 text-gray-600 hover:bg-gray-100 rounded">
+    <button id="mobile-menu-btn" class="lg:hidden p-2 text-gray-600 hover:bg-gray-100 rounded">
         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
     </button>
 </nav>
+
+<!-- Mobile Menu Overlay (Hidden by default) -->
+<div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 absolute w-full left-0 z-40 shadow-lg top-full">
+    <div class="flex flex-col py-4 px-6 space-y-4 max-h-[80vh] overflow-y-auto">
+        <!-- Direct Link: Home -->
+        <a href="{{ url('/') }}" class="text-sm font-medium text-gray-600 hover:text-blue-600">Home</a>
+
+        <!-- Dropdown: Profile Sekolah -->
+        <div class="flex flex-col space-y-2">
+            <button class="flex items-center justify-between text-sm font-medium text-gray-600 w-full" onclick="toggleMobileDropdown('mobile-profile')">
+                <span>Profile Sekolah</span>
+                <svg id="icon-mobile-profile" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="mobile-profile" class="hidden flex-col pl-4 space-y-2 border-l-2 border-gray-100 mt-2">
+                <a href="{{ route('sejarah') }}" class="text-sm text-gray-500 hover:text-blue-600 py-1">Sejarah</a>
+                <a href="{{ route('visi-misi') }}" class="text-sm text-gray-500 hover:text-blue-600 py-1">Visi Misi</a>
+                <a href="{{ route('prestasi') }}" class="text-sm text-gray-500 hover:text-blue-600 py-1">Prestasi</a>
+                <a href="{{ route('guru') }}" class="text-sm text-gray-500 hover:text-blue-600 py-1">Guru</a>
+                <a href="{{ route('galeri') }}" class="text-sm text-gray-500 hover:text-blue-600 py-1">Galeri</a>
+                <a href="{{ route('fasilitas') }}" class="text-sm text-gray-500 hover:text-blue-600 py-1">Fasilitas</a>
+            </div>
+        </div>
+
+        <!-- Dropdown: Konsentrasi Keahlian -->
+        <div class="flex flex-col space-y-2">
+            <button class="flex items-center justify-between text-sm font-medium text-gray-600 w-full" onclick="toggleMobileDropdown('mobile-jurusan')">
+                <span>Konsentrasi Keahlian</span>
+                <svg id="icon-mobile-jurusan" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="mobile-jurusan" class="hidden flex-col pl-4 space-y-2 border-l-2 border-gray-100 mt-2">
+                <a href="{{ route('jurusan.ruminansia') }}" class="text-sm text-gray-500 hover:text-blue-600 py-1">Agribisnis Ruminansia</a>
+                <a href="{{ route('jurusan.unggas') }}" class="text-sm text-gray-500 hover:text-blue-600 py-1">Agribisnis Ternak Unggas</a>
+                <a href="{{ route('jurusan.tkj') }}" class="text-sm text-gray-500 hover:text-blue-600 py-1">Teknik Komputer & Jaringan</a>
+            </div>
+        </div>
+
+        <!-- Dropdown: BKK -->
+        <div class="flex flex-col space-y-2">
+            <button class="flex items-center justify-between text-sm font-medium text-gray-600 w-full" onclick="toggleMobileDropdown('mobile-bkk')">
+                <span>BKK</span>
+                <svg id="icon-mobile-bkk" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="mobile-bkk" class="hidden flex-col pl-4 space-y-2 border-l-2 border-gray-100 mt-2">
+                <a href="{{ route('bkk.profile') }}" class="text-sm text-gray-500 hover:text-blue-600 py-1">Profil BKK Skama</a>
+                <a href="{{ route('bkk.lowongan') }}" class="text-sm text-gray-500 hover:text-blue-600 py-1">Info Lowongan Kerja</a>
+            </div>
+        </div>
+
+        <!-- Dropdown: Siswa -->
+        <div class="flex flex-col space-y-2">
+            <button class="flex items-center justify-between text-sm font-medium text-gray-600 w-full" onclick="toggleMobileDropdown('mobile-siswa')">
+                <span>Siswa</span>
+                <svg id="icon-mobile-siswa" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="mobile-siswa" class="hidden flex-col pl-4 space-y-2 border-l-2 border-gray-100 mt-2">
+                <a href="{{ route('siswa.organisasi') }}" class="text-sm text-gray-500 hover:text-blue-600 py-1">Organisasi</a>
+                <a href="{{ route('siswa.ekstrakurikuler') }}" class="text-sm text-gray-500 hover:text-blue-600 py-1">Ekstrakurikuler</a>
+                <a href="{{ route('siswa.kalender') }}" class="text-sm text-gray-500 hover:text-blue-600 py-1">Kalender Pendidikan</a>
+            </div>
+        </div>
+
+        <!-- Direct Link: Berita -->
+        <a href="{{ route('berita') }}" class="text-sm font-medium text-gray-600 hover:text-blue-600">Berita</a>
+
+        <!-- Button -->
+        <div class="pt-4 pb-2 w-full">
+            <a href="{{ route('info.ppdb') }}" class="block text-center w-full py-2.5 bg-[#1C2331] text-white text-xs tracking-wider shadow-md font-bold rounded-sm hover:bg-gray-800 transition">INFO PPDB</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        if (btn && menu) {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                menu.classList.toggle('hidden');
+            });
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (menu && !menu.contains(e.target) && btn && !btn.contains(e.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+    });
+
+    function toggleMobileDropdown(id) {
+        const element = document.getElementById(id);
+        const icon = document.getElementById('icon-' + id);
+        
+        if (element) {
+            if (element.classList.contains('hidden')) {
+                element.classList.remove('hidden');
+                element.classList.add('flex');
+                if(icon) icon.classList.add('rotate-180');
+            } else {
+                element.classList.add('hidden');
+                element.classList.remove('flex');
+                if(icon) icon.classList.remove('rotate-180');
+            }
+        }
+    }
+</script>
