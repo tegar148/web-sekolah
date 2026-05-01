@@ -11,6 +11,8 @@
     @vite(['resources/css/app.css'])
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="bg-[#F8FAFC] antialiased text-gray-800">
@@ -61,34 +63,35 @@
 
     <!-- Berita Section (Admin Toggle) -->
     @if(!isset($sections['berita']) || $sections['berita']->is_visible)
-    <section class="py-20 md:py-32 bg-[#F8FAFC]">
+    <section class="py-16 md:py-32 bg-[#F8FAFC]">
         <div class="max-w-6xl mx-auto px-6 md:px-12">
-            <div class="flex justify-between items-end mb-12 border-b border-gray-200 pb-5">
+            <div class="flex justify-between items-end mb-8 md:mb-12 border-b border-gray-200 pb-5">
                 <div>
                     <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">HAPPENINGS AT MAESAN</p>
-                    <h2 class="text-3xl font-bold text-gray-900">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900">
                         Berita
                     </h2>
                 </div>
-                <a href="{{ route('berita') }}" class="text-[11px] font-bold text-gray-400 hover:text-blue-600 hidden md:block tracking-widest uppercase items-center gap-1">
+                <a href="{{ route('berita') }}" class="text-[11px] font-bold text-gray-400 hover:text-blue-600 hidden md:flex tracking-widest uppercase items-center gap-1">
                     EXPLORE ALL ARTICLES <span class="text-lg leading-none">&rarr;</span>
                 </a>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                @forelse($beritas as $item)
-                <div class="bg-white rounded-lg border border-gray-100 shadow-sm overflow-hidden hover:shadow-xl transition-shadow duration-300 group flex flex-col">
+            @php $beritaItems = $beritas->take(3); @endphp
+            <div class="{{ $beritaItems->count() > 1 ? 'flex overflow-x-auto snap-x snap-mandatory hide-scrollbar -mx-6 px-6 md:mx-0 md:px-0' : '' }} md:grid md:grid-cols-3 gap-6 md:gap-8 pb-4 md:pb-0">
+                @forelse($beritaItems as $item)
+                <div class="{{ $beritaItems->count() > 1 ? 'min-w-[75vw] snap-center shrink-0' : '' }} md:min-w-0 md:shrink bg-white rounded-lg border border-gray-100 shadow-sm overflow-hidden hover:shadow-xl transition-shadow duration-300 group flex flex-col">
                     <div class="w-full h-56 bg-slate-900 relative overflow-hidden shrink-0">
                         @if($item->image_path)
                         <img src="{{ Storage::url($item->image_path) }}" alt="{{ $item->title }}" class="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700">
                         @endif
                         <div class="absolute top-4 left-4 bg-[#111827] text-white text-[9px] font-bold tracking-widest uppercase px-3 py-1 shadow">{{ $item->category }}</div>
                     </div>
-                    <div class="p-8 flex-1 flex flex-col">
+                    <div class="p-6 md:p-8 flex-1 flex flex-col">
                         <p class="text-[10px] text-gray-400 mb-3 uppercase tracking-widest font-semibold flex items-center gap-2">
                             <span class="w-4 h-[1px] bg-gray-300 block"></span> {{ \Carbon\Carbon::parse($item->published_at)->format('d M Y') }}
                         </p>
-                        <h3 class="text-xl font-bold text-gray-900 mb-4 leading-snug group-hover:text-blue-600 transition-colors">{{ $item->title }}</h3>
+                        <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-4 leading-snug group-hover:text-blue-600 transition-colors">{{ $item->title }}</h3>
                         <p class="text-sm text-gray-500 line-clamp-3 mb-6">{{ $item->excerpt }}</p>
                         <div class="mt-auto">
                             <a href="{{ route('berita.show', $item->slug) }}" class="text-[11px] font-bold text-gray-900 group-hover:text-blue-600 uppercase tracking-widest border-b border-gray-300 group-hover:border-blue-600 transition-colors pb-1">READ MORE <span class="text-lg leading-none relative top-[1px]">&rarr;</span></a>
@@ -96,10 +99,17 @@
                     </div>
                 </div>
                 @empty
-                <div class="col-span-full py-12 text-center text-gray-500">
+                <div class="col-span-full min-w-full py-12 text-center text-gray-500">
                     Belum ada berita yang dipublikasikan.
                 </div>
                 @endforelse
+            </div>
+
+            <!-- Mobile Explore Button -->
+            <div class="mt-6 md:hidden text-center">
+                <a href="{{ route('berita') }}" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#1C2331] text-white text-[11px] font-bold tracking-widest uppercase rounded-lg shadow-md hover:bg-gray-800 transition w-full">
+                    EXPLORE ALL ARTICLES <span class="text-lg leading-none">&rarr;</span>
+                </a>
             </div>
         </div>
     </section>
@@ -107,35 +117,42 @@
 
     <!-- Mitra dan Alumni Section (Admin Toggle) -->
     @if(!isset($sections['mitra_alumni']) || $sections['mitra_alumni']->is_visible)
-    <section class="py-24 bg-white relative">
+    <section class="py-16 md:py-24 bg-white relative">
          <div class="max-w-6xl mx-auto px-6 md:px-12 text-center">
              <h4 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">KONEKSI INDUSTRI</h4>
-             <h2 class="text-3xl md:text-5xl font-bold text-gray-900 mb-6">Mitra Kerja & Alumni</h2>
-             <p class="text-gray-500 max-w-2xl mx-auto mb-20 text-sm md:text-base">Keberhasilan institusi diukur dari kualitas alumni dan kepercayaan yang diberikan oleh mitra industri kami.</p>
+             <h2 class="text-2xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6">Mitra Kerja & Alumni</h2>
+             <p class="text-gray-500 max-w-2xl mx-auto mb-10 md:mb-20 text-sm md:text-base">Keberhasilan institusi diukur dari kualitas alumni dan kepercayaan yang diberikan oleh mitra industri kami.</p>
 
              <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
                  <!-- Testimonial 1 -->
                  <div class="flex flex-col items-center">
                      <div class="w-20 h-20 bg-[#1C2331] rounded-full mb-8 flex items-center justify-center text-white font-serif text-5xl shadow-lg leading-none pt-4">"</div>
                      <p class="text-gray-500 italic text-sm mb-8 leading-relaxed px-4">"Top talent teknis yang dihasilkan di SMK Maesan Digital menjadi modal utama kami dalam men-develop TIM engineering."</p>
-                     <p class="font-bold text-gray-900 text-sm">Aris Software</p>
-                     <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">SENIOR ENGINEER, PT ASTER INDONESIA</p>
+                     <div class="mt-auto">
+                         <p class="font-bold text-gray-900 text-sm">Aris Software</p>
+                         <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">SENIOR ENGINEER, PT ASTER INDONESIA</p>
+                     </div>
                  </div>
                  <!-- Testimonial 2 -->
                  <div class="flex flex-col items-center">
                      <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop" onerror="this.src='https://placehold.co/200x200/e2e8f0/64748b'" alt="Alumni" class="w-20 h-20 rounded-full grayscale mb-8 object-cover border-4 border-gray-100 shadow-md">
                      <p class="text-gray-500 italic text-sm mb-8 leading-relaxed px-4">"Pendidikan vokasi di sini sangat relevan dengan dinamika industri digital yang sangat cepat."</p>
-                     <p class="font-bold text-gray-900 text-sm">Riza Arifin</p>
-                     <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">PRODUCT MANAGER, TECH GLOBAL</p>
+                     <div class="mt-auto">
+                         <p class="font-bold text-gray-900 text-sm">Riza Arifin</p>
+                         <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">PRODUCT MANAGER, TECH GLOBAL</p>
+                     </div>
                  </div>
                  <!-- Testimonial 3 -->
                  <div class="flex flex-col items-center">
                      <img src="https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?q=80&w=200&auto=format&fit=crop" onerror="this.src='https://placehold.co/200x200/e2e8f0/64748b'" alt="Alumni" class="w-20 h-20 rounded-full grayscale mb-8 object-cover border-4 border-gray-100 shadow-md">
                      <p class="text-gray-500 italic text-sm mb-8 leading-relaxed px-4">"Fasilitas yang disediakan memberikan pengalaman nyata sebelum kami terjun ke dunia kerja."</p>
-                     <p class="font-bold text-gray-900 text-sm">Budi Santoso</p>
-                     <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">FOUNDER & CEO, EDU TECH INOVA</p>
+                     <div class="mt-auto">
+                         <p class="font-bold text-gray-900 text-sm">Budi Santoso</p>
+                         <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">FOUNDER & CEO, EDU TECH INOVA</p>
+                     </div>
                  </div>
              </div>
+
 
              <!-- Logo placeholder row -->
              <p class="mt-20 mb-6 text-[9px] font-bold text-gray-300 uppercase tracking-widest">INDUSTRY PARTNERS</p>
