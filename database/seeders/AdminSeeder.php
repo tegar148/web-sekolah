@@ -21,6 +21,17 @@ class AdminSeeder extends Seeder
             ]
         );
 
+        // ─── GLOBAL (TOPBAR/NAVBAR) ─────────────────────────
+        SiteSection::updateOrCreate(
+            ['page' => 'global', 'section_key' => 'topbar'],
+            [
+                'title'    => 'SMK Negeri 1 MAESAN',
+                'subtitle' => 'Kreatif, Inovatif, & Berkarakter',
+                'is_visible' => true,
+                'sort_order' => 1,
+            ]
+        );
+
         // ─── WELCOME PAGE ─────────────────────────────────
         SiteSection::updateOrCreate(
             ['page' => 'welcome', 'section_key' => 'hero'],

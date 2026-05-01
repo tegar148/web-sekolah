@@ -99,6 +99,12 @@ class SectionController extends Controller
         $contentHint = null;
         $contentSchema = [];
 
+        if ($section->section_key === 'topbar') {
+            $show['title'] = true;
+            $show['subtitle'] = true;
+            $show['image'] = true;
+        }
+
         if ($section->section_key === 'hero') {
             $show['subtitle'] = true;
 

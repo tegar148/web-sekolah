@@ -15,6 +15,7 @@
 <div class="bg-white rounded-2xl border border-gray-100 shadow-sm mb-8 p-2 flex flex-wrap gap-2">
     @php
         $allPages = [
+            'global' => 'Global (Topbar)',
             'welcome' => 'Landing Page',
             'sejarah' => 'Sejarah',
             'visi-misi' => 'Visi & Misi',

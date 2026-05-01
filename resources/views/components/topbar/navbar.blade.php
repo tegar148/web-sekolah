@@ -1,12 +1,24 @@
+@php
+    $topbar = \App\Models\SiteSection::where('page', 'global')->where('section_key', 'topbar')->first();
+    $title = $topbar->title ?? 'SMK Negeri 1 MAESAN';
+    $subtitle = $topbar->subtitle ?? 'Kreatif, Inovatif, & Berkarakter';
+    $image = $topbar->image ?? null;
+@endphp
 <nav class="flex items-center justify-between py-4 px-6 md:px-12 bg-white">
     <!-- Logo -->
     <div class="flex items-center gap-3">
+        @if($image)
+        <div class="h-10 w-10 flex flex-col justify-center items-center">
+            <img src="{{ Storage::url($image) }}" alt="Logo" class="w-full h-full object-contain">
+        </div>
+        @else
         <div class="h-10 w-10 bg-green-600 rounded-sm flex flex-col justify-center items-center font-bold text-white shadow-sm border border-green-700">
             <span class="text-xl">M</span>
         </div>
+        @endif
         <div>
-            <h1 class="text-sm font-bold text-gray-800 leading-tight">SMK Negeri 1 MAESAN</h1>
-            <p class="text-[10px] text-gray-500 uppercase tracking-widest">Kreatif, Inovatif, & Berkarakter</p>
+            <h1 class="text-sm font-bold text-gray-800 leading-tight">{{ $title }}</h1>
+            <p class="text-[10px] text-gray-500 uppercase tracking-widest">{{ $subtitle }}</p>
         </div>
     </div>
 
