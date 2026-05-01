@@ -13,7 +13,8 @@ use App\Models\SiteSection;
 
 Route::get('/', function () {
     $sections = SiteSection::where('page', 'welcome')->orderBy('sort_order')->get()->keyBy('section_key');
-    return view('welcome', compact('sections'));
+    $beritas = \App\Models\Berita::latest('published_at')->take(3)->get();
+    return view('welcome', compact('sections', 'beritas'));
 });
 
 Route::get('/sejarah', function () {
