@@ -56,6 +56,52 @@ class BeritaController extends Controller
         return back()->with('success', 'Berita berhasil ditambahkan!');
     }
 
+    public function edit(Berita $berita)
+    {
+        return view('admin.berita.edit', compact('berita'));
+    }
+
+    public function update(Request $request, Berita $berita)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'category' => 'required|string|max:50',
+            'published_at' => 'required|date',
+            'excerpt' => 'required|string|max:1000',
+            'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:51200',
+        ]);
+
+        $path = $berita->image_path;
+        if ($request->hasFile('image')) {
+            if ($path) {
+                Storage::disk('public')->delete($path);
+            }
+            $file = $request->file('image');
+            $filename = Str::uuid() . '.webp';
+            $path = 'berita/' . $filename;
+            
+            $manager = new ImageManager(new Driver());
+            $image = $manager->read($file->getPathname());
+            $image->scaleDown(width: 1200, height: 1200);
+            $encoded = $image->toWebp(75);
+            
+            Storage::disk('public')->put($path, (string) $encoded);
+        }
+
+        $berita->update([
+            'title' => $request->title,
+            'slug' => $berita->title !== $request->title ? Str::slug($request->title) . '-' . Str::random(5) : $berita->slug,
+            'category' => $request->category,
+            'excerpt' => $request->excerpt,
+            'content' => $request->content,
+            'published_at' => $request->published_at,
+            'image_path' => $path,
+        ]);
+
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil diperbarui!');
+    }
+
     public function destroy(Berita $berita)
     {
         if ($berita->image_path) {

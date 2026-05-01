@@ -66,6 +66,26 @@ class MediaController extends Controller
         return back()->with('success', "{$uploaded} file berhasil diupload dan dikompresi!");
     }
 
+    public function edit(Media $media)
+    {
+        return view('admin.media.edit', compact('media'));
+    }
+
+    public function update(Request $request, Media $media)
+    {
+        $request->validate([
+            'collection' => 'required|string|max:50',
+            'alt_text'   => 'nullable|string|max:255',
+        ]);
+
+        $media->update([
+            'alt_text'   => $request->alt_text,
+            'collection' => $request->collection,
+        ]);
+
+        return redirect()->route('admin.media.index')->with('success', 'Detail media berhasil diperbarui!');
+    }
+
     public function destroy(Media $media)
     {
         Storage::disk('public')->delete($media->path);

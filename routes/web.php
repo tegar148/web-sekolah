@@ -124,9 +124,13 @@ Route::prefix('admin')->middleware(\App\Http\Middleware\AdminAuth::class)->group
 
     Route::get('/media', [MediaController::class, 'index'])->name('admin.media.index');
     Route::post('/media', [MediaController::class, 'store'])->name('admin.media.store');
+    Route::get('/media/{media}/edit', [MediaController::class, 'edit'])->name('admin.media.edit');
+    Route::put('/media/{media}', [MediaController::class, 'update'])->name('admin.media.update');
     Route::delete('/media/{media}', [MediaController::class, 'destroy'])->name('admin.media.destroy');
 
     Route::get('/berita', [\App\Http\Controllers\Admin\BeritaController::class, 'index'])->name('admin.berita.index');
     Route::post('/berita', [\App\Http\Controllers\Admin\BeritaController::class, 'store'])->name('admin.berita.store');
+    Route::get('/berita/{berita}/edit', [\App\Http\Controllers\Admin\BeritaController::class, 'edit'])->name('admin.berita.edit');
+    Route::put('/berita/{berita}', [\App\Http\Controllers\Admin\BeritaController::class, 'update'])->name('admin.berita.update');
     Route::delete('/berita/{berita}', [\App\Http\Controllers\Admin\BeritaController::class, 'destroy'])->name('admin.berita.destroy');
 });

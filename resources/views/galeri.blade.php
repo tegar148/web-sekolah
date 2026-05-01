@@ -116,8 +116,23 @@
         </div>
     </footer>
 
+    <!-- Image Modal Popup -->
+    <div id="image-modal" class="fixed inset-0 z-[100] bg-black/90 hidden flex-col items-center justify-center backdrop-blur-sm transition-opacity opacity-0">
+        <!-- Close button -->
+        <button id="modal-close" class="absolute top-6 right-6 text-white/70 hover:text-white transition bg-white/10 hover:bg-white/20 rounded-full p-2">
+            <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <!-- Image container -->
+        <div class="relative max-w-5xl max-h-[85vh] w-full px-4 flex justify-center items-center">
+            <img id="modal-img" src="" alt="Popup Image" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl scale-95 transition-transform duration-300">
+        </div>
+        <!-- Caption -->
+        <div id="modal-caption" class="text-white text-center mt-6 text-lg font-medium px-4"></div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Filter Functionality
             const buttons = document.querySelectorAll('.filter-btn');
             const items = document.querySelectorAll('.gallery-item');
 
@@ -143,6 +158,62 @@
                         }
                     });
                 });
+            });
+
+            // Modal Functionality
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-img');
+            const modalCaption = document.getElementById('modal-caption');
+            const closeBtn = document.getElementById('modal-close');
+
+            // Open modal
+            items.forEach(item => {
+                item.addEventListener('click', () => {
+                    const img = item.querySelector('img');
+                    const caption = item.querySelector('h3').innerText;
+                    
+                    modalImg.src = img.src;
+                    modalCaption.innerText = caption;
+                    
+                    // Show modal with animation
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                    // Small delay for transition
+                    setTimeout(() => {
+                        modal.classList.remove('opacity-0');
+                        modalImg.classList.remove('scale-95');
+                        modalImg.classList.add('scale-100');
+                    }, 10);
+                    
+                    // Prevent body scroll
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            // Close modal function
+            const closeModal = () => {
+                modal.classList.add('opacity-0');
+                modalImg.classList.remove('scale-100');
+                modalImg.classList.add('scale-95');
+                
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                    document.body.style.overflow = '';
+                }, 300); // match transition duration
+            };
+
+            // Close events
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal || e.target.closest('.relative') === null) {
+                    closeModal();
+                }
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    closeModal();
+                }
             });
         });
     </script>
