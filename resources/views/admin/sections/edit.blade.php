@@ -128,7 +128,13 @@
                 </div>
                 @endif
                 <input type="file" name="image" accept="image/*" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-3 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-[#017A85] file:text-white hover:file:bg-[#01656e] transition">
-                <p class="text-[10px] text-gray-400 mt-2">Format: JPG, PNG, WEBP. Maks 5MB.</p>
+                <div class="flex items-center gap-2 mt-2">
+                    <span class="inline-flex items-center gap-1 bg-teal-50 text-teal-700 text-[10px] font-bold px-2.5 py-1 rounded-lg border border-teal-100">
+                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        AUTO COMPRESS
+                    </span>
+                    <p class="text-[10px] text-gray-400">Format: JPG, PNG, WEBP, GIF. Maks 50MB. Otomatis dikompresi ke WebP (maks 1920px, kualitas 75%).</p>
+                </div>
             </div>
             @endif
 

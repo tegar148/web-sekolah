@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\SiteSection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class SectionController extends Controller
 {
@@ -34,6 +37,7 @@ class SectionController extends Controller
             'button_text' => 'nullable|string|max:100',
             'button_link' => 'nullable|string|max:255',
             'is_visible'  => 'boolean',
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:51200',
         ]);
 
         $validated['is_visible'] = $request->boolean('is_visible');
@@ -47,14 +51,30 @@ class SectionController extends Controller
             if ($section->image) {
                 \Illuminate\Support\Facades\Storage::disk('public')->delete($section->image);
             }
-            $path = $request->file('image')->store('sections', 'public');
+
+            $file = $request->file('image');
+            $filename = Str::uuid() . '.webp';
+            $path = 'sections/' . $filename;
+
+            // Compress and convert image to WebP
+            $manager = new ImageManager(new Driver());
+            $image = $manager->read($file->getPathname());
+            $image->scaleDown(width: 1920, height: 1920);
+            $encoded = $image->toWebp(75);
+
+            \Illuminate\Support\Facades\Storage::disk('public')->put($path, (string) $encoded);
             $validated['image'] = $path;
         }
 
         $section->update($validated);
 
+        $message = 'Section berhasil diperbarui!';
+        if ($request->hasFile('image')) {
+            $message = 'Section berhasil diperbarui! Gambar telah dikompresi ke format WebP.';
+        }
+
         return redirect()->route('admin.sections.index', ['page' => $section->page])
-            ->with('success', 'Section berhasil diperbarui!');
+            ->with('success', $message);
     }
 
     public function toggleVisibility(SiteSection $section)
