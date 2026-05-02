@@ -38,10 +38,13 @@
         
         @php
             $departments = [
+                'Kepala Sekolah',
+                'Wakil Kepala Sekolah',
                 'Agribisnis Ruminasia',
                 'Agribisnis Ternak Unggas',
                 'Teknik Komputer & Jaringan',
-                'Umum (General Education)'
+                'Guru Umum',
+                'Staf'
             ];
             $gurusByDept = isset($gurus) ? $gurus->groupBy('department') : collect();
         @endphp

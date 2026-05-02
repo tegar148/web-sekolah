@@ -28,10 +28,13 @@
             <div>
                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">DEPARTEMEN / JURUSAN <span class="text-red-500">*</span></label>
                 <select name="department" required class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-3.5 appearance-none focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition">
+                    <option value="Kepala Sekolah">Kepala Sekolah</option>
+                    <option value="Wakil Kepala Sekolah">Wakil Kepala Sekolah</option>
                     <option value="Agribisnis Ruminasia">Agribisnis Ruminasia</option>
                     <option value="Agribisnis Ternak Unggas">Agribisnis Ternak Unggas</option>
                     <option value="Teknik Komputer & Jaringan">Teknik Komputer & Jaringan</option>
-                    <option value="Umum (General Education)">Umum (General Education)</option>
+                    <option value="Guru Umum">Guru Umum</option>
+                    <option value="Staf">Staf</option>
                 </select>
             </div>
             <div>

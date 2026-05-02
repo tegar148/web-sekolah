@@ -25,10 +25,13 @@
             <div>
                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">DEPARTEMEN / JURUSAN <span class="text-red-500">*</span></label>
                 <select name="department" required class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-3.5 appearance-none focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition">
+                    <option value="Kepala Sekolah" {{ $guru->department == 'Kepala Sekolah' ? 'selected' : '' }}>Kepala Sekolah</option>
+                    <option value="Wakil Kepala Sekolah" {{ $guru->department == 'Wakil Kepala Sekolah' ? 'selected' : '' }}>Wakil Kepala Sekolah</option>
                     <option value="Agribisnis Ruminasia" {{ $guru->department == 'Agribisnis Ruminasia' ? 'selected' : '' }}>Agribisnis Ruminasia</option>
                     <option value="Agribisnis Ternak Unggas" {{ $guru->department == 'Agribisnis Ternak Unggas' ? 'selected' : '' }}>Agribisnis Ternak Unggas</option>
                     <option value="Teknik Komputer & Jaringan" {{ $guru->department == 'Teknik Komputer & Jaringan' ? 'selected' : '' }}>Teknik Komputer & Jaringan</option>
-                    <option value="Umum (General Education)" {{ $guru->department == 'Umum (General Education)' ? 'selected' : '' }}>Umum (General Education)</option>
+                    <option value="Guru Umum" {{ $guru->department == 'Guru Umum' ? 'selected' : '' }}>Guru Umum</option>
+                    <option value="Staf" {{ $guru->department == 'Staf' ? 'selected' : '' }}>Staf</option>
                 </select>
             </div>
             <div>
