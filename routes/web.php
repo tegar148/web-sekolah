@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PrestasiController;
+use App\Http\Controllers\Admin\GuruController;
 use App\Models\SiteSection;
 
 // ============================================================
@@ -36,7 +37,8 @@ Route::get('/prestasi', function () {
 
 Route::get('/guru', function () {
     $sections = SiteSection::where('page', 'guru')->orderBy('sort_order')->get()->keyBy('section_key');
-    return view('guru', compact('sections'));
+    $gurus = \App\Models\Guru::all();
+    return view('guru', compact('sections', 'gurus'));
 })->name('guru');
 
 Route::get('/galeri', function () {
@@ -141,4 +143,10 @@ Route::prefix('admin')->middleware(\App\Http\Middleware\AdminAuth::class)->group
     Route::get('/prestasi/{prestasi}/edit', [PrestasiController::class, 'edit'])->name('admin.prestasi.edit');
     Route::put('/prestasi/{prestasi}', [PrestasiController::class, 'update'])->name('admin.prestasi.update');
     Route::delete('/prestasi/{prestasi}', [PrestasiController::class, 'destroy'])->name('admin.prestasi.destroy');
+
+    Route::get('/guru', [GuruController::class, 'index'])->name('admin.guru.index');
+    Route::post('/guru', [GuruController::class, 'store'])->name('admin.guru.store');
+    Route::get('/guru/{guru}/edit', [GuruController::class, 'edit'])->name('admin.guru.edit');
+    Route::put('/guru/{guru}', [GuruController::class, 'update'])->name('admin.guru.update');
+    Route::delete('/guru/{guru}', [GuruController::class, 'destroy'])->name('admin.guru.destroy');
 });
