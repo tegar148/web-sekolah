@@ -144,8 +144,13 @@
                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">GAMBAR PARTNER / MULTIPLE GAMBAR</label>
                 
                 @php
-                    $existingImages = json_decode($section->content, true);
-                    if (!is_array($existingImages)) $existingImages = [];
+                    $rawImages = json_decode($section->content, true);
+                    if (!is_array($rawImages)) $rawImages = [];
+                    
+                    // Filter to prevent legacy data (objects) from causing errors
+                    $existingImages = array_filter($rawImages, function($item) {
+                        return is_string($item);
+                    });
                 @endphp
                 
                 @if(count($existingImages) > 0)
