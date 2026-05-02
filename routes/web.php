@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PrestasiController;
 use App\Http\Controllers\Admin\GuruController;
+use App\Http\Controllers\Admin\LowonganController;
 use App\Models\SiteSection;
 
 // ============================================================
@@ -74,7 +75,8 @@ Route::get('/bkk/profile', function () {
 
 Route::get('/bkk/lowongan', function () {
     $sections = SiteSection::where('page', 'bkk-lowongan')->orderBy('sort_order')->get()->keyBy('section_key');
-    return view('bkk-lowongan', compact('sections'));
+    $lowongans = \App\Models\Lowongan::latest()->paginate(12);
+    return view('bkk-lowongan', compact('sections', 'lowongans'));
 })->name('bkk.lowongan');
 
 Route::get('/siswa/organisasi', function () {
@@ -149,4 +151,10 @@ Route::prefix('admin')->middleware(\App\Http\Middleware\AdminAuth::class)->group
     Route::get('/guru/{guru}/edit', [GuruController::class, 'edit'])->name('admin.guru.edit');
     Route::put('/guru/{guru}', [GuruController::class, 'update'])->name('admin.guru.update');
     Route::delete('/guru/{guru}', [GuruController::class, 'destroy'])->name('admin.guru.destroy');
+
+    Route::get('/lowongan', [LowonganController::class, 'index'])->name('admin.lowongan.index');
+    Route::post('/lowongan', [LowonganController::class, 'store'])->name('admin.lowongan.store');
+    Route::get('/lowongan/{lowongan}/edit', [LowonganController::class, 'edit'])->name('admin.lowongan.edit');
+    Route::put('/lowongan/{lowongan}', [LowonganController::class, 'update'])->name('admin.lowongan.update');
+    Route::delete('/lowongan/{lowongan}', [LowonganController::class, 'destroy'])->name('admin.lowongan.destroy');
 });

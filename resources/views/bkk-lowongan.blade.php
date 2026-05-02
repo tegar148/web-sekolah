@@ -141,7 +141,7 @@
                 <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-6 pb-2">
                     <h2 class="text-2xl font-bold text-gray-900 (sm:text-white lg:text-gray-900) z-10 hidden md:block" style="color: rgba(255, 255, 255, 0.9);">Lowongan Terbaru</h2>
                     <h2 class="text-2xl font-bold text-gray-900 md:hidden z-10 pt-8 mt-12">Lowongan Terbaru</h2>
-                    <p class="text-[11px] text-gray-300 font-medium md:text-gray-400 z-10" style="color: rgba(255, 255, 255, 0.6);">Menampilkan 12 Lowongan Aktif</p>
+                    <p class="text-[11px] text-gray-300 font-medium md:text-gray-400 z-10" style="color: rgba(255, 255, 255, 0.6);">Menampilkan {{ isset($lowongans) ? $lowongans->total() : 0 }} Lowongan Aktif</p>
                 </div>
                 
                 <style>
@@ -162,109 +162,67 @@
 
                 <!-- Job List -->
                 <div class="flex flex-col gap-4">
-                    
-                    <!-- Job Card 1 -->
-                    <div class="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 p-5 flex flex-col md:flex-row gap-5 items-start md:items-center hover:border-teal-100 hover:shadow-md transition duration-300">
-                        <div class="w-16 h-16 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center p-3 shrink-0">
-                            <!-- Logo placeholder -->
-                            <img src="https://ui-avatars.com/api/?name=TN&background=e2e8f0&color=475569&font-size=0.33" alt="Logo" class="w-full h-full object-contain rounded opacity-70">
-                        </div>
-                        <div class="flex-1 w-full">
-                            <div class="flex items-center gap-3 mb-1">
-                                <h3 class="text-base font-bold text-gray-900">Junior Web Developer</h3>
-                                <span class="bg-blue-100 text-blue-700 text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-md">URGENT</span>
+                    @if(isset($lowongans) && $lowongans->count() > 0)
+                        @foreach($lowongans as $lowongan)
+                        <!-- Job Card -->
+                        <div class="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 p-5 flex flex-col md:flex-row gap-5 items-start md:items-center hover:border-teal-100 hover:shadow-md transition duration-300">
+                            <div class="w-16 h-16 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center p-3 shrink-0">
+                                @if($lowongan->logo_path)
+                                <img src="{{ Storage::url($lowongan->logo_path) }}" alt="{{ $lowongan->company }}" class="w-full h-full object-contain rounded opacity-90">
+                                @else
+                                <img src="https://ui-avatars.com/api/?name={{ urlencode($lowongan->company) }}&background=e2e8f0&color=475569&font-size=0.33" alt="{{ $lowongan->company }}" class="w-full h-full object-contain rounded opacity-70">
+                                @endif
                             </div>
-                            <p class="text-[13px] text-gray-500 font-medium mb-3">PT. Teknologi Nusantara Abadi</p>
-                            
-                            <div class="flex flex-wrap gap-y-2 gap-x-5 text-[11px] text-gray-500">
-                                <div class="flex items-center gap-1.5">
-                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                    Bondowoso, Jawa Timur
+                            <div class="flex-1 w-full">
+                                <div class="flex items-center gap-3 mb-1">
+                                    <h3 class="text-base font-bold text-gray-900">{{ $lowongan->title }}</h3>
+                                    @if($lowongan->status_label)
+                                    <span class="bg-blue-100 text-blue-700 text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-md">{{ $lowongan->status_label }}</span>
+                                    @endif
                                 </div>
-                                <div class="flex items-center gap-1.5">
-                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    Deadline: 30 Nov 2024
-                                </div>
-                                <div class="flex items-center gap-1.5">
-                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
-                                    IDR 3.5M - 5M
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-4 md:mt-0 w-full md:w-auto flex justify-end shrink-0">
-                            <a href="#" class="bg-[#017A85] hover:bg-[#01656e] text-white text-xs font-bold px-6 py-2.5 rounded-lg transition text-center w-full md:w-auto">Lihat Detail</a>
-                        </div>
-                    </div>
-
-                    <!-- Job Card 2 -->
-                    <div class="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 p-5 flex flex-col md:flex-row gap-5 items-start md:items-center hover:border-teal-100 hover:shadow-md transition duration-300">
-                        <div class="w-16 h-16 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center p-3 shrink-0">
-                            <img src="https://ui-avatars.com/api/?name=AS&background=e2e8f0&color=475569&font-size=0.33" alt="Logo" class="w-full h-full object-contain rounded opacity-70">
-                        </div>
-                        <div class="flex-1 w-full">
-                            <div class="flex items-center gap-3 mb-1">
-                                <h3 class="text-base font-bold text-gray-900">Mekanik Otomotif (Senior)</h3>
-                            </div>
-                            <p class="text-[13px] text-gray-500 font-medium mb-3">Auto Solutions Service Center</p>
-                            
-                            <div class="flex flex-wrap gap-y-2 gap-x-5 text-[11px] text-gray-500">
-                                <div class="flex items-center gap-1.5">
-                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                    Situbondo, Jawa Timur
-                                </div>
-                                <div class="flex items-center gap-1.5">
-                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    Deadline: 15 Des 2024
+                                <p class="text-[13px] text-gray-500 font-medium mb-3">{{ $lowongan->company }}</p>
+                                
+                                <div class="flex flex-wrap gap-y-2 gap-x-5 text-[11px] text-gray-500">
+                                    <div class="flex items-center gap-1.5">
+                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                        {{ $lowongan->location }}
+                                    </div>
+                                    <div class="flex items-center gap-1.5">
+                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        Deadline: {{ \Carbon\Carbon::parse($lowongan->deadline)->format('d M Y') }}
+                                    </div>
+                                    @if($lowongan->salary_range)
+                                    <div class="flex items-center gap-1.5">
+                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                                        {{ $lowongan->salary_range }}
+                                    </div>
+                                    @endif
                                 </div>
                             </div>
-                        </div>
-                        <div class="mt-4 md:mt-0 w-full md:w-auto flex justify-end shrink-0">
-                            <a href="#" class="bg-[#017A85] hover:bg-[#01656e] text-white text-xs font-bold px-6 py-2.5 rounded-lg transition text-center w-full md:w-auto">Lihat Detail</a>
-                        </div>
-                    </div>
-
-                    <!-- Job Card 3 -->
-                    <div class="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 p-5 flex flex-col md:flex-row gap-5 items-start md:items-center hover:border-teal-100 hover:shadow-md transition duration-300">
-                        <div class="w-16 h-16 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center p-3 shrink-0">
-                            <img src="https://ui-avatars.com/api/?name=MM&background=e2e8f0&color=475569&font-size=0.33" alt="Logo" class="w-full h-full object-contain rounded opacity-70">
-                        </div>
-                        <div class="flex-1 w-full">
-                            <div class="flex items-center gap-3 mb-1">
-                                <h3 class="text-base font-bold text-gray-900">Staff Administrasi & Keuangan</h3>
-                                <span class="bg-[#E0F2FE] text-[#0284C7] text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-md">NEW</span>
-                            </div>
-                            <p class="text-[13px] text-gray-500 font-medium mb-3">Mitra Makmur Sejahtera, CV</p>
-                            
-                            <div class="flex flex-wrap gap-y-2 gap-x-5 text-[11px] text-gray-500">
-                                <div class="flex items-center gap-1.5">
-                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                    Jember, Jawa Timur
-                                </div>
-                                <div class="flex items-center gap-1.5">
-                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    Deadline: 20 Des 2024
-                                </div>
+                            <div class="mt-4 md:mt-0 w-full md:w-auto flex justify-end shrink-0">
+                                @if($lowongan->link)
+                                <a href="{{ $lowongan->link }}" target="_blank" class="bg-[#017A85] hover:bg-[#01656e] text-white text-xs font-bold px-6 py-2.5 rounded-lg transition text-center w-full md:w-auto">Lihat Detail</a>
+                                @else
+                                <span class="bg-gray-100 text-gray-500 text-xs font-bold px-6 py-2.5 rounded-lg text-center w-full md:w-auto cursor-not-allowed">Ditutup</span>
+                                @endif
                             </div>
                         </div>
-                        <div class="mt-4 md:mt-0 w-full md:w-auto flex justify-end shrink-0">
-                            <a href="#" class="bg-[#017A85] hover:bg-[#01656e] text-white text-xs font-bold px-6 py-2.5 rounded-lg transition text-center w-full md:w-auto">Lihat Detail</a>
+                        @endforeach
+                    @else
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center">
+                            <svg class="w-12 h-12 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+                            <h3 class="text-lg font-bold text-gray-900 mb-1">Belum Ada Lowongan</h3>
+                            <p class="text-sm text-gray-500">Saat ini belum ada informasi lowongan kerja yang tersedia.</p>
                         </div>
-                    </div>
-
+                    @endif
                 </div>
 
                 <!-- Pagination -->
+                @if(isset($lowongans) && $lowongans->hasPages())
                 <div class="mt-12 flex justify-center items-center gap-2">
-                    <button class="w-9 h-9 rounded-lg border border-gray-200 bg-white text-gray-400 flex items-center justify-center hover:bg-gray-50 transition" disabled>
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                    </button>
-                    <button class="w-9 h-9 rounded-lg border border-[#017A85] bg-[#017A85] text-white font-bold text-sm flex items-center justify-center hover:bg-[#01656e] transition">1</button>
-                    <button class="w-9 h-9 rounded-lg border border-gray-200 bg-white text-gray-600 font-medium text-sm flex items-center justify-center hover:bg-gray-50 hover:text-[#017A85] transition">2</button>
-                    <button class="w-9 h-9 rounded-lg border border-gray-200 bg-white text-gray-600 font-medium text-sm flex items-center justify-center hover:bg-gray-50 hover:text-[#017A85] transition">3</button>
-                    <button class="w-9 h-9 rounded-lg border border-gray-200 bg-white text-gray-400 flex items-center justify-center hover:bg-gray-50 hover:text-[#017A85] transition">
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                    </button>
+                    {{ $lowongans->links() }}
                 </div>
+                @endif
 
             </div>
         </div>
