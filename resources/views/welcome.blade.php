@@ -126,10 +126,16 @@
 
          <!-- Auto-Scrolling Marquee -->
          @php
-             $partners = isset($sections['mitra_alumni']) && $sections['mitra_alumni']->content ? json_decode($sections['mitra_alumni']->content, true) : [];
-             if (!is_array($partners)) $partners = [];
+             $rawPartners = isset($sections['mitra_alumni']) && $sections['mitra_alumni']->content ? json_decode($sections['mitra_alumni']->content, true) : [];
+             if (!is_array($rawPartners)) $rawPartners = [];
+             
+             // Filter legacy data (array of objects) to only keep strings (image paths)
+             $partners = array_filter($rawPartners, function($item) {
+                 return is_string($item);
+             });
+             
              // Duplicate array multiple times for seamless infinite scroll if items are too few
-             $marqueePartners = array_merge($partners, $partners, $partners, $partners);
+             $marqueePartners = count($partners) > 0 ? array_merge($partners, $partners, $partners, $partners) : [];
          @endphp
 
          @if(count($partners) > 0)
