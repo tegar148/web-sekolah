@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\PrestasiController;
 use App\Models\SiteSection;
 
 // ============================================================
@@ -29,7 +30,8 @@ Route::get('/visi-misi', function () {
 
 Route::get('/prestasi', function () {
     $sections = SiteSection::where('page', 'prestasi')->orderBy('sort_order')->get()->keyBy('section_key');
-    return view('prestasi', compact('sections'));
+    $prestasis = \App\Models\Prestasi::latest()->paginate(9);
+    return view('prestasi', compact('sections', 'prestasis'));
 })->name('prestasi');
 
 Route::get('/guru', function () {
@@ -133,4 +135,10 @@ Route::prefix('admin')->middleware(\App\Http\Middleware\AdminAuth::class)->group
     Route::get('/berita/{berita}/edit', [\App\Http\Controllers\Admin\BeritaController::class, 'edit'])->name('admin.berita.edit');
     Route::put('/berita/{berita}', [\App\Http\Controllers\Admin\BeritaController::class, 'update'])->name('admin.berita.update');
     Route::delete('/berita/{berita}', [\App\Http\Controllers\Admin\BeritaController::class, 'destroy'])->name('admin.berita.destroy');
+
+    Route::get('/prestasi', [PrestasiController::class, 'index'])->name('admin.prestasi.index');
+    Route::post('/prestasi', [PrestasiController::class, 'store'])->name('admin.prestasi.store');
+    Route::get('/prestasi/{prestasi}/edit', [PrestasiController::class, 'edit'])->name('admin.prestasi.edit');
+    Route::put('/prestasi/{prestasi}', [PrestasiController::class, 'update'])->name('admin.prestasi.update');
+    Route::delete('/prestasi/{prestasi}', [PrestasiController::class, 'destroy'])->name('admin.prestasi.destroy');
 });
