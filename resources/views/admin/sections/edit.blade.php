@@ -111,7 +111,7 @@
             @endif
 
             <!-- Image Upload -->
-            @if($show['image'])
+            @if(isset($show['image']) && $show['image'])
             <div>
                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">GAMBAR LATAR / MEDIA</label>
                 @if($section->image)
@@ -135,6 +135,37 @@
                     </span>
                     <p class="text-[10px] text-gray-400">Format: JPG, PNG, WEBP, GIF. Maks 50MB. Otomatis dikompresi ke WebP (maks 1920px, kualitas 75%).</p>
                 </div>
+            </div>
+            @endif
+
+            <!-- Multiple Images Upload -->
+            @if(isset($show['images']) && $show['images'])
+            <div>
+                <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">GAMBAR PARTNER / MULTIPLE GAMBAR</label>
+                
+                @php
+                    $existingImages = json_decode($section->content, true);
+                    if (!is_array($existingImages)) $existingImages = [];
+                @endphp
+                
+                @if(count($existingImages) > 0)
+                <div class="mb-4 flex flex-wrap gap-4">
+                    @foreach($existingImages as $imgPath)
+                    <div class="relative inline-block group">
+                        <img src="{{ Storage::url($imgPath) }}" alt="Partner" class="h-24 w-auto rounded-lg border border-gray-200 object-contain bg-gray-50 p-2">
+                        <div class="absolute inset-0 bg-black/50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <label class="cursor-pointer bg-red-500 text-white text-[9px] font-bold px-2 py-1 rounded flex items-center gap-1 hover:bg-red-600 transition">
+                                <input type="checkbox" name="remove_images[]" value="{{ $imgPath }}" class="w-2.5 h-2.5 rounded text-red-600 focus:ring-red-500">
+                                Hapus
+                            </label>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+                @endif
+
+                <input type="file" name="images[]" multiple accept="image/*" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-3 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-[#017A85] file:text-white hover:file:bg-[#01656e] transition">
+                <p class="text-[10px] text-gray-400 mt-2">Pilih lebih dari satu gambar (Gunakan Shift / Ctrl saat memilih). Format: JPG, PNG, WEBP. Otomatis dikompresi.</p>
             </div>
             @endif
 

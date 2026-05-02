@@ -38,6 +38,7 @@ class SectionController extends Controller
             'button_link' => 'nullable|string|max:255',
             'is_visible'  => 'boolean',
             'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:51200',
+            'images.*'    => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:51200',
         ]);
 
         $validated['is_visible'] = $request->boolean('is_visible');
@@ -66,6 +67,37 @@ class SectionController extends Controller
             $validated['image'] = $path;
         }
 
+        // Handle multiple images (stored as JSON in content)
+        if ($request->has('remove_images')) {
+            $existingImages = json_decode($section->content, true);
+            if (!is_array($existingImages)) $existingImages = [];
+            foreach ($request->remove_images as $imgToRemove) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($imgToRemove);
+                $existingImages = array_filter($existingImages, fn($i) => $i !== $imgToRemove);
+            }
+            $validated['content'] = json_encode(array_values($existingImages));
+        }
+
+        if ($request->hasFile('images')) {
+            $existingImages = isset($validated['content']) ? json_decode($validated['content'], true) : json_decode($section->content, true);
+            if (!is_array($existingImages)) $existingImages = [];
+
+            foreach ($request->file('images') as $file) {
+                $filename = Str::uuid() . '.webp';
+                $path = 'sections/partners/' . $filename;
+
+                $manager = new ImageManager(new Driver());
+                $image = $manager->read($file->getPathname());
+                // Scale down logic for partner logo
+                $image->scaleDown(width: 400, height: 400);
+                $encoded = $image->toWebp(75);
+
+                \Illuminate\Support\Facades\Storage::disk('public')->put($path, (string) $encoded);
+                $existingImages[] = $path;
+            }
+            $validated['content'] = json_encode($existingImages);
+        }
+
         $section->update($validated);
 
         $message = 'Section berhasil diperbarui!';
@@ -92,6 +124,7 @@ class SectionController extends Controller
             'subtitle' => false,
             'content' => false,
             'image' => false,
+            'images' => false,
             'button_text' => false,
             'button_link' => false,
         ];
@@ -184,13 +217,7 @@ class SectionController extends Controller
 
         if ($section->section_key === 'mitra_alumni') {
             $show['subtitle'] = true;
-            $show['content'] = true;
-            $contentHint = 'Isi berupa JSON array object testimoni.';
-            $contentSchema = [
-                ['kolom' => 'name', 'tipe' => 'string', 'keterangan' => 'Nama alumni/mitra'],
-                ['kolom' => 'role', 'tipe' => 'string', 'keterangan' => 'Jabatan/instansi'],
-                ['kolom' => 'quote', 'tipe' => 'string', 'keterangan' => 'Isi testimoni'],
-            ];
+            $show['images'] = true; // Use multiple images field instead of content
         }
 
         if ($section->section_key === 'stats') {

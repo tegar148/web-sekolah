@@ -115,55 +115,58 @@
     </section>
     @endif
 
-    <!-- Mitra dan Alumni Section (Admin Toggle) -->
+    <!-- Kemitraan / Partners Section (Admin Toggle) -->
     @if(!isset($sections['mitra_alumni']) || $sections['mitra_alumni']->is_visible)
-    <section class="py-16 md:py-24 bg-white relative">
+    <section class="py-16 md:py-24 bg-white relative overflow-hidden">
          <div class="max-w-6xl mx-auto px-6 md:px-12 text-center">
-             <h4 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">KONEKSI INDUSTRI</h4>
-             <h2 class="text-2xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6">Mitra Kerja & Alumni</h2>
-             <p class="text-gray-500 max-w-2xl mx-auto mb-10 md:mb-20 text-sm md:text-base">Keberhasilan institusi diukur dari kualitas alumni dan kepercayaan yang diberikan oleh mitra industri kami.</p>
+             <h4 class="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-3">KEMITRAAN</h4>
+             <h2 class="text-2xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6">{{ $sections['mitra_alumni']->title ?? 'Mitra & Kerja Sama' }}</h2>
+             <p class="text-gray-500 max-w-2xl mx-auto mb-12 md:mb-20 text-sm md:text-base">{{ $sections['mitra_alumni']->subtitle ?? 'Bersama mitra terpercaya kami terus berkembang dan memberikan yang terbaik.' }}</p>
+         </div>
 
-             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-                 <!-- Testimonial 1 -->
-                 <div class="flex flex-col items-center">
-                     <div class="w-20 h-20 bg-[#1C2331] rounded-full mb-8 flex items-center justify-center text-white font-serif text-5xl shadow-lg leading-none pt-4">"</div>
-                     <p class="text-gray-500 italic text-sm mb-8 leading-relaxed px-4">"Top talent teknis yang dihasilkan di SMK Maesan Digital menjadi modal utama kami dalam men-develop TIM engineering."</p>
-                     <div class="mt-auto">
-                         <p class="font-bold text-gray-900 text-sm">Aris Software</p>
-                         <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">SENIOR ENGINEER, PT ASTER INDONESIA</p>
-                     </div>
+         <!-- Auto-Scrolling Marquee -->
+         @php
+             $partners = isset($sections['mitra_alumni']) && $sections['mitra_alumni']->content ? json_decode($sections['mitra_alumni']->content, true) : [];
+             if (!is_array($partners)) $partners = [];
+             // Duplicate array multiple times for seamless infinite scroll if items are too few
+             $marqueePartners = array_merge($partners, $partners, $partners, $partners);
+         @endphp
+
+         @if(count($partners) > 0)
+         <div class="relative w-full overflow-hidden pb-10">
+             <style>
+                 @keyframes scroll-left {
+                     0% { transform: translateX(0); }
+                     100% { transform: translateX(calc(-100% / 4)); }
+                 }
+                 .animate-marquee {
+                     display: flex;
+                     width: max-content;
+                     animation: scroll-left 40s linear infinite;
+                 }
+                 .animate-marquee:hover {
+                     animation-play-state: paused;
+                 }
+             </style>
+             <div class="animate-marquee gap-4 md:gap-6 px-4 md:px-6">
+                 @foreach($marqueePartners as $partnerLogo)
+                 <div class="w-40 h-28 md:w-56 md:h-36 bg-white rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center p-6 shrink-0 hover:shadow-md hover:border-gray-200 transition duration-300">
+                     <img src="{{ Storage::url($partnerLogo) }}" alt="Partner Logo" class="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition duration-500">
                  </div>
-                 <!-- Testimonial 2 -->
-                 <div class="flex flex-col items-center">
-                     <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop" onerror="this.src='https://placehold.co/200x200/e2e8f0/64748b'" alt="Alumni" class="w-20 h-20 rounded-full grayscale mb-8 object-cover border-4 border-gray-100 shadow-md">
-                     <p class="text-gray-500 italic text-sm mb-8 leading-relaxed px-4">"Pendidikan vokasi di sini sangat relevan dengan dinamika industri digital yang sangat cepat."</p>
-                     <div class="mt-auto">
-                         <p class="font-bold text-gray-900 text-sm">Riza Arifin</p>
-                         <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">PRODUCT MANAGER, TECH GLOBAL</p>
-                     </div>
-                 </div>
-                 <!-- Testimonial 3 -->
-                 <div class="flex flex-col items-center">
-                     <img src="https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?q=80&w=200&auto=format&fit=crop" onerror="this.src='https://placehold.co/200x200/e2e8f0/64748b'" alt="Alumni" class="w-20 h-20 rounded-full grayscale mb-8 object-cover border-4 border-gray-100 shadow-md">
-                     <p class="text-gray-500 italic text-sm mb-8 leading-relaxed px-4">"Fasilitas yang disediakan memberikan pengalaman nyata sebelum kami terjun ke dunia kerja."</p>
-                     <div class="mt-auto">
-                         <p class="font-bold text-gray-900 text-sm">Budi Santoso</p>
-                         <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">FOUNDER & CEO, EDU TECH INOVA</p>
-                     </div>
-                 </div>
+                 @endforeach
              </div>
-
-
-             <!-- Logo placeholder row -->
-             <p class="mt-20 mb-6 text-[9px] font-bold text-gray-300 uppercase tracking-widest">INDUSTRY PARTNERS</p>
+         </div>
+         @else
+         <!-- Placeholder if no images uploaded -->
+         <div class="max-w-6xl mx-auto px-6 md:px-12 text-center pb-10">
              <div class="flex justify-center flex-wrap gap-x-12 gap-y-6 opacity-30 grayscale filter">
                  <div class="h-6 w-24 bg-gray-400 rounded-sm"></div>
                  <div class="h-6 w-28 bg-gray-400 rounded-sm"></div>
                  <div class="h-6 w-24 bg-gray-400 rounded-sm"></div>
                  <div class="h-6 w-32 bg-gray-400 rounded-sm"></div>
-                 <div class="h-6 w-20 bg-gray-400 rounded-sm"></div>
              </div>
          </div>
+         @endif
     </section>
     @endif
 
