@@ -61,7 +61,7 @@
                             @if($guru->image_path)
                             <img src="{{ Storage::url($guru->image_path) }}" alt="{{ $guru->name }}" class="w-full h-full rounded-full object-cover">
                             @else
-                            <img src="https://ui-avatars.com/api/?name={{ urlencode($guru->name) }}&background=e2e8f0&color=475569" alt="{{ $guru->name }}" class="w-full h-full rounded-full object-cover">
+                            <img src="{{ asset('user-icon-simple-design-free-vector.jpg') }}" alt="{{ $guru->name }}" class="w-full h-full rounded-full object-cover">
                             @endif
                         </div>
                         <h3 class="text-sm font-bold text-gray-900 leading-tight">{{ $guru->name }}</h3>
