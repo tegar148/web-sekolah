@@ -18,7 +18,9 @@ class SectionController extends Controller
 
         $pages = SiteSection::select('page')->distinct()->pluck('page');
 
-        return view('admin.sections.index', compact('sections', 'page', 'pages'));
+        $sejarah_items = $page === 'sejarah' ? \App\Models\SejarahItem::orderBy('tahun', 'asc')->get() : collect();
+
+        return view('admin.sections.index', compact('sections', 'page', 'pages', 'sejarah_items'));
     }
 
     public function edit(SiteSection $section)

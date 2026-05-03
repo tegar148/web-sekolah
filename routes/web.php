@@ -23,7 +23,8 @@ Route::get('/', function () {
 
 Route::get('/sejarah', function () {
     $sections = SiteSection::where('page', 'sejarah')->orderBy('sort_order')->get()->keyBy('section_key');
-    return view('sejarah', compact('sections'));
+    $sejarah_items = \App\Models\SejarahItem::orderBy('tahun', 'asc')->get();
+    return view('sejarah', compact('sections', 'sejarah_items'));
 })->name('sejarah');
 
 Route::get('/visi-misi', function () {
@@ -168,4 +169,8 @@ Route::prefix('admin')->middleware(\App\Http\Middleware\AdminAuth::class)->group
         'update'  => 'admin.fasilitas.update',
         'destroy' => 'admin.fasilitas.destroy',
     ]);
+
+    Route::post('/sejarah-items', [\App\Http\Controllers\Admin\SejarahItemController::class, 'store'])->name('admin.sejarah-items.store');
+    Route::put('/sejarah-items/{sejarah_item}', [\App\Http\Controllers\Admin\SejarahItemController::class, 'update'])->name('admin.sejarah-items.update');
+    Route::delete('/sejarah-items/{sejarah_item}', [\App\Http\Controllers\Admin\SejarahItemController::class, 'destroy'])->name('admin.sejarah-items.destroy');
 });

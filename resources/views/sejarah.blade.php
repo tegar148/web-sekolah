@@ -69,78 +69,49 @@
             <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-[1px] bg-gray-200 -transform-translate-x-1/2"></div>
             
             <div class="space-y-24 relative z-10">
-                <!-- 2004 -->
-                <div class="relative flex flex-col md:flex-row items-center justify-between group">
-                    <div class="md:w-5/12 text-center md:text-right mb-6 md:mb-0 opacity-20 group-hover:opacity-100 transition-opacity duration-500">
-                        <span class="text-6xl font-bold text-gray-300">2004</span>
-                    </div>
-                    
-                    <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-teal-600 rounded-full border-4 border-white shadow"></div>
-                    
-                    <div class="md:w-5/12 ml-auto w-full">
-                        <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-teal-600 relative hover:-translate-y-1 transition-transform duration-300">
-                            <h3 class="text-lg font-bold text-gray-900 mb-2">Peletakan Batu Pertama</h3>
-                            <p class="text-xs text-gray-600 leading-relaxed">
-                                Peresmian pendirian sekolah oleh pemerintah daerah dengan komitmen menyediakan pendidikan kejuruan yang relevan dengan kebutuhan industri lokal.
-                            </p>
+                @foreach($sejarah_items as $index => $item)
+                    @php
+                        $mod = $index % 4;
+                        $flexDir = in_array($mod, [0, 2]) ? 'flex-row' : 'flex-row-reverse';
+                        $yearAlign = in_array($mod, [0, 2]) ? 'md:text-right' : 'md:text-left';
+                        $marginClass = in_array($mod, [0, 2]) ? 'ml-auto' : 'mr-auto';
+                        $textAlign = in_array($mod, [0, 2]) ? '' : 'text-left md:text-right';
+                        
+                        $dotColor = match($mod) {
+                            0 => 'bg-teal-600',
+                            1 => 'bg-gray-600',
+                            2 => 'bg-teal-700',
+                            3 => 'bg-cyan-400',
+                        };
+                        
+                        $cardBg = $mod === 3 ? 'bg-[#E0F2FE]' : 'bg-white';
+                        $textDescColor = $mod === 3 ? 'text-gray-700' : 'text-gray-600';
+                        
+                        $borderClass = match($mod) {
+                            0 => 'border-l-4 border-teal-600',
+                            1 => 'border-r-0 md:border-r-4 md:border-l-0 border-l-4 border-gray-600',
+                            2 => 'border-l-4 border-teal-700',
+                            3 => 'border-r-0 md:border-r-4 md:border-l-0 border-l-4 border-cyan-400',
+                        };
+                    @endphp
+
+                    <div class="relative flex flex-col md:{{ $flexDir }} items-center justify-between group">
+                        <div class="md:w-5/12 text-center {{ $yearAlign }} mb-6 md:mb-0 opacity-20 group-hover:opacity-100 transition-opacity duration-500">
+                            <span class="text-6xl font-bold text-gray-300">{{ $item->tahun }}</span>
+                        </div>
+                        
+                        <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 {{ $dotColor }} rounded-full border-4 border-white shadow"></div>
+                        
+                        <div class="md:w-5/12 {{ $marginClass }} w-full">
+                            <div class="{{ $cardBg }} p-6 rounded-xl shadow-lg {{ $borderClass }} relative hover:-translate-y-1 transition-transform duration-300">
+                                <h3 class="text-lg font-bold text-gray-900 mb-2">{{ $item->judul }}</h3>
+                                <p class="text-xs {{ $textDescColor }} leading-relaxed {{ $textAlign }}">
+                                    {{ $item->deskripsi }}
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- 2010 -->
-                <div class="relative flex flex-col md:flex-row-reverse items-center justify-between group">
-                    <div class="md:w-5/12 text-center md:text-left mb-6 md:mb-0 opacity-20 group-hover:opacity-100 transition-opacity duration-500">
-                        <span class="text-6xl font-bold text-gray-300">2010</span>
-                    </div>
-                    
-                    <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-gray-600 rounded-full border-4 border-white shadow"></div>
-                    
-                    <div class="md:w-5/12 mr-auto w-full">
-                        <div class="bg-white p-6 rounded-xl shadow-lg border-r-0 md:border-r-4 md:border-l-0 border-l-4 border-gray-600 relative hover:-translate-y-1 transition-transform duration-300">
-                            <h3 class="text-lg font-bold text-gray-900 mb-2">Ekspansi Konsentrasi</h3>
-                            <p class="text-xs text-gray-600 leading-relaxed text-left md:text-right">
-                                Penambahan program keahlian baru di bidang teknologi informasi dan otomotif guna menyambut era digitalisasi industri di Indonesia.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2018 -->
-                <div class="relative flex flex-col md:flex-row items-center justify-between group">
-                    <div class="md:w-5/12 text-center md:text-right mb-6 md:mb-0 opacity-20 group-hover:opacity-100 transition-opacity duration-500">
-                        <span class="text-6xl font-bold text-gray-300">2018</span>
-                    </div>
-                    
-                    <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-teal-700 rounded-full border-4 border-white shadow"></div>
-                    
-                    <div class="md:w-5/12 ml-auto w-full">
-                        <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-teal-700 relative hover:-translate-y-1 transition-transform duration-300">
-                            <h3 class="text-lg font-bold text-gray-900 mb-2">Sertifikasi & Akreditasi A</h3>
-                            <p class="text-xs text-gray-600 leading-relaxed">
-                                Pencapaian standar nasional tertinggi melalui akreditasi 'A', mengukuhkan SMK Negeri 1 MAESAN sebagai sekolah rujukan di wilayahnya.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2024 -->
-                <div class="relative flex flex-col md:flex-row-reverse items-center justify-between group">
-                    <div class="md:w-5/12 text-center md:text-left mb-6 md:mb-0 opacity-20 group-hover:opacity-100 transition-opacity duration-500">
-                        <span class="text-6xl font-bold text-gray-300">2024</span>
-                    </div>
-                    
-                    <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-cyan-400 rounded-full border-4 border-white shadow"></div>
-                    
-                    <div class="md:w-5/12 mr-auto w-full">
-                        <div class="bg-[#E0F2FE] p-6 rounded-xl shadow-lg border-r-0 md:border-r-4 md:border-l-0 border-l-4 border-cyan-400 relative hover:-translate-y-1 transition-transform duration-300">
-                            <h3 class="text-lg font-bold text-gray-900 mb-2">Digital Atheneum Transformation</h3>
-                            <p class="text-xs text-gray-700 leading-relaxed text-left md:text-right">
-                                Transformasi menjadi sekolah berbasis digital sepenuhnya dengan implementasi smart classroom dan kemitraan industri global.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
+                @endforeach
             </div>
         </div>
     </section>
