@@ -229,57 +229,7 @@
 
     </section>
 
-    <!-- Generic Footer Component used on all subpages -->
-    <footer class="bg-[#F8FAFC] pt-16 pb-8 border-t border-gray-100">
-        <div class="max-w-6xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-            <div>
-                <h4 class="font-bold text-blue-600 mb-4">SMK Negeri 1 MAESAN</h4>
-                <p class="text-[11px] text-gray-500 leading-relaxed font-light">
-                    Mencetak generasi Unggul, Inovatif, dan Berkarakter siap menghadapi tantangan masa depan.
-                </p>
-            </div>
-            <div>
-                <h4 class="font-semibold text-gray-800 text-sm mb-4">BKK SKAMA</h4>
-                <ul class="space-y-3 text-[11px] text-gray-500">
-                    <li><a href="{{ route('bkk.profile') }}" class="hover:text-blue-600 transition">Profil BKK Skama</a></li>
-                    <li><a href="{{ route('bkk.lowongan') }}" class="hover:text-blue-600 transition text-[#00D1B2] font-semibold">Info Lowongan Kerja</a></li>
-                    <li><a href="#" class="hover:text-blue-600 transition">Mitra Industri</a></li>
-                    <li><a href="#" class="hover:text-blue-600 transition">Tracking Alumni</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-semibold text-gray-800 text-sm mb-4">LAYANAN SISWA</h4>
-                <ul class="space-y-3 text-[11px] text-gray-500">
-                    <li><a href="#" class="hover:text-blue-600 transition">E-Learning</a></li>
-                    <li><a href="#" class="hover:text-blue-600 transition">Perpustakaan Digital</a></li>
-                    <li><a href="#" class="hover:text-blue-600 transition">Konsultasi Karir</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-semibold text-gray-800 text-sm mb-4">KONTAK KAMI</h4>
-                <ul class="space-y-3 text-[11px] text-gray-500">
-                    <li>
-                        <a href="mailto:info@smkn1maesan.sch.id" class="flex items-center gap-2 hover:text-blue-600 transition">
-                            <svg class="w-4 h-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                            info@smkn1maesan.sch.id
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center gap-2 hover:text-blue-600 transition">
-                            <svg class="w-4 h-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                            (0332) 1234567
-                        </a>
-                    </li>
-                </ul>
-                <div class="flex gap-3 mt-4">
-                    <a href="#" class="w-8 h-8 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center hover:bg-teal-50 hover:text-teal-600 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"></path></svg></a>
-                    <a href="#" class="w-8 h-8 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center hover:bg-teal-50 hover:text-teal-600 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg></a>
-                </div>
-            </div>
-        </div>
-        <div class="max-w-6xl mx-auto px-6 md:px-12 pt-6 border-t border-gray-200 text-center">
-            <p class="text-[10px] text-gray-400">© 2024 SMK Negeri 1 MAESAN - UNIK (Unggul, Inovatif, Berkarakter)</p>
-        </div>
-    </footer>
+    <x-footer />
+
 </body>
 </html>

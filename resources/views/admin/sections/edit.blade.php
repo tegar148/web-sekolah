@@ -73,41 +73,185 @@
             </div>
             @endif
 
-            <!-- Content (Textarea) -->
+            <!-- Content (Textarea / Custom Fields) -->
             @if($show['content'])
-            <div>
-                <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">KONTEN UTAMA</label>
-                @if($contentHint)
-                    <p class="text-xs text-gray-500 mb-3">{{ $contentHint }}</p>
-                @endif
-                <textarea name="content" rows="6" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition resize-y" placeholder="Tulis konten lengkap section...">{{ old('content', $section->content) }}</textarea>
-            </div>
-            @endif
+                @if($section->section_key === 'footer')
+                    @php
+                        $footerData = json_decode($section->content, true);
+                        if (!is_array($footerData)) $footerData = [];
+                    @endphp
+                    <div class="space-y-4">
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">INFORMASI KONTAK FOOTER</label>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Alamat Lengkap</label>
+                                <textarea name="footer_contact[address]" rows="2" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition">{{ old('footer_contact.address', $footerData['address'] ?? '') }}</textarea>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Nomor Telepon</label>
+                                <input type="text" name="footer_contact[phone]" value="{{ old('footer_contact.phone', $footerData['phone'] ?? '') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="+62 ...">
+                                
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mt-3 mb-1">Alamat Email</label>
+                                <input type="email" name="footer_contact[email]" value="{{ old('footer_contact.email', $footerData['email'] ?? '') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="email@sekolah.sch.id">
+                            </div>
+                        </div>
 
-            @if(count($contentSchema))
-            <div class="overflow-hidden rounded-xl border border-gray-200">
-                <div class="px-4 py-3 bg-gray-50 border-b border-gray-200">
-                    <p class="text-[11px] font-bold text-gray-700 uppercase tracking-wider">Tabel Struktur Konten Section</p>
-                </div>
-                <table class="w-full text-xs">
-                    <thead class="bg-white border-b border-gray-100">
-                        <tr class="text-left text-gray-500">
-                            <th class="px-4 py-3 font-semibold">Kolom</th>
-                            <th class="px-4 py-3 font-semibold">Tipe</th>
-                            <th class="px-4 py-3 font-semibold">Keterangan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($contentSchema as $row)
-                        <tr class="border-b border-gray-100 last:border-b-0">
-                            <td class="px-4 py-3 font-mono text-gray-700">{{ $row['kolom'] }}</td>
-                            <td class="px-4 py-3 text-gray-600">{{ $row['tipe'] }}</td>
-                            <td class="px-4 py-3 text-gray-600">{{ $row['keterangan'] }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Link Facebook</label>
+                                <input type="url" name="footer_contact[facebook]" value="{{ old('footer_contact.facebook', $footerData['facebook'] ?? '') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="https://facebook.com/...">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Link Instagram</label>
+                                <input type="url" name="footer_contact[instagram]" value="{{ old('footer_contact.instagram', $footerData['instagram'] ?? '') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="https://instagram.com/...">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Link YouTube</label>
+                                <input type="url" name="footer_contact[youtube]" value="{{ old('footer_contact.youtube', $footerData['youtube'] ?? '') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="https://youtube.com/...">
+                            </div>
+                        </div>
+
+                        <!-- Navigation Configuration -->
+                        <div class="mt-8 pt-6 border-t border-gray-100">
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">PENGATURAN NAVIGASI FOOTER</label>
+                            
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                                <!-- Nav Group 1 -->
+                                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200">
+                                    <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Judul Navigasi 1</label>
+                                    <input type="text" name="footer_contact[nav1_title]" value="{{ old('footer_contact.nav1_title', $footerData['nav1_title'] ?? 'NAVIGASI') }}" class="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition mb-4">
+                                    
+                                    <div class="space-y-2" id="nav1-container">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <label class="block text-[10px] font-bold text-gray-500 uppercase">Daftar Link Navigasi 1</label>
+                                            <button type="button" onclick="addNavLink('nav1')" class="text-[#017A85] hover:text-[#01656e] text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 bg-teal-50 px-2 py-1 rounded border border-teal-100">
+                                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg> Tambah Link
+                                            </button>
+                                        </div>
+                                        @php
+                                            $nav1Links = isset($footerData['nav1_links']) && is_array($footerData['nav1_links']) ? array_values(array_filter($footerData['nav1_links'], fn($l) => !empty($l['label']))) : [];
+                                            if (empty($nav1Links)) {
+                                                $nav1Links = [
+                                                    ['label' => 'Tentang Kami', 'url' => '/sejarah'],
+                                                    ['label' => 'Kurikulum', 'url' => '/jurusan/tkj'],
+                                                    ['label' => 'Fasilitas', 'url' => '/fasilitas'],
+                                                    ['label' => 'Kemitraan', 'url' => '/bkk/profile']
+                                                ];
+                                            }
+                                        @endphp
+                                        @foreach($nav1Links as $i => $link)
+                                        <div class="flex gap-2 items-center nav1-row">
+                                            <input type="text" name="footer_contact[nav1_links][{{$i}}][label]" value="{{ $link['label'] }}" class="w-[45%] bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-[#017A85] transition" placeholder="Nama Menu">
+                                            <input type="text" name="footer_contact[nav1_links][{{$i}}][url]" value="{{ $link['url'] }}" class="w-[45%] bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-[#017A85] transition" placeholder="URL">
+                                            <button type="button" onclick="this.parentElement.remove()" class="w-[10%] text-red-400 hover:text-red-600 flex justify-center" title="Hapus">
+                                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                            </button>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                                <!-- Nav Group 2 -->
+                                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200">
+                                    <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Judul Navigasi 2</label>
+                                    <input type="text" name="footer_contact[nav2_title]" value="{{ old('footer_contact.nav2_title', $footerData['nav2_title'] ?? 'PROGRAM') }}" class="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition mb-4">
+                                    
+                                    <div class="space-y-2" id="nav2-container">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <label class="block text-[10px] font-bold text-gray-500 uppercase">Daftar Link Navigasi 2</label>
+                                            <button type="button" onclick="addNavLink('nav2')" class="text-[#017A85] hover:text-[#01656e] text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 bg-teal-50 px-2 py-1 rounded border border-teal-100">
+                                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg> Tambah Link
+                                            </button>
+                                        </div>
+                                        @php
+                                            $nav2Links = isset($footerData['nav2_links']) && is_array($footerData['nav2_links']) ? array_values(array_filter($footerData['nav2_links'], fn($l) => !empty($l['label']))) : [];
+                                            if (empty($nav2Links)) {
+                                                $nav2Links = [
+                                                    ['label' => 'Digital Team', 'url' => '/jurusan/tkj'],
+                                                    ['label' => 'Advanced AI Lab', 'url' => '/jurusan/tkj'],
+                                                    ['label' => 'Agri-Industry', 'url' => '/jurusan/ruminansia'],
+                                                    ['label' => 'Business Hub', 'url' => '/bkk/lowongan']
+                                                ];
+                                            }
+                                        @endphp
+                                        @foreach($nav2Links as $i => $link)
+                                        <div class="flex gap-2 items-center nav2-row">
+                                            <input type="text" name="footer_contact[nav2_links][{{$i}}][label]" value="{{ $link['label'] }}" class="w-[45%] bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-[#017A85] transition" placeholder="Nama Menu">
+                                            <input type="text" name="footer_contact[nav2_links][{{$i}}][url]" value="{{ $link['url'] }}" class="w-[45%] bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-[#017A85] transition" placeholder="URL">
+                                            <button type="button" onclick="this.parentElement.remove()" class="w-[10%] text-red-400 hover:text-red-600 flex justify-center" title="Hapus">
+                                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                            </button>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            function addNavLink(type) {
+                                const container = document.getElementById(type + '-container');
+                                const rows = container.querySelectorAll('.' + type + '-row');
+                                let maxIndex = -1;
+                                rows.forEach(row => {
+                                    const input = row.querySelector('input');
+                                    if(input) {
+                                        const match = input.name.match(/\[(\d+)\]/);
+                                        if(match) {
+                                            const idx = parseInt(match[1]);
+                                            if(idx > maxIndex) maxIndex = idx;
+                                        }
+                                    }
+                                });
+                                const index = maxIndex + 1;
+                                
+                                const row = document.createElement('div');
+                                row.className = 'flex gap-2 items-center ' + type + '-row mt-2';
+                                row.innerHTML = `
+                                    <input type="text" name="footer_contact[${type}_links][${index}][label]" class="w-[45%] bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-[#017A85] transition" placeholder="Nama Menu">
+                                    <input type="text" name="footer_contact[${type}_links][${index}][url]" class="w-[45%] bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-[#017A85] transition" placeholder="URL">
+                                    <button type="button" onclick="this.parentElement.remove()" class="w-[10%] text-red-400 hover:text-red-600 flex justify-center" title="Hapus"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
+                                `;
+                                container.appendChild(row);
+                            }
+                        </script>
+                    </div>
+                @else
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">KONTEN UTAMA</label>
+                        @if($contentHint)
+                            <p class="text-xs text-gray-500 mb-3">{{ $contentHint }}</p>
+                        @endif
+                        <textarea name="content" rows="6" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition resize-y" placeholder="Tulis konten lengkap section...">{{ old('content', $section->content) }}</textarea>
+                    </div>
+
+                    @if(count($contentSchema))
+                    <div class="overflow-hidden rounded-xl border border-gray-200 mt-4">
+                        <div class="px-4 py-3 bg-gray-50 border-b border-gray-200">
+                            <p class="text-[11px] font-bold text-gray-700 uppercase tracking-wider">Tabel Struktur Konten Section</p>
+                        </div>
+                        <table class="w-full text-xs">
+                            <thead class="bg-white border-b border-gray-100">
+                                <tr class="text-left text-gray-500">
+                                    <th class="px-4 py-3 font-semibold">Kolom</th>
+                                    <th class="px-4 py-3 font-semibold">Tipe</th>
+                                    <th class="px-4 py-3 font-semibold">Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($contentSchema as $row)
+                                <tr class="border-b border-gray-100 last:border-b-0">
+                                    <td class="px-4 py-3 font-mono text-gray-700">{{ $row['kolom'] }}</td>
+                                    <td class="px-4 py-3 text-gray-600">{{ $row['tipe'] }}</td>
+                                    <td class="px-4 py-3 text-gray-600">{{ $row['keterangan'] }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    @endif
+                @endif
             @endif
 
             <!-- Image Upload -->

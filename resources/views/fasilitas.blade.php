@@ -79,43 +79,7 @@
     </section>
 
 
-    <!-- Footer Content like image -->
-    <footer class="bg-[#F8FAFC] pt-16 pb-8 border-t border-gray-100 mt-0">
-        <div class="max-w-6xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-            <div>
-                <h4 class="font-bold text-blue-600 mb-4">SMK Negeri 1 MAESAN</h4>
-                <p class="text-[11px] text-gray-500 leading-relaxed font-light">
-                    Mencetak generasi Unggul, Inovatif, dan Berkarakter siap menghadapi tantangan masa depan.
-                </p>
-            </div>
-            <div>
-                <h4 class="font-semibold text-gray-800 text-sm mb-4">Tautan Terkait</h4>
-                <ul class="space-y-3 text-[11px] text-gray-500">
-                    <li><a href="#" class="hover:text-blue-600 transition">Profil BKK Skama</a></li>
-                    <li><a href="#" class="hover:text-blue-600 transition">Info Lowongan Kerja</a></li>
-                    <li><a href="#" class="hover:text-blue-600 transition">Kontak</a></li>
-                    <li><a href="#" class="hover:text-blue-600 transition">Peta Situs</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-semibold text-gray-800 text-sm mb-4">Lokasi</h4>
-                <p class="text-[11px] text-gray-500 leading-relaxed">
-                    Jl. Raya Maesan No. 123<br>
-                    Bondowoso, Jawa Timur<br>
-                    Indonesia
-                </p>
-            </div>
-            <div>
-                <h4 class="font-semibold text-gray-800 text-sm mb-4">Kontak</h4>
-                <ul class="space-y-3 text-[11px] text-gray-500">
-                    <li>info@smkn1maesan.sch.id</li>
-                    <li>+62 (332) 421 000</li>
-                </ul>
-            </div>
-        </div>
-        <div class="max-w-6xl mx-auto px-6 md:px-12 pt-6 border-t border-gray-200 text-center">
-            <p class="text-[10px] text-gray-400">© 2024 SMK Negeri 1 MAESAN - UNIK (Unggul, Inovatif, Berkarakter)</p>
-        </div>
-    </footer>
+    <x-footer />
+
 </body>
 </html>

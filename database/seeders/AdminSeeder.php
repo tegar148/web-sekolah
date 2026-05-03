@@ -32,6 +32,25 @@ class AdminSeeder extends Seeder
             ]
         );
 
+        // ─── GLOBAL (FOOTER) ─────────────────────────
+        SiteSection::updateOrCreate(
+            ['page' => 'global', 'section_key' => 'footer'],
+            [
+                'title'    => 'SMK Negeri 1 MAESAN',
+                'subtitle' => 'Lembaga pendidikan vokasional terpadu yang berorientasi pada masa depan, menggabungkan pendidikan vokasi dengan kebutuhan kekinian di industri.',
+                'content'  => json_encode([
+                    'address' => 'Jl. Pendidikan Blok No.1, Kab. Bondowoso, Jawa Timur.',
+                    'phone' => '+62 (823) 5600 0100',
+                    'email' => 'info@smkn1maesan.sch.id',
+                    'facebook' => 'https://facebook.com',
+                    'instagram' => 'https://instagram.com',
+                    'youtube' => 'https://youtube.com',
+                ]),
+                'is_visible' => true,
+                'sort_order' => 2,
+            ]
+        );
+
         // ─── WELCOME PAGE ─────────────────────────────────
         SiteSection::updateOrCreate(
             ['page' => 'welcome', 'section_key' => 'hero'],

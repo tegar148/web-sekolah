@@ -46,6 +46,11 @@ class SectionController extends Controller
 
         $validated['is_visible'] = $request->boolean('is_visible');
 
+        // Handle footer fields
+        if ($section->section_key === 'footer' && $request->has('footer_contact')) {
+            $validated['content'] = json_encode($request->input('footer_contact'));
+        }
+
         if ($request->has('remove_image') && $section->image) {
             \Illuminate\Support\Facades\Storage::disk('public')->delete($section->image);
             $validated['image'] = null;
@@ -139,6 +144,22 @@ class SectionController extends Controller
             $show['title'] = true;
             $show['subtitle'] = true;
             $show['image'] = true;
+        }
+
+        if ($section->section_key === 'footer') {
+            $show['title'] = true;
+            $show['subtitle'] = true;
+            $show['content'] = true;
+            $show['image'] = true; // Enable logo editing
+            $contentHint = 'Isi berupa JSON object info kontak footer.';
+            $contentSchema = [
+                ['kolom' => 'address', 'tipe' => 'string', 'keterangan' => 'Alamat Sekolah'],
+                ['kolom' => 'phone', 'tipe' => 'string', 'keterangan' => 'Nomor Telepon'],
+                ['kolom' => 'email', 'tipe' => 'string', 'keterangan' => 'Email'],
+                ['kolom' => 'facebook', 'tipe' => 'string', 'keterangan' => 'Link Facebook (opsional)'],
+                ['kolom' => 'instagram', 'tipe' => 'string', 'keterangan' => 'Link Instagram (opsional)'],
+                ['kolom' => 'youtube', 'tipe' => 'string', 'keterangan' => 'Link YouTube (opsional)'],
+            ];
         }
 
         if ($section->section_key === 'hero') {
