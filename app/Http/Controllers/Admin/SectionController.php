@@ -51,6 +51,14 @@ class SectionController extends Controller
             $validated['content'] = json_encode($request->input('footer_contact'));
         }
 
+        if ($section->section_key === 'prospek_karir' && $request->has('prospek_karir_data')) {
+            $validated['content'] = json_encode(array_values($request->input('prospek_karir_data')));
+        }
+
+        if ($section->section_key === 'fasilitas_jurusan' && $request->has('fasilitas_data')) {
+            $validated['content'] = json_encode(array_values($request->input('fasilitas_data')));
+        }
+
         if ($request->has('remove_image') && $section->image) {
             \Illuminate\Support\Facades\Storage::disk('public')->delete($section->image);
             $validated['image'] = null;
@@ -284,6 +292,18 @@ class SectionController extends Controller
                 ['kolom' => 'type', 'tipe' => 'string', 'keterangan' => 'Kategori ekstrakurikuler'],
                 ['kolom' => 'desc', 'tipe' => 'string', 'keterangan' => 'Deskripsi singkat'],
             ];
+        }
+
+        if ($section->section_key === 'prospek_karir') {
+            $show['subtitle'] = true;
+            $show['content'] = true;
+            $contentHint = 'Khusus Prospek Karir, Anda hanya bisa mengedit konten yang ada (tidak bisa menambah/menghapus kartu).';
+        }
+
+        if ($section->section_key === 'fasilitas_jurusan') {
+            $show['subtitle'] = true;
+            $show['content'] = true;
+            $contentHint = 'Fasilitas bisa ditambah/dihapus (CRUD). Silakan kelola daftar fasilitas di bawah.';
         }
 
         return [

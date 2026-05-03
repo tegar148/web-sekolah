@@ -217,6 +217,124 @@
                             }
                         </script>
                     </div>
+                @elseif($section->section_key === 'prospek_karir')
+                    @php
+                        $prospekData = json_decode($section->content, true);
+                        if (!is_array($prospekData)) $prospekData = [];
+                    @endphp
+                    <div class="space-y-4">
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">DAFTAR KARTU PROSPEK KARIR</label>
+                        <p class="text-xs text-gray-500 mb-4">Anda hanya dapat mengubah isi konten (Judul, Deskripsi, Badge). Tidak bisa menambah atau menghapus kartu untuk mempertahankan struktur UI.</p>
+                        
+                        <div class="grid grid-cols-1 gap-6">
+                            @foreach($prospekData as $i => $item)
+                            <div class="bg-gray-50 p-5 rounded-xl border border-gray-200">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h4 class="text-xs font-bold text-gray-700 uppercase">Kartu #{{ $i + 1 }} (Tipe: {{ $item['type'] ?? 'small' }})</h4>
+                                </div>
+                                <input type="hidden" name="prospek_karir_data[{{$i}}][type]" value="{{ $item['type'] ?? 'small' }}">
+                                <div class="grid grid-cols-1 gap-4">
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Judul Peran (Role)</label>
+                                        <input type="text" name="prospek_karir_data[{{$i}}][title]" value="{{ $item['title'] ?? '' }}" class="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-[#017A85] transition" placeholder="Contoh: Network Engineer">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Deskripsi Pekerjaan</label>
+                                        <textarea name="prospek_karir_data[{{$i}}][desc]" rows="2" class="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-[#017A85] transition">{{ $item['desc'] ?? '' }}</textarea>
+                                    </div>
+                                    @if(isset($item['type']) && $item['type'] === 'wide')
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Badge Tags (pisahkan dengan koma)</label>
+                                        <input type="text" name="prospek_karir_data[{{$i}}][tags]" value="{{ $item['tags'] ?? '' }}" class="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-[#017A85] transition" placeholder="Contoh: Infrastruktur, Analitik Web">
+                                    </div>
+                                    @endif
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @elseif($section->section_key === 'fasilitas_jurusan')
+                    @php
+                        $fasilitasData = json_decode($section->content, true);
+                        if (!is_array($fasilitasData)) $fasilitasData = [];
+                    @endphp
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest">DAFTAR FASILITAS JURUSAN</label>
+                            <button type="button" onclick="addFasilitasCard()" class="text-[#017A85] hover:text-[#01656e] text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 bg-teal-50 px-3 py-1.5 rounded-lg border border-teal-100 transition">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg> Tambah Fasilitas
+                            </button>
+                        </div>
+                        
+                        <div id="fasilitas-container" class="space-y-4">
+                            @foreach($fasilitasData as $i => $item)
+                            <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 fasilitas-row relative">
+                                <button type="button" onclick="this.parentElement.remove()" class="absolute top-4 right-4 text-red-400 hover:text-red-600 bg-red-50 p-1.5 rounded-md transition" title="Hapus">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                </button>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Nama Fasilitas</label>
+                                        <input type="text" name="fasilitas_data[{{$i}}][title]" value="{{ $item['title'] ?? '' }}" class="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-[#017A85] transition mb-3">
+                                        
+                                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Label / Tag (opsional)</label>
+                                        <input type="text" name="fasilitas_data[{{$i}}][tag]" value="{{ $item['tag'] ?? '' }}" class="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-[#017A85] transition mb-3" placeholder="Contoh: SMART FARM">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Deskripsi Singkat</label>
+                                        <textarea name="fasilitas_data[{{$i}}][desc]" rows="4" class="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-[#017A85] transition">{{ $item['desc'] ?? '' }}</textarea>
+                                    </div>
+                                    <div class="md:col-span-2">
+                                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">URL Gambar Khusus (Opsional, akan pakai default jika kosong)</label>
+                                        <input type="text" name="fasilitas_data[{{$i}}][image]" value="{{ $item['image'] ?? '' }}" class="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-[#017A85] transition" placeholder="https://images.unsplash.com/...">
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        
+                        <script>
+                            function addFasilitasCard() {
+                                const container = document.getElementById('fasilitas-container');
+                                const rows = container.querySelectorAll('.fasilitas-row');
+                                let index = 0;
+                                if (rows.length > 0) {
+                                    const lastRow = rows[rows.length - 1];
+                                    const input = lastRow.querySelector('input');
+                                    if(input) {
+                                        const match = input.name.match(/\[(\d+)\]/);
+                                        if(match) index = parseInt(match[1]) + 1;
+                                    }
+                                }
+                                
+                                const row = document.createElement('div');
+                                row.className = 'bg-gray-50 p-5 rounded-xl border border-gray-200 fasilitas-row relative mt-4';
+                                row.innerHTML = `
+                                    <button type="button" onclick="this.parentElement.remove()" class="absolute top-4 right-4 text-red-400 hover:text-red-600 bg-red-50 p-1.5 rounded-md transition" title="Hapus">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                    </button>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Nama Fasilitas</label>
+                                            <input type="text" name="fasilitas_data[${index}][title]" class="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-[#017A85] transition mb-3">
+                                            
+                                            <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Label / Tag (opsional)</label>
+                                            <input type="text" name="fasilitas_data[${index}][tag]" class="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-[#017A85] transition mb-3" placeholder="Contoh: SMART FARM">
+                                        </div>
+                                        <div>
+                                            <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Deskripsi Singkat</label>
+                                            <textarea name="fasilitas_data[${index}][desc]" rows="4" class="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-[#017A85] transition"></textarea>
+                                        </div>
+                                        <div class="md:col-span-2">
+                                            <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">URL Gambar Khusus (Opsional)</label>
+                                            <input type="text" name="fasilitas_data[${index}][image]" class="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-[#017A85] transition" placeholder="https://images.unsplash.com/...">
+                                        </div>
+                                    </div>
+                                `;
+                                container.appendChild(row);
+                            }
+                        </script>
+                    </div>
                 @else
                     <div>
                         <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">KONTEN UTAMA</label>
