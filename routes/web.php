@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PrestasiController;
 use App\Http\Controllers\Admin\GuruController;
 use App\Http\Controllers\Admin\LowonganController;
+use App\Http\Controllers\Admin\FasilitasController;
 use App\Models\SiteSection;
 
 // ============================================================
@@ -50,7 +51,8 @@ Route::get('/galeri', function () {
 
 Route::get('/fasilitas', function () {
     $sections = SiteSection::where('page', 'fasilitas')->orderBy('sort_order')->get()->keyBy('section_key');
-    return view('fasilitas', compact('sections'));
+    $fasilitas = \App\Models\Fasilitas::all();
+    return view('fasilitas', compact('sections', 'fasilitas'));
 })->name('fasilitas');
 
 Route::get('/jurusan/ruminansia', function () {
@@ -157,4 +159,13 @@ Route::prefix('admin')->middleware(\App\Http\Middleware\AdminAuth::class)->group
     Route::get('/lowongan/{lowongan}/edit', [LowonganController::class, 'edit'])->name('admin.lowongan.edit');
     Route::put('/lowongan/{lowongan}', [LowonganController::class, 'update'])->name('admin.lowongan.update');
     Route::delete('/lowongan/{lowongan}', [LowonganController::class, 'destroy'])->name('admin.lowongan.destroy');
+
+    Route::resource('fasilitas', FasilitasController::class)->except(['show'])->names([
+        'index'   => 'admin.fasilitas.index',
+        'create'  => 'admin.fasilitas.create',
+        'store'   => 'admin.fasilitas.store',
+        'edit'    => 'admin.fasilitas.edit',
+        'update'  => 'admin.fasilitas.update',
+        'destroy' => 'admin.fasilitas.destroy',
+    ]);
 });

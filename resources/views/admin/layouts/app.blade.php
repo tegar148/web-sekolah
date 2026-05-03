@@ -49,6 +49,11 @@
                     Media Manager
                 </a>
 
+                <a href="{{ route('admin.fasilitas.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-[13px] font-medium transition-all duration-300 {{ request()->routeIs('admin.fasilitas.*') ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-900/40 border border-blue-500/50' : 'text-slate-400 hover:text-white hover:bg-slate-800/80' }}">
+                    <svg class="w-5 h-5 {{ request()->routeIs('admin.fasilitas.*') ? 'text-white' : 'opacity-70' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                    Fasilitas Manager
+                </a>
+
                 <a href="{{ route('admin.berita.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-[13px] font-medium transition-all duration-300 {{ request()->routeIs('admin.berita.*') ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-900/40 border border-blue-500/50' : 'text-slate-400 hover:text-white hover:bg-slate-800/80' }}">
                     <svg class="w-5 h-5 {{ request()->routeIs('admin.berita.*') ? 'text-white' : 'opacity-70' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z" /></svg>
                     Berita Manager
