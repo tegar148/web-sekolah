@@ -29,7 +29,9 @@ Route::get('/sejarah', function () {
 
 Route::get('/visi-misi', function () {
     $sections = SiteSection::where('page', 'visi-misi')->orderBy('sort_order')->get()->keyBy('section_key');
-    return view('visi-misi', compact('sections'));
+    $visi_items = \App\Models\VisiMisiItem::where('tipe', 'visi')->get();
+    $misi_items = \App\Models\VisiMisiItem::where('tipe', 'misi')->get();
+    return view('visi-misi', compact('sections', 'visi_items', 'misi_items'));
 })->name('visi-misi');
 
 Route::get('/prestasi', function () {
@@ -173,4 +175,8 @@ Route::prefix('admin')->middleware(\App\Http\Middleware\AdminAuth::class)->group
     Route::post('/sejarah-items', [\App\Http\Controllers\Admin\SejarahItemController::class, 'store'])->name('admin.sejarah-items.store');
     Route::put('/sejarah-items/{sejarah_item}', [\App\Http\Controllers\Admin\SejarahItemController::class, 'update'])->name('admin.sejarah-items.update');
     Route::delete('/sejarah-items/{sejarah_item}', [\App\Http\Controllers\Admin\SejarahItemController::class, 'destroy'])->name('admin.sejarah-items.destroy');
+
+    Route::post('/visi-misi-items', [\App\Http\Controllers\Admin\VisiMisiItemController::class, 'store'])->name('admin.visi-misi-items.store');
+    Route::put('/visi-misi-items/{visi_misi_item}', [\App\Http\Controllers\Admin\VisiMisiItemController::class, 'update'])->name('admin.visi-misi-items.update');
+    Route::delete('/visi-misi-items/{visi_misi_item}', [\App\Http\Controllers\Admin\VisiMisiItemController::class, 'destroy'])->name('admin.visi-misi-items.destroy');
 });

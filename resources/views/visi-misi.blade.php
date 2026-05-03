@@ -46,38 +46,17 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Card 1 -->
+            @foreach($visi_items as $item)
             <div class="bg-white p-8 rounded-2xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-gray-50 flex flex-col items-start hover:-translate-y-1 transition duration-300">
                 <div class="w-12 h-12 rounded-xl bg-blue-50 text-teal-600 flex items-center justify-center mb-6">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    {!! $item->icon !!}
                 </div>
-                <h3 class="text-xl font-bold text-gray-800 mb-4">Unggul</h3>
+                <h3 class="text-xl font-bold text-gray-800 mb-4">{{ $item->judul }}</h3>
                 <p class="text-sm text-gray-600 leading-relaxed">
-                    Memiliki kompetensi sikap, pengetahuan, ketrampilan sesuai yang diharapkan industri, berprestasi akademik dan non-akademik, dan berdaya saing global.
+                    {{ $item->deskripsi }}
                 </p>
             </div>
-
-            <!-- Card 2 -->
-            <div class="bg-white p-8 rounded-2xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-gray-50 flex flex-col items-start hover:-translate-y-1 transition duration-300">
-                <div class="w-12 h-12 rounded-xl bg-blue-50 text-teal-600 flex items-center justify-center mb-6">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
-                </div>
-                <h3 class="text-xl font-bold text-gray-800 mb-4">Inovatif</h3>
-                <p class="text-sm text-gray-600 leading-relaxed">
-                    Memiliki kemampuan bernalar kritis sehingga kreatif dalam menghasilkan inovasi berkelanjutan demi menjawab tantangan masa depan.
-                </p>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="bg-white p-8 rounded-2xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-gray-50 flex flex-col items-start hover:-translate-y-1 transition duration-300">
-                <div class="w-12 h-12 rounded-xl bg-blue-50 text-teal-600 flex items-center justify-center mb-6">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                </div>
-                <h3 class="text-xl font-bold text-gray-800 mb-4">Berkarakter</h3>
-                <p class="text-sm text-gray-600 leading-relaxed">
-                    Mampu menunjukkan Profil Pelajar Pancasila sebagai landasan moral dan etika dalam bermasyarakat dan berkarya.
-                </p>
-            </div>
+            @endforeach
         </div>
     </section>
 
@@ -89,61 +68,17 @@
             <!-- Vertical Line -->
             <div class="absolute left-4 top-4 bottom-4 w-px bg-gray-200"></div>
 
-            <!-- Item 1 -->
+            @foreach($misi_items as $index => $item)
             <div class="flex items-start gap-6 relative z-10">
                 <div class="w-8 h-8 rounded-full bg-teal-700 text-white flex items-center justify-center font-bold text-xs shrink-0 mt-1 shadow-sm border-4 border-[#F8FAFC]">
-                    01
+                    {{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}
                 </div>
                 <div>
-                    <h3 class="text-lg font-bold text-teal-700 mb-2">Kultur & Akhlak</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Mengembangkan kultur sekolah untuk memberdayakan peserta didik agar menjadi insan yang berakhlak mulia, berkarakter, kreatif, dan kompetitif.</p>
+                    <h3 class="text-lg font-bold text-teal-700 mb-2">{{ $item->judul }}</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">{{ $item->deskripsi }}</p>
                 </div>
             </div>
-
-            <!-- Item 2 -->
-            <div class="flex items-start gap-6 relative z-10">
-                <div class="w-8 h-8 rounded-full bg-teal-700 text-white flex items-center justify-center font-bold text-xs shrink-0 mt-1 shadow-sm border-4 border-[#F8FAFC]">
-                    02
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold text-teal-700 mb-2">Kesiapan Kerja Global</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Meningkatkan kompetensi peserta didik untuk memasuki dunia kerja, baik di tingkat nasional maupun internasional berdasarkan imtak dan iptek.</p>
-                </div>
-            </div>
-
-            <!-- Item 3 -->
-            <div class="flex items-start gap-6 relative z-10">
-                <div class="w-8 h-8 rounded-full bg-teal-700 text-white flex items-center justify-center font-bold text-xs shrink-0 mt-1 shadow-sm border-4 border-[#F8FAFC]">
-                    03
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold text-teal-700 mb-2">Profesionalisme Pendidik</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Meningkatkan mutu kompetensi pendidik dan tenaga kependidikan yang profesional untuk menjamin standar kualitas pendidikan tinggi.</p>
-                </div>
-            </div>
-
-            <!-- Item 4 -->
-            <div class="flex items-start gap-6 relative z-10">
-                <div class="w-8 h-8 rounded-full bg-teal-700 text-white flex items-center justify-center font-bold text-xs shrink-0 mt-1 shadow-sm border-4 border-[#F8FAFC]">
-                    04
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold text-teal-700 mb-2">Nasionalisme & Disiplin</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Menanamkan sikap disiplin, kepekaan sosial, semangat nasionalisme dan patriotisme kepada seluruh warga sekolah.</p>
-                </div>
-            </div>
-
-            <!-- Item 5 -->
-            <div class="flex items-start gap-6 relative z-10">
-                <div class="w-8 h-8 rounded-full bg-teal-700 text-white flex items-center justify-center font-bold text-xs shrink-0 mt-1 shadow-sm border-4 border-[#F8FAFC]">
-                    05
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold text-teal-700 mb-2">Infrastruktur Modern</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Meningkatkan sarana dan prasarana pendidikan untuk mendukung proses pembelajaran yang optimal dan berbasis teknologi.</p>
-                </div>
-            </div>
-
+            @endforeach
         </div>
     </section>
 
