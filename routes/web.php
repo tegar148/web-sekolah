@@ -155,6 +155,18 @@ Route::prefix('admin')->middleware(\App\Http\Middleware\AdminAuth::class)->group
         'as' => 'admin'
     ])->except(['show', 'create', 'edit']);
 
+    Route::post('/admin/ppdb/requirement', [\App\Http\Controllers\Admin\PpdbController::class, 'storeRequirement'])->name('admin.ppdb.requirement.store');
+    Route::put('/admin/ppdb/requirement/{requirement}', [\App\Http\Controllers\Admin\PpdbController::class, 'updateRequirement'])->name('admin.ppdb.requirement.update');
+    Route::delete('/admin/ppdb/requirement/{requirement}', [\App\Http\Controllers\Admin\PpdbController::class, 'destroyRequirement'])->name('admin.ppdb.requirement.destroy');
+
+    Route::post('/admin/ppdb/timeline', [\App\Http\Controllers\Admin\PpdbController::class, 'storeTimeline'])->name('admin.ppdb.timeline.store');
+    Route::put('/admin/ppdb/timeline/{timeline}', [\App\Http\Controllers\Admin\PpdbController::class, 'updateTimeline'])->name('admin.ppdb.timeline.update');
+    Route::delete('/admin/ppdb/timeline/{timeline}', [\App\Http\Controllers\Admin\PpdbController::class, 'destroyTimeline'])->name('admin.ppdb.timeline.destroy');
+
+    Route::post('/admin/ppdb/step', [\App\Http\Controllers\Admin\PpdbController::class, 'storeStep'])->name('admin.ppdb.step.store');
+    Route::put('/admin/ppdb/step/{step}', [\App\Http\Controllers\Admin\PpdbController::class, 'updateStep'])->name('admin.ppdb.step.update');
+    Route::delete('/admin/ppdb/step/{step}', [\App\Http\Controllers\Admin\PpdbController::class, 'destroyStep'])->name('admin.ppdb.step.destroy');
+
     Route::get('/berita', [\App\Http\Controllers\Admin\BeritaController::class, 'index'])->name('admin.berita.index');
     Route::post('/berita', [\App\Http\Controllers\Admin\BeritaController::class, 'store'])->name('admin.berita.store');
     Route::get('/berita/{berita}/edit', [\App\Http\Controllers\Admin\BeritaController::class, 'edit'])->name('admin.berita.edit');

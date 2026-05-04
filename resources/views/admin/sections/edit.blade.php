@@ -432,6 +432,69 @@
                             </div>
                         </div>
                     </div>
+                @elseif($section->page === 'info-ppdb' && $section->section_key === 'bantuan')
+                    @php
+                        $bantuanData = is_array($section->extra_data) ? $section->extra_data : json_decode($section->extra_data ?? '{}', true);
+                    @endphp
+                    <div class="space-y-4">
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">KONTAK BANTUAN</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Nomor Telepon/WA</label>
+                                <input type="text" name="bantuan_data[phone]" value="{{ old('bantuan_data.phone', $bantuanData['phone'] ?? '+62 812-3456-7890') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="Contoh: +62 812-3456-7890">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Email</label>
+                                <input type="email" name="bantuan_data[email]" value="{{ old('bantuan_data.email', $bantuanData['email'] ?? 'ppdb@smkn1maesan.sch.id') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="Contoh: ppdb@smkn1maesan.sch.id">
+                            </div>
+                        </div>
+                    </div>
+                @elseif($section->page === 'info-ppdb' && $section->section_key === 'cta')
+                    @php
+                        $ctaData = is_array($section->extra_data) ? $section->extra_data : json_decode($section->extra_data ?? '{}', true);
+                    @endphp
+                    <div class="space-y-4">
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">INFO TOMBOL & TEKS CTA</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Teks Tombol Primary</label>
+                                <input type="text" name="cta_data[button_primary_text]" value="{{ old('cta_data.button_primary_text', $ctaData['button_primary_text'] ?? 'Daftar Online Sekarang') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Link Tombol Primary</label>
+                                <input type="text" name="cta_data[button_primary_link]" value="{{ old('cta_data.button_primary_link', $ctaData['button_primary_link'] ?? '#') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Teks Tombol Secondary</label>
+                                <input type="text" name="cta_data[button_secondary_text]" value="{{ old('cta_data.button_secondary_text', $ctaData['button_secondary_text'] ?? 'Unduh Brosur (PDF)') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Link Tombol Secondary</label>
+                                <input type="text" name="cta_data[button_secondary_link]" value="{{ old('cta_data.button_secondary_link', $ctaData['button_secondary_link'] ?? '#') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Teks Informasi Tambahan (Bawah)</label>
+                                <input type="text" name="cta_data[info_text]" value="{{ old('cta_data.info_text', $ctaData['info_text'] ?? 'Pendaftaran gelombang pertama tersisa 5 hari lagi.') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition">
+                            </div>
+                        </div>
+                    </div>
+                @elseif($section->page === 'info-ppdb' && $section->section_key === 'hero')
+                    @php
+                        $heroData = is_array($section->extra_data) ? $section->extra_data : json_decode($section->extra_data ?? '{}', true);
+                    @endphp
+                    <div class="space-y-4">
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">PENGATURAN LABEL HERO</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="md:col-span-2">
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Teks Badge / Label Tombol</label>
+                                <input type="text" name="hero_data[button_text]" value="{{ old('hero_data.button_text', $heroData['button_text'] ?? 'PENERIMAAN PESERTA DIDIK BARU 2024/2025') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition">
+                            </div>
+                        </div>
+                    </div>
+                @elseif($section->page === 'info-ppdb' && in_array($section->section_key, ['persyaratan', 'jadwal', 'langkah']))
+                    <div class="p-4 bg-teal-50 border border-teal-100 rounded-xl mt-4">
+                        <p class="text-sm text-teal-700 font-medium">Gunakan form khusus di bagian bawah halaman ini untuk mengelola data item satu per satu.</p>
+                    </div>
                 @else
                     <div>
                         <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">KONTEN UTAMA</label>
@@ -564,5 +627,267 @@
             </a>
         </div>
     </form>
+    
+    @if($section->page === 'info-ppdb')
+        @if($section->section_key === 'persyaratan')
+            @php $ppdbRequirements = \App\Models\PpdbRequirement::all(); @endphp
+            <!-- CRUD Tabel Persyaratan PPDB -->
+            <div class="mt-8 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="p-6 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-900">Kelola Item Persyaratan</h2>
+                    </div>
+                    <button type="button" onclick="document.getElementById('modal-add-req').classList.remove('hidden')" class="bg-[#017A85] hover:bg-[#01656e] text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-sm transition">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Tambah
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-gray-600">
+                        <thead class="bg-gray-50/50 text-gray-500 uppercase text-[10px] font-bold tracking-wider border-b border-gray-100">
+                            <tr>
+                                <th class="px-6 py-4">Deskripsi Persyaratan</th>
+                                <th class="px-6 py-4 text-right">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            @forelse($ppdbRequirements as $item)
+                            <tr class="hover:bg-gray-50/50 transition">
+                                <td class="px-6 py-4">{{ $item->description }}</td>
+                                <td class="px-6 py-4 text-right">
+                                    <div class="flex items-center justify-end gap-2">
+                                        <button type="button" onclick="editReq({{ $item->id }}, '{{ addslashes($item->description) }}')" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition" title="Edit">
+                                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                        </button>
+                                        <form action="{{ route('admin.ppdb.requirement.destroy', $item) }}" method="POST" class="inline-block" onsubmit="return confirm('Hapus?')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition" title="Hapus"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr><td colspan="2" class="px-6 py-8 text-center text-gray-500 text-sm">Belum ada data.</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal Add/Edit Req -->
+            <div id="modal-add-req" class="fixed inset-0 z-50 hidden bg-gray-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+                <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg">
+                    <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+                        <h3 class="text-lg font-bold text-gray-900">Tambah Persyaratan</h3>
+                        <button type="button" onclick="document.getElementById('modal-add-req').classList.add('hidden')" class="text-gray-400 hover:text-gray-600 transition"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                    </div>
+                    <form action="{{ route('admin.ppdb.requirement.store') }}" method="POST" class="p-6 space-y-4">
+                        @csrf
+                        <div><label class="block text-sm font-semibold text-gray-700 mb-1">Deskripsi</label><input type="text" name="description" required class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#017A85] text-sm"></div>
+                        <div class="pt-4 flex justify-end gap-3"><button type="button" onclick="document.getElementById('modal-add-req').classList.add('hidden')" class="px-5 py-2.5 text-sm font-bold text-gray-600 bg-gray-100 rounded-xl">Batal</button><button type="submit" class="px-5 py-2.5 text-sm font-bold text-white bg-[#017A85] rounded-xl">Simpan</button></div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="modal-edit-req" class="fixed inset-0 z-50 hidden bg-gray-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+                <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg">
+                    <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+                        <h3 class="text-lg font-bold text-gray-900">Edit Persyaratan</h3>
+                        <button type="button" onclick="document.getElementById('modal-edit-req').classList.add('hidden')" class="text-gray-400 hover:text-gray-600 transition"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                    </div>
+                    <form id="form-edit-req" method="POST" class="p-6 space-y-4">
+                        @csrf @method('PUT')
+                        <div><label class="block text-sm font-semibold text-gray-700 mb-1">Deskripsi</label><input type="text" name="description" id="edit-req-desc" required class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#017A85] text-sm"></div>
+                        <div class="pt-4 flex justify-end gap-3"><button type="button" onclick="document.getElementById('modal-edit-req').classList.add('hidden')" class="px-5 py-2.5 text-sm font-bold text-gray-600 bg-gray-100 rounded-xl">Batal</button><button type="submit" class="px-5 py-2.5 text-sm font-bold text-white bg-[#017A85] rounded-xl">Simpan</button></div>
+                    </form>
+                </div>
+            </div>
+            
+            <script>
+                function editReq(id, desc) {
+                    document.getElementById('form-edit-req').action = '/admin/ppdb/requirement/' + id;
+                    document.getElementById('edit-req-desc').value = desc;
+                    document.getElementById('modal-edit-req').classList.remove('hidden');
+                }
+            </script>
+            
+        @elseif($section->section_key === 'jadwal')
+            @php $ppdbTimelines = \App\Models\PpdbTimeline::all(); @endphp
+            <!-- CRUD Tabel Timeline -->
+            <div class="mt-8 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="p-6 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-900">Kelola Item Jadwal</h2>
+                    </div>
+                    <button type="button" onclick="document.getElementById('modal-add-tl').classList.remove('hidden')" class="bg-[#017A85] hover:bg-[#01656e] text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-sm transition">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Tambah
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-gray-600">
+                        <thead class="bg-gray-50/50 text-gray-500 uppercase text-[10px] font-bold tracking-wider border-b border-gray-100">
+                            <tr>
+                                <th class="px-6 py-4">Tanggal / Label</th>
+                                <th class="px-6 py-4">Judul</th>
+                                <th class="px-6 py-4">Deskripsi</th>
+                                <th class="px-6 py-4 text-right">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            @forelse($ppdbTimelines as $item)
+                            <tr class="hover:bg-gray-50/50 transition">
+                                <td class="px-6 py-4 font-bold">{{ $item->date_label }}</td>
+                                <td class="px-6 py-4 font-bold">{{ $item->title }}</td>
+                                <td class="px-6 py-4">{{ $item->description }}</td>
+                                <td class="px-6 py-4 text-right">
+                                    <div class="flex items-center justify-end gap-2">
+                                        <button type="button" onclick="editTl({{ $item->id }}, '{{ addslashes($item->date_label) }}', '{{ addslashes($item->title) }}', '{{ addslashes($item->description) }}')" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition" title="Edit">
+                                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                        </button>
+                                        <form action="{{ route('admin.ppdb.timeline.destroy', $item) }}" method="POST" class="inline-block" onsubmit="return confirm('Hapus?')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition" title="Hapus"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr><td colspan="4" class="px-6 py-8 text-center text-gray-500 text-sm">Belum ada data.</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="modal-add-tl" class="fixed inset-0 z-50 hidden bg-gray-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+                <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg">
+                    <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+                        <h3 class="text-lg font-bold text-gray-900">Tambah Jadwal</h3>
+                        <button type="button" onclick="document.getElementById('modal-add-tl').classList.add('hidden')" class="text-gray-400 hover:text-gray-600 transition"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                    </div>
+                    <form action="{{ route('admin.ppdb.timeline.store') }}" method="POST" class="p-6 space-y-4">
+                        @csrf
+                        <div><label class="block text-sm font-semibold text-gray-700 mb-1">Tanggal (Label)</label><input type="text" name="date_label" required class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#017A85] text-sm"></div>
+                        <div><label class="block text-sm font-semibold text-gray-700 mb-1">Judul</label><input type="text" name="title" required class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#017A85] text-sm"></div>
+                        <div><label class="block text-sm font-semibold text-gray-700 mb-1">Deskripsi</label><textarea name="description" required class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#017A85] text-sm" rows="3"></textarea></div>
+                        <div class="pt-4 flex justify-end gap-3"><button type="button" onclick="document.getElementById('modal-add-tl').classList.add('hidden')" class="px-5 py-2.5 text-sm font-bold text-gray-600 bg-gray-100 rounded-xl">Batal</button><button type="submit" class="px-5 py-2.5 text-sm font-bold text-white bg-[#017A85] rounded-xl">Simpan</button></div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="modal-edit-tl" class="fixed inset-0 z-50 hidden bg-gray-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+                <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg">
+                    <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+                        <h3 class="text-lg font-bold text-gray-900">Edit Jadwal</h3>
+                        <button type="button" onclick="document.getElementById('modal-edit-tl').classList.add('hidden')" class="text-gray-400 hover:text-gray-600 transition"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                    </div>
+                    <form id="form-edit-tl" method="POST" class="p-6 space-y-4">
+                        @csrf @method('PUT')
+                        <div><label class="block text-sm font-semibold text-gray-700 mb-1">Tanggal (Label)</label><input type="text" name="date_label" id="edit-tl-date" required class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#017A85] text-sm"></div>
+                        <div><label class="block text-sm font-semibold text-gray-700 mb-1">Judul</label><input type="text" name="title" id="edit-tl-title" required class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#017A85] text-sm"></div>
+                        <div><label class="block text-sm font-semibold text-gray-700 mb-1">Deskripsi</label><textarea name="description" id="edit-tl-desc" required class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#017A85] text-sm" rows="3"></textarea></div>
+                        <div class="pt-4 flex justify-end gap-3"><button type="button" onclick="document.getElementById('modal-edit-tl').classList.add('hidden')" class="px-5 py-2.5 text-sm font-bold text-gray-600 bg-gray-100 rounded-xl">Batal</button><button type="submit" class="px-5 py-2.5 text-sm font-bold text-white bg-[#017A85] rounded-xl">Simpan</button></div>
+                    </form>
+                </div>
+            </div>
+            
+            <script>
+                function editTl(id, date, title, desc) {
+                    document.getElementById('form-edit-tl').action = '/admin/ppdb/timeline/' + id;
+                    document.getElementById('edit-tl-date').value = date;
+                    document.getElementById('edit-tl-title').value = title;
+                    document.getElementById('edit-tl-desc').value = desc;
+                    document.getElementById('modal-edit-tl').classList.remove('hidden');
+                }
+            </script>
+            
+        @elseif($section->section_key === 'langkah')
+            @php $ppdbSteps = \App\Models\PpdbStep::all(); @endphp
+            <!-- CRUD Tabel Langkah Pendaftaran -->
+            <div class="mt-8 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="p-6 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-900">Kelola Item Langkah Pendaftaran</h2>
+                    </div>
+                    <button type="button" onclick="document.getElementById('modal-add-st').classList.remove('hidden')" class="bg-[#017A85] hover:bg-[#01656e] text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-sm transition">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Tambah
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-gray-600">
+                        <thead class="bg-gray-50/50 text-gray-500 uppercase text-[10px] font-bold tracking-wider border-b border-gray-100">
+                            <tr>
+                                <th class="px-6 py-4">Judul Langkah</th>
+                                <th class="px-6 py-4">Deskripsi</th>
+                                <th class="px-6 py-4 text-right">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            @forelse($ppdbSteps as $item)
+                            <tr class="hover:bg-gray-50/50 transition">
+                                <td class="px-6 py-4 font-bold">{{ $item->title }}</td>
+                                <td class="px-6 py-4">{{ $item->description }}</td>
+                                <td class="px-6 py-4 text-right">
+                                    <div class="flex items-center justify-end gap-2">
+                                        <button type="button" onclick="editSt({{ $item->id }}, '{{ addslashes($item->title) }}', '{{ addslashes($item->description) }}', '{{ base64_encode($item->icon) }}')" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition" title="Edit">
+                                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                        </button>
+                                        <form action="{{ route('admin.ppdb.step.destroy', $item) }}" method="POST" class="inline-block" onsubmit="return confirm('Hapus?')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition" title="Hapus"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr><td colspan="3" class="px-6 py-8 text-center text-gray-500 text-sm">Belum ada data.</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="modal-add-st" class="fixed inset-0 z-50 hidden bg-gray-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+                <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg">
+                    <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+                        <h3 class="text-lg font-bold text-gray-900">Tambah Langkah</h3>
+                        <button type="button" onclick="document.getElementById('modal-add-st').classList.add('hidden')" class="text-gray-400 hover:text-gray-600 transition"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                    </div>
+                    <form action="{{ route('admin.ppdb.step.store') }}" method="POST" class="p-6 space-y-4">
+                        @csrf
+                        <div><label class="block text-sm font-semibold text-gray-700 mb-1">Judul (misal: 01. Akses Portal)</label><input type="text" name="title" required class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#017A85] text-sm"></div>
+                        <div><label class="block text-sm font-semibold text-gray-700 mb-1">Deskripsi</label><textarea name="description" required class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#017A85] text-sm" rows="3"></textarea></div>
+                        <div><label class="block text-sm font-semibold text-gray-700 mb-1">Ikon (SVG HTML)</label><textarea name="icon" class="w-full font-mono px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#017A85] text-sm" rows="3"></textarea></div>
+                        <div class="pt-4 flex justify-end gap-3"><button type="button" onclick="document.getElementById('modal-add-st').classList.add('hidden')" class="px-5 py-2.5 text-sm font-bold text-gray-600 bg-gray-100 rounded-xl">Batal</button><button type="submit" class="px-5 py-2.5 text-sm font-bold text-white bg-[#017A85] rounded-xl">Simpan</button></div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="modal-edit-st" class="fixed inset-0 z-50 hidden bg-gray-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+                <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg">
+                    <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+                        <h3 class="text-lg font-bold text-gray-900">Edit Langkah</h3>
+                        <button type="button" onclick="document.getElementById('modal-edit-st').classList.add('hidden')" class="text-gray-400 hover:text-gray-600 transition"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                    </div>
+                    <form id="form-edit-st" method="POST" class="p-6 space-y-4">
+                        @csrf @method('PUT')
+                        <div><label class="block text-sm font-semibold text-gray-700 mb-1">Judul</label><input type="text" name="title" id="edit-st-title" required class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#017A85] text-sm"></div>
+                        <div><label class="block text-sm font-semibold text-gray-700 mb-1">Deskripsi</label><textarea name="description" id="edit-st-desc" required class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#017A85] text-sm" rows="3"></textarea></div>
+                        <div><label class="block text-sm font-semibold text-gray-700 mb-1">Ikon (SVG HTML)</label><textarea name="icon" id="edit-st-icon" class="w-full font-mono px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#017A85] text-sm" rows="3"></textarea></div>
+                        <div class="pt-4 flex justify-end gap-3"><button type="button" onclick="document.getElementById('modal-edit-st').classList.add('hidden')" class="px-5 py-2.5 text-sm font-bold text-gray-600 bg-gray-100 rounded-xl">Batal</button><button type="submit" class="px-5 py-2.5 text-sm font-bold text-white bg-[#017A85] rounded-xl">Simpan</button></div>
+                    </form>
+                </div>
+            </div>
+            
+            <script>
+                function editSt(id, title, desc, iconBase64) {
+                    document.getElementById('form-edit-st').action = '/admin/ppdb/step/' + id;
+                    document.getElementById('edit-st-title').value = title;
+                    document.getElementById('edit-st-desc').value = desc;
+                    document.getElementById('edit-st-icon').value = atob(iconBase64);
+                    document.getElementById('modal-edit-st').classList.remove('hidden');
+                }
+            </script>
+        @endif
+    @endif
 </div>
 @endsection

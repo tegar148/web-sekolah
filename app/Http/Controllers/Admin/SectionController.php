@@ -22,8 +22,11 @@ class SectionController extends Controller
         $visi_misi_items = $page === 'visi-misi' ? \App\Models\VisiMisiItem::all() : collect();
         $minat_bakats = $page === 'siswa-organisasi' ? \App\Models\MinatBakat::all() : collect();
         $ekstrakurikulers = $page === 'siswa-ekstrakurikuler' ? \App\Models\Ekstrakurikuler::all() : collect();
+        $ppdbRequirements = $page === 'info-ppdb' ? \App\Models\PpdbRequirement::all() : collect();
+        $ppdbTimelines = $page === 'info-ppdb' ? \App\Models\PpdbTimeline::orderBy('id')->get() : collect();
+        $ppdbSteps = $page === 'info-ppdb' ? \App\Models\PpdbStep::orderBy('id')->get() : collect();
 
-        return view('admin.sections.index', compact('sections', 'page', 'pages', 'sejarah_items', 'visi_misi_items', 'minat_bakats', 'ekstrakurikulers'));
+        return view('admin.sections.index', compact('sections', 'page', 'pages', 'sejarah_items', 'visi_misi_items', 'minat_bakats', 'ekstrakurikulers', 'ppdbRequirements', 'ppdbTimelines', 'ppdbSteps'));
     }
 
     public function edit(SiteSection $section)
@@ -99,6 +102,18 @@ class SectionController extends Controller
 
         if ($section->section_key === 'pmr' && $request->has('pmr_data')) {
             $validated['extra_data'] = $request->input('pmr_data');
+        }
+
+        if ($section->section_key === 'bantuan' && $request->has('bantuan_data')) {
+            $validated['extra_data'] = $request->input('bantuan_data');
+        }
+
+        if ($section->section_key === 'cta' && $request->has('cta_data')) {
+            $validated['extra_data'] = $request->input('cta_data');
+        }
+
+        if ($section->section_key === 'hero' && $request->has('hero_data')) {
+            $validated['extra_data'] = $request->input('hero_data');
         }
 
         if ($request->has('remove_image') && $section->image) {
@@ -408,6 +423,19 @@ class SectionController extends Controller
             $show['subtitle'] = true;
             $show['content'] = true;
             $contentHint = 'Isi detail informasi PMR.';
+        }
+
+        if ($section->section_key === 'bantuan') {
+            $show['subtitle'] = true;
+            $show['content'] = true;
+            $contentHint = 'Detail Card Bantuan.';
+        }
+
+        if ($section->section_key === 'cta') {
+            $show['subtitle'] = true;
+            $show['image'] = true;
+            $show['content'] = true;
+            $contentHint = 'Detail CTA Bottom.';
         }
 
         return [

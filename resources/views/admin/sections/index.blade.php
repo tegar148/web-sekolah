@@ -764,6 +764,5 @@
         document.getElementById('edit-icon-ek').value = atob(iconBase64);
         document.getElementById('modal-edit-ekstrakurikuler').classList.remove('hidden');
     }
-</script>
-@endif
+</script>@endif
 @endsection
