@@ -210,6 +210,39 @@ class SectionController extends Controller
         if ($section->section_key === 'cta') {
             $show['button_text'] = true;
             $show['button_link'] = true;
+            if ($section->page === 'bkk-profile') {
+                $show['subtitle'] = true;
+                $show['image'] = true;
+                $show['content'] = true;
+                $contentHint = 'Isi berupa JSON object untuk tombol kedua (opsional).';
+                $contentSchema = [
+                    ['kolom' => 'button_2_text', 'tipe' => 'string', 'keterangan' => 'Teks tombol kedua'],
+                    ['kolom' => 'button_2_link', 'tipe' => 'string', 'keterangan' => 'Link tombol kedua'],
+                ];
+            }
+        }
+
+        if ($section->section_key === 'tentang_bkk') {
+            $show['image'] = true;
+            $show['content'] = true;
+            $contentHint = 'Isi berupa JSON object tentang BKK.';
+            $contentSchema = [
+                ['kolom' => 'text_1', 'tipe' => 'string', 'keterangan' => 'Paragraf pertama'],
+                ['kolom' => 'text_2', 'tipe' => 'string', 'keterangan' => 'Paragraf kedua'],
+                ['kolom' => 'stats', 'tipe' => 'array', 'keterangan' => 'Array object statistik [{value, label}]'],
+            ];
+        }
+
+        if ($section->section_key === 'layanan') {
+            $show['subtitle'] = true;
+            $show['content'] = true;
+            $contentHint = 'Isi berupa JSON array object layanan unggulan.';
+            $contentSchema = [
+                ['kolom' => 'title', 'tipe' => 'string', 'keterangan' => 'Judul Layanan'],
+                ['kolom' => 'desc', 'tipe' => 'string', 'keterangan' => 'Deskripsi Layanan'],
+                ['kolom' => 'tag', 'tipe' => 'string', 'keterangan' => 'Badge Opsional'],
+                ['kolom' => 'style', 'tipe' => 'string', 'keterangan' => 'Pilih: wide_white, dark_teal, light_blue, wide_white_2'],
+            ];
         }
 
         if ($section->section_key === 'langkah') {
