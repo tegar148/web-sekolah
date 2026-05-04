@@ -1,7 +1,4 @@
-FROM php:8.2-apache
-
-# Mengaktifkan mod_rewrite Apache untuk routing Laravel
-RUN a2enmod rewrite
+FROM php:8.2-fpm
 
 # Menginstal dependensi sistem yang dibutuhkan
 RUN apt-get update && apt-get install -y \
@@ -12,19 +9,32 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     git \
-    curl
+    curl \
+    nodejs \
+    npm
 
 # Mengonfigurasi dan menginstal ekstensi PHP (GD untuk kompresi gambar & WebP, PDO untuk koneksi MySQL)
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install pdo_mysql gd
 
-# Mengarahkan DocumentRoot Apache langsung ke folder /public milik Laravel
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+# Meningkatkan batas upload PHP (default 8MB -> 64MB)
+RUN echo "upload_max_filesize = 64M" > /usr/local/etc/php/conf.d/uploads.ini \
+    && echo "post_max_size = 64M" >> /usr/local/etc/php/conf.d/uploads.ini \
+    && echo "memory_limit = 256M" >> /usr/local/etc/php/conf.d/uploads.ini
 
 # Menginstal Composer dari official image
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Menentukan folder kerja
 WORKDIR /var/www/html
+
+# Salin seluruh aplikasi dan entrypoint bootstrap
+COPY . /var/www/html
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh \
+    && composer install --no-interaction --prefer-dist --optimize-autoloader || true \
+    && npm install || true
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["php-fpm"]
