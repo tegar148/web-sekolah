@@ -335,6 +335,61 @@
                             }
                         </script>
                     </div>
+                @elseif($section->section_key === 'osis')
+                    @php
+                        $osisData = $section->extra_data ?? [];
+                    @endphp
+                    <div class="space-y-4">
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">DETAIL PROFIL KETUA & BADGE (OSIS)</label>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Nama Ketua</label>
+                                <input type="text" name="osis_data[avatar_name]" value="{{ old('osis_data.avatar_name', $osisData['avatar_name'] ?? '') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="Contoh: Aditya Pratama">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Peran / Jabatan</label>
+                                <input type="text" name="osis_data[avatar_role]" value="{{ old('osis_data.avatar_role', $osisData['avatar_role'] ?? 'KETUA UMUM') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="Contoh: KETUA UMUM">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Foto Profil Ketua</label>
+                                @if(!empty($osisData['avatar']) && Storage::disk('public')->exists($osisData['avatar']))
+                                    <div class="mb-3 relative inline-block group">
+                                        <img src="{{ Storage::url($osisData['avatar']) }}" alt="Avatar" class="h-16 w-16 rounded-full border border-gray-200 object-cover">
+                                        <div class="absolute inset-0 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                            <label class="cursor-pointer text-white text-[8px] font-bold hover:text-red-400 transition">
+                                                <input type="checkbox" name="osis_data[remove_avatar]" value="1" class="hidden">
+                                                Hapus
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="osis_data[avatar]" value="{{ $osisData['avatar'] }}">
+                                @elseif(!empty($osisData['avatar']))
+                                    <!-- Fallback for old URL -->
+                                    <div class="mb-3 flex items-center gap-3">
+                                        <img src="{{ $osisData['avatar'] }}" alt="Avatar" class="h-16 w-16 rounded-full border border-gray-200 object-cover">
+                                        <input type="hidden" name="osis_data[avatar]" value="{{ $osisData['avatar'] }}">
+                                        <label class="cursor-pointer text-red-500 text-[10px] font-bold hover:text-red-700 transition">
+                                            <input type="checkbox" name="osis_data[remove_avatar]" value="1" class="hidden">
+                                            Hapus URL Lama
+                                        </label>
+                                    </div>
+                                @endif
+                                <input type="file" name="osis_avatar" accept="image/*" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-3 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-[#017A85] file:text-white hover:file:bg-[#01656e] transition">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Teks Badge (Overlay Gambar)</label>
+                                <input type="text" name="osis_data[badge_text]" value="{{ old('osis_data.badge_text', $osisData['badge_text'] ?? 'LIVE SESSION') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="Contoh: LIVE SESSION">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Judul Info Badge</label>
+                                <input type="text" name="osis_data[badge_title]" value="{{ old('osis_data.badge_title', $osisData['badge_title'] ?? '') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="Contoh: Rapat Kerja Program...">
+                            </div>
+                        </div>
+                    </div>
                 @else
                     <div>
                         <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">KONTEN UTAMA</label>

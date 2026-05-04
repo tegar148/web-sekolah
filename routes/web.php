@@ -179,4 +179,13 @@ Route::prefix('admin')->middleware(\App\Http\Middleware\AdminAuth::class)->group
     Route::post('/visi-misi-items', [\App\Http\Controllers\Admin\VisiMisiItemController::class, 'store'])->name('admin.visi-misi-items.store');
     Route::put('/visi-misi-items/{visi_misi_item}', [\App\Http\Controllers\Admin\VisiMisiItemController::class, 'update'])->name('admin.visi-misi-items.update');
     Route::delete('/visi-misi-items/{visi_misi_item}', [\App\Http\Controllers\Admin\VisiMisiItemController::class, 'destroy'])->name('admin.visi-misi-items.destroy');
+
+    Route::resource('minat-bakat', \App\Http\Controllers\Admin\MinatBakatController::class)->except(['show'])->names([
+        'index'   => 'admin.minat-bakat.index',
+        'create'  => 'admin.minat-bakat.create',
+        'store'   => 'admin.minat-bakat.store',
+        'edit'    => 'admin.minat-bakat.edit',
+        'update'  => 'admin.minat-bakat.update',
+        'destroy' => 'admin.minat-bakat.destroy',
+    ]);
 });

@@ -20,8 +20,9 @@ class SectionController extends Controller
 
         $sejarah_items = $page === 'sejarah' ? \App\Models\SejarahItem::orderBy('tahun', 'asc')->get() : collect();
         $visi_misi_items = $page === 'visi-misi' ? \App\Models\VisiMisiItem::all() : collect();
+        $minat_bakats = $page === 'siswa-organisasi' ? \App\Models\MinatBakat::all() : collect();
 
-        return view('admin.sections.index', compact('sections', 'page', 'pages', 'sejarah_items', 'visi_misi_items'));
+        return view('admin.sections.index', compact('sections', 'page', 'pages', 'sejarah_items', 'visi_misi_items', 'minat_bakats'));
     }
 
     public function edit(SiteSection $section)
@@ -57,6 +58,38 @@ class SectionController extends Controller
 
         if ($section->section_key === 'fasilitas_jurusan' && $request->has('fasilitas_data')) {
             $validated['content'] = json_encode(array_values($request->input('fasilitas_data')));
+        }
+
+        if ($section->section_key === 'osis' && $request->has('osis_data')) {
+            $osisData = $request->input('osis_data');
+            
+            if (isset($osisData['remove_avatar']) && $osisData['remove_avatar'] == '1') {
+                if (isset($osisData['avatar']) && \Illuminate\Support\Facades\Storage::disk('public')->exists($osisData['avatar'])) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete($osisData['avatar']);
+                }
+                $osisData['avatar'] = null;
+                unset($osisData['remove_avatar']);
+            }
+
+            if ($request->hasFile('osis_avatar')) {
+                if (isset($osisData['avatar']) && \Illuminate\Support\Facades\Storage::disk('public')->exists($osisData['avatar'])) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete($osisData['avatar']);
+                }
+
+                $file = $request->file('osis_avatar');
+                $filename = Str::uuid() . '.webp';
+                $path = 'sections/avatars/' . $filename;
+
+                $manager = new ImageManager(new Driver());
+                $image = $manager->read($file->getPathname());
+                $image->cover(400, 400);
+                $encoded = $image->toWebp(75);
+
+                \Illuminate\Support\Facades\Storage::disk('public')->put($path, (string) $encoded);
+                $osisData['avatar'] = $path;
+            }
+
+            $validated['extra_data'] = $osisData;
         }
 
         if ($request->has('remove_image') && $section->image) {
@@ -337,6 +370,22 @@ class SectionController extends Controller
             $show['subtitle'] = true;
             $show['content'] = true;
             $contentHint = 'Fasilitas bisa ditambah/dihapus (CRUD). Silakan kelola daftar fasilitas di bawah.';
+        }
+
+        if ($section->section_key === 'osis') {
+            $show['subtitle'] = true;
+            $show['image'] = true;
+            $show['content'] = true;
+            $contentHint = 'Isi detail informasi OSIS.';
+        }
+
+        if ($section->section_key === 'minat_bakat_header') {
+            $show['subtitle'] = true;
+            $show['content'] = true;
+            $contentHint = 'Isi berupa JSON object untuk tag.';
+            $contentSchema = [
+                ['kolom' => 'tag', 'tipe' => 'string', 'keterangan' => 'Tag (e.g., EXTRACURRICULAR)'],
+            ];
         }
 
         return [

@@ -419,4 +419,161 @@
     }
 </script>
 @endif
+@if($page === 'siswa-organisasi')
+<div class="mt-12 space-y-12">
+    <div>
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h2 class="text-xl font-bold text-gray-900">Konten Kelompok Minat & Bakat</h2>
+                <p class="text-sm text-gray-500 mt-1">Kelola daftar kelompok minat dan bakat.</p>
+            </div>
+            <button type="button" onclick="document.getElementById('modal-tambah-minat-bakat').classList.remove('hidden');" class="bg-[#017A85] hover:bg-[#01656e] text-white px-5 py-2.5 rounded-xl font-bold text-sm transition shadow-sm flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                Tambah Minat Bakat
+            </button>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-50/50 border-b border-gray-100">
+                        <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Ikon</th>
+                        <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Kategori & Judul</th>
+                        <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider w-1/3">Deskripsi</th>
+                        <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    @forelse($minat_bakats as $item)
+                    <tr class="hover:bg-gray-50/50 transition">
+                        <td class="px-6 py-4">
+                            <div class="w-10 h-10 rounded-xl bg-blue-50 text-teal-600 flex items-center justify-center">
+                                {!! $item->icon !!}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            @if($item->category)
+                            <span class="bg-[#DCECF5] text-[#0284C7] text-[8px] font-bold px-2 py-0.5 uppercase tracking-widest rounded-full">{{ $item->category }}</span>
+                            @endif
+                            <div class="text-sm font-semibold text-gray-800 mt-1">{{ $item->title }}</div>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-500">{{ Str::limit($item->description, 80) }}</td>
+                        <td class="px-6 py-4 text-right space-x-2">
+                            <button type="button" onclick="editMinatBakat({{ $item->id }}, '{{ addslashes($item->category) }}', '{{ addslashes($item->title) }}', '{{ addslashes($item->description) }}', '{{ addslashes($item->detail_link) }}', '{{ base64_encode($item->icon) }}')" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-blue-600 hover:bg-blue-50 transition">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                            </button>
+                            <form action="{{ route('admin.minat-bakat.destroy', $item->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus item ini?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-red-600 hover:bg-red-50 transition">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="4" class="px-6 py-12 text-center">
+                            <p class="text-gray-500 text-sm">Belum ada kelompok minat & bakat.</p>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tambah Minat Bakat -->
+<div id="modal-tambah-minat-bakat" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden border border-gray-100">
+        <div class="flex items-center justify-between p-6 border-b border-gray-100">
+            <h3 class="text-lg font-bold text-gray-900">Tambah Minat Bakat</h3>
+            <button type="button" onclick="document.getElementById('modal-tambah-minat-bakat').classList.add('hidden')" class="text-gray-400 hover:text-gray-600">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <form action="{{ route('admin.minat-bakat.store') }}" method="POST" class="p-6 space-y-4">
+            @csrf
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Kategori (Label)</label>
+                <input type="text" name="category" placeholder="e.g. STEM" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm">
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Judul</label>
+                <input type="text" name="title" required placeholder="e.g. Robotics & IoT Club" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm">
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Deskripsi</label>
+                <textarea name="description" rows="3" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm"></textarea>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Ikon (SVG HTML)</label>
+                <textarea name="icon" rows="2" class="w-full font-mono px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm" placeholder="<svg>...</svg>"></textarea>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Link Detail (Opsional)</label>
+                <input type="text" name="detail_link" placeholder="#" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm">
+            </div>
+            <div class="pt-4 flex justify-end gap-3">
+                <button type="button" onclick="document.getElementById('modal-tambah-minat-bakat').classList.add('hidden')" class="px-5 py-2.5 text-sm font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-xl transition">Batal</button>
+                <button type="submit" class="px-5 py-2.5 text-sm font-bold text-white bg-[#017A85] hover:bg-[#01656e] rounded-xl transition shadow-sm">Simpan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Edit Minat Bakat -->
+<div id="modal-edit-minat-bakat" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden border border-gray-100">
+        <div class="flex items-center justify-between p-6 border-b border-gray-100">
+            <h3 class="text-lg font-bold text-gray-900">Edit Minat Bakat</h3>
+            <button type="button" onclick="document.getElementById('modal-edit-minat-bakat').classList.add('hidden')" class="text-gray-400 hover:text-gray-600">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <form id="form-edit-minat-bakat" method="POST" class="p-6 space-y-4">
+            @csrf
+            @method('PUT')
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Kategori (Label)</label>
+                <input type="text" name="category" id="edit-category-mb" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm">
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Judul</label>
+                <input type="text" name="title" id="edit-title-mb" required class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm">
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Deskripsi</label>
+                <textarea name="description" id="edit-desc-mb" rows="3" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm"></textarea>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Ikon (SVG HTML)</label>
+                <textarea name="icon" id="edit-icon-mb" rows="2" class="w-full font-mono px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm"></textarea>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Link Detail (Opsional)</label>
+                <input type="text" name="detail_link" id="edit-link-mb" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm">
+            </div>
+            <div class="pt-4 flex justify-end gap-3">
+                <button type="button" onclick="document.getElementById('modal-edit-minat-bakat').classList.add('hidden')" class="px-5 py-2.5 text-sm font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-xl transition">Batal</button>
+                <button type="submit" class="px-5 py-2.5 text-sm font-bold text-white bg-[#017A85] hover:bg-[#01656e] rounded-xl transition shadow-sm">Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function editMinatBakat(id, category, title, description, link, iconBase64) {
+        document.getElementById('form-edit-minat-bakat').action = `/admin/minat-bakat/${id}`;
+        document.getElementById('edit-category-mb').value = category;
+        document.getElementById('edit-title-mb').value = title;
+        document.getElementById('edit-desc-mb').value = description;
+        document.getElementById('edit-link-mb').value = link;
+        document.getElementById('edit-icon-mb').value = atob(iconBase64);
+        document.getElementById('modal-edit-minat-bakat').classList.remove('hidden');
+    }
+</script>
+@endif
+
 @endsection
