@@ -21,8 +21,9 @@ class SectionController extends Controller
         $sejarah_items = $page === 'sejarah' ? \App\Models\SejarahItem::orderBy('tahun', 'asc')->get() : collect();
         $visi_misi_items = $page === 'visi-misi' ? \App\Models\VisiMisiItem::all() : collect();
         $minat_bakats = $page === 'siswa-organisasi' ? \App\Models\MinatBakat::all() : collect();
+        $ekstrakurikulers = $page === 'siswa-ekstrakurikuler' ? \App\Models\Ekstrakurikuler::all() : collect();
 
-        return view('admin.sections.index', compact('sections', 'page', 'pages', 'sejarah_items', 'visi_misi_items', 'minat_bakats'));
+        return view('admin.sections.index', compact('sections', 'page', 'pages', 'sejarah_items', 'visi_misi_items', 'minat_bakats', 'ekstrakurikulers'));
     }
 
     public function edit(SiteSection $section)
@@ -90,6 +91,14 @@ class SectionController extends Controller
             }
 
             $validated['extra_data'] = $osisData;
+        }
+
+        if ($section->section_key === 'pramuka' && $request->has('pramuka_data')) {
+            $validated['extra_data'] = $request->input('pramuka_data');
+        }
+
+        if ($section->section_key === 'pmr' && $request->has('pmr_data')) {
+            $validated['extra_data'] = $request->input('pmr_data');
         }
 
         if ($request->has('remove_image') && $section->image) {
@@ -386,6 +395,19 @@ class SectionController extends Controller
             $contentSchema = [
                 ['kolom' => 'tag', 'tipe' => 'string', 'keterangan' => 'Tag (e.g., EXTRACURRICULAR)'],
             ];
+        }
+
+        if ($section->section_key === 'pramuka') {
+            $show['subtitle'] = true;
+            $show['image'] = true;
+            $show['content'] = true;
+            $contentHint = 'Isi detail informasi Pramuka.';
+        }
+
+        if ($section->section_key === 'pmr') {
+            $show['subtitle'] = true;
+            $show['content'] = true;
+            $contentHint = 'Isi detail informasi PMR.';
         }
 
         return [

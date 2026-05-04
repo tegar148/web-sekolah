@@ -139,6 +139,22 @@ Route::prefix('admin')->middleware(\App\Http\Middleware\AdminAuth::class)->group
     Route::put('/media/{media}', [MediaController::class, 'update'])->name('admin.media.update');
     Route::delete('/media/{media}', [MediaController::class, 'destroy'])->name('admin.media.destroy');
 
+    Route::resource('admin/visi-misi', \App\Http\Controllers\Admin\VisiMisiController::class, [
+        'as' => 'admin'
+    ])->except(['show', 'create', 'edit']);
+
+    Route::resource('admin/fasilitas', \App\Http\Controllers\Admin\FasilitasController::class, [
+        'as' => 'admin'
+    ])->except(['show', 'create', 'edit']);
+
+    Route::resource('admin/minat-bakat', \App\Http\Controllers\Admin\MinatBakatController::class, [
+        'as' => 'admin'
+    ])->except(['show', 'create', 'edit']);
+
+    Route::resource('admin/ekstrakurikuler', \App\Http\Controllers\Admin\EkstrakurikulerController::class, [
+        'as' => 'admin'
+    ])->except(['show', 'create', 'edit']);
+
     Route::get('/berita', [\App\Http\Controllers\Admin\BeritaController::class, 'index'])->name('admin.berita.index');
     Route::post('/berita', [\App\Http\Controllers\Admin\BeritaController::class, 'store'])->name('admin.berita.store');
     Route::get('/berita/{berita}/edit', [\App\Http\Controllers\Admin\BeritaController::class, 'edit'])->name('admin.berita.edit');

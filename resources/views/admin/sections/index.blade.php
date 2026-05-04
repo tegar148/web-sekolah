@@ -574,6 +574,196 @@
         document.getElementById('modal-edit-minat-bakat').classList.remove('hidden');
     }
 </script>
-@endif
+@elseif($page === 'siswa-ekstrakurikuler')
+<!-- CRUD Tabel Ekstrakurikuler -->
+<div class="mt-12 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="p-6 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-lg font-bold text-gray-900">Daftar Ekstrakurikuler Lainnya</h2>
+            <p class="text-xs text-gray-500 mt-1">Kelola daftar kartu ekstrakurikuler (selain Pramuka & PMR).</p>
+        </div>
+        <button onclick="document.getElementById('modal-add-ekstrakurikuler').classList.remove('hidden')" class="bg-[#017A85] hover:bg-[#01656e] text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-sm transition">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            Tambah Ekstrakurikuler
+        </button>
+    </div>
 
+    <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-gray-600">
+            <thead class="bg-gray-50/50 text-gray-500 uppercase text-[10px] font-bold tracking-wider border-b border-gray-100">
+                <tr>
+                    <th class="px-6 py-4">Ekstrakurikuler</th>
+                    <th class="px-6 py-4">Deskripsi</th>
+                    <th class="px-6 py-4">Jadwal & Info Tambahan</th>
+                    <th class="px-6 py-4 text-right">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                @forelse($ekstrakurikulers as $item)
+                <tr class="hover:bg-gray-50/50 transition">
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-{{ $item->icon_color }}-50 text-{{ $item->icon_color }}-500 flex items-center justify-center border border-{{ $item->icon_color }}-100 shrink-0">
+                                {!! $item->icon ?? '<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>' !!}
+                            </div>
+                            <div class="font-bold text-gray-900">{{ $item->title }}</div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <p class="text-xs text-gray-500 line-clamp-2 max-w-xs">{{ $item->description }}</p>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="text-xs mb-1"><span class="font-bold text-gray-400 uppercase text-[9px]">{{ $item->schedule_label }}:</span> {{ $item->schedule_value }}</div>
+                        <div class="text-xs"><span class="font-bold text-gray-400 uppercase text-[9px]">{{ $item->info_label }}:</span> {{ $item->info_value }}</div>
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <div class="flex items-center justify-end gap-2">
+                            <button onclick="editEkstrakurikuler({{ $item->id }}, '{{ addslashes($item->title) }}', '{{ addslashes($item->description) }}', '{{ addslashes($item->icon_color) }}', '{{ addslashes($item->schedule_label) }}', '{{ addslashes($item->schedule_value) }}', '{{ addslashes($item->info_label) }}', '{{ addslashes($item->info_value) }}', '{{ base64_encode($item->icon) }}')" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition" title="Edit">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                            </button>
+                            <form action="{{ route('admin.ekstrakurikuler.destroy', $item) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus ekstrakurikuler ini?')">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition" title="Hapus">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="4" class="px-6 py-8 text-center text-gray-500 text-sm">
+                        <div class="flex flex-col items-center justify-center">
+                            <svg class="w-12 h-12 text-gray-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m-14-4V5a2 2 0 012-2h4a2 2 0 012 2v2m-6 0h6"></path></svg>
+                            <p>Belum ada data ekstrakurikuler tambahan.</p>
+                        </div>
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal Add Ekstrakurikuler -->
+<div id="modal-add-ekstrakurikuler" class="fixed inset-0 z-50 hidden bg-gray-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div class="p-6 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white z-10">
+            <h3 class="text-lg font-bold text-gray-900">Tambah Ekstrakurikuler</h3>
+            <button onclick="document.getElementById('modal-add-ekstrakurikuler').classList.add('hidden')" class="text-gray-400 hover:text-gray-600 transition">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <form action="{{ route('admin.ekstrakurikuler.store') }}" method="POST" class="p-6 space-y-5">
+            @csrf
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Ekstrakurikuler</label>
+                    <input type="text" name="title" required class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Warna Ikon (Tailwind, misal: teal, indigo)</label>
+                    <input type="text" name="icon_color" value="teal" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Deskripsi</label>
+                    <textarea name="description" rows="3" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm"></textarea>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Ikon (SVG HTML)</label>
+                    <textarea name="icon" rows="2" class="w-full font-mono px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Label Jadwal (misal: HARI)</label>
+                    <input type="text" name="schedule_label" value="HARI" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Nilai Jadwal (misal: Kamis Sore)</label>
+                    <input type="text" name="schedule_value" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Label Info Tambahan (misal: LOKASI)</label>
+                    <input type="text" name="info_label" value="LOKASI" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Nilai Info Tambahan (misal: Masjid)</label>
+                    <input type="text" name="info_value" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm">
+                </div>
+            </div>
+            <div class="pt-4 flex justify-end gap-3">
+                <button type="button" onclick="document.getElementById('modal-add-ekstrakurikuler').classList.add('hidden')" class="px-5 py-2.5 text-sm font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-xl transition">Batal</button>
+                <button type="submit" class="px-5 py-2.5 text-sm font-bold text-white bg-[#017A85] hover:bg-[#01656e] rounded-xl transition shadow-sm">Simpan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Edit Ekstrakurikuler -->
+<div id="modal-edit-ekstrakurikuler" class="fixed inset-0 z-50 hidden bg-gray-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div class="p-6 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white z-10">
+            <h3 class="text-lg font-bold text-gray-900">Edit Ekstrakurikuler</h3>
+            <button onclick="document.getElementById('modal-edit-ekstrakurikuler').classList.add('hidden')" class="text-gray-400 hover:text-gray-600 transition">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <form id="form-edit-ekstrakurikuler" method="POST" class="p-6 space-y-5">
+            @csrf @method('PUT')
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Ekstrakurikuler</label>
+                    <input type="text" name="title" id="edit-title-ek" required class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Warna Ikon</label>
+                    <input type="text" name="icon_color" id="edit-color-ek" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Deskripsi</label>
+                    <textarea name="description" id="edit-desc-ek" rows="3" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm"></textarea>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Ikon (SVG HTML)</label>
+                    <textarea name="icon" id="edit-icon-ek" rows="2" class="w-full font-mono px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Label Jadwal</label>
+                    <input type="text" name="schedule_label" id="edit-sched-lbl-ek" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Nilai Jadwal</label>
+                    <input type="text" name="schedule_value" id="edit-sched-val-ek" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Label Info Tambahan</label>
+                    <input type="text" name="info_label" id="edit-info-lbl-ek" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Nilai Info Tambahan</label>
+                    <input type="text" name="info_value" id="edit-info-val-ek" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#017A85] focus:border-transparent transition-all text-sm">
+                </div>
+            </div>
+            <div class="pt-4 flex justify-end gap-3">
+                <button type="button" onclick="document.getElementById('modal-edit-ekstrakurikuler').classList.add('hidden')" class="px-5 py-2.5 text-sm font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-xl transition">Batal</button>
+                <button type="submit" class="px-5 py-2.5 text-sm font-bold text-white bg-[#017A85] hover:bg-[#01656e] rounded-xl transition shadow-sm">Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function editEkstrakurikuler(id, title, description, color, sched_lbl, sched_val, info_lbl, info_val, iconBase64) {
+        document.getElementById('form-edit-ekstrakurikuler').action = `/admin/ekstrakurikuler/${id}`;
+        document.getElementById('edit-title-ek').value = title;
+        document.getElementById('edit-desc-ek').value = description;
+        document.getElementById('edit-color-ek').value = color;
+        document.getElementById('edit-sched-lbl-ek').value = sched_lbl;
+        document.getElementById('edit-sched-val-ek').value = sched_val;
+        document.getElementById('edit-info-lbl-ek').value = info_lbl;
+        document.getElementById('edit-info-val-ek').value = info_val;
+        document.getElementById('edit-icon-ek').value = atob(iconBase64);
+        document.getElementById('modal-edit-ekstrakurikuler').classList.remove('hidden');
+    }
+</script>
+@endif
 @endsection

@@ -390,6 +390,48 @@
                             </div>
                         </div>
                     </div>
+                @elseif($section->section_key === 'pramuka')
+                    @php
+                        $pramukaData = is_array($section->extra_data) ? $section->extra_data : json_decode($section->extra_data ?? '{}', true);
+                    @endphp
+                    <div class="space-y-4">
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">INFO DETAIL PRAMUKA</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Teks Badge (Label)</label>
+                                <input type="text" name="pramuka_data[badge]" value="{{ old('pramuka_data.badge', $pramukaData['badge'] ?? 'WAJIB') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="Contoh: WAJIB">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Jadwal</label>
+                                <input type="text" name="pramuka_data[schedule]" value="{{ old('pramuka_data.schedule', $pramukaData['schedule'] ?? 'Jumat, 14:00 WIB') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="Contoh: Jumat, 14:00 WIB">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Prestasi / Info Tambahan</label>
+                                <input type="text" name="pramuka_data[achievement]" value="{{ old('pramuka_data.achievement', $pramukaData['achievement'] ?? 'Juara Umum Kwarran 2023') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="Contoh: Juara Umum Kwarran...">
+                            </div>
+                        </div>
+                    </div>
+                @elseif($section->section_key === 'pmr')
+                    @php
+                        $pmrData = is_array($section->extra_data) ? $section->extra_data : json_decode($section->extra_data ?? '{}', true);
+                    @endphp
+                    <div class="space-y-4">
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">INFO DETAIL PMR</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Jadwal</label>
+                                <input type="text" name="pmr_data[schedule]" value="{{ old('pmr_data.schedule', $pmrData['schedule'] ?? 'Sabtu, 08:00 WIB') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="Contoh: Sabtu, 08:00 WIB">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Link Detail (Opsional)</label>
+                                <input type="text" name="pmr_data[link]" value="{{ old('pmr_data.link', $pmrData['link'] ?? '#') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="https://...">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Ikon (SVG HTML)</label>
+                                <textarea name="pmr_data[icon]" rows="3" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm font-mono rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="<svg>...</svg>">{{ old('pmr_data.icon', $pmrData['icon'] ?? '') }}</textarea>
+                            </div>
+                        </div>
+                    </div>
                 @else
                     <div>
                         <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">KONTEN UTAMA</label>
