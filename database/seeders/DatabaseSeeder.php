@@ -26,6 +26,10 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             SejarahSeeder::class,
             VisiMisiSeeder::class,
+            EkstrakurikulerSeeder::class,
+            MinatBakatSeeder::class,
+            PpdbSeeder::class,
+            JurusanSectionsSeeder::class,
         ]);
     }
 }
