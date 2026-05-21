@@ -235,6 +235,10 @@ class SectionController extends Controller
                 $show['button_text'] = true;
             }
 
+            if (in_array($section->page, ['sejarah', 'visi-misi', 'prestasi', 'guru', 'galeri', 'fasilitas'], true)) {
+                $show['image'] = true;
+            }
+
             if ($section->page === 'info-ppdb') {
                 $show['button_text'] = true;
             }

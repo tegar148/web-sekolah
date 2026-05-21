@@ -21,12 +21,19 @@
     </div>
 
     <!-- Hero Section (Dynamic from Admin) -->
+    @php
+        $heroSection = $sections['hero'] ?? null;
+        $heroImage = $heroSection?->image;
+    @endphp
     @if(!isset($sections['hero']) || $sections['hero']->is_visible)
-    <header class="bg-[#2D3748] py-24 md:py-32 relative text-center text-white">
+    <header class="bg-[#2D3748] py-24 md:py-32 relative text-center text-white overflow-hidden">
+        @if($heroImage)
+            <div class="absolute inset-0 bg-center bg-cover opacity-50" style="background-image: url('{{ Storage::url($heroImage) }}');"></div>
+        @endif
         <div class="max-w-4xl mx-auto px-6 relative z-10">
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">{{ $sections['hero']->title ?? 'Visi & Misi' }}</h1>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">{{ $heroSection?->title ?? 'Visi & Misi' }}</h1>
             <p class="text-gray-300 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto">
-                {{ $sections['hero']->subtitle ?? 'Arah dan tujuan utama SMK Negeri 1 Maesan dalam mencetak generasi unggul' }}
+                {{ $heroSection?->subtitle ?? 'Arah dan tujuan utama SMK Negeri 1 Maesan dalam mencetak generasi unggul' }}
             </p>
         </div>
     </header>
