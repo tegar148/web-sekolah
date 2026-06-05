@@ -171,7 +171,7 @@
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 leading-tight tracking-tight">{{ $sections['cta']->title ?? 'Siap Bergabung dengan Keluarga Besar UNIK?' }}</h2>
                     
                     <div class="flex flex-col sm:flex-row gap-4 mb-6">
-                        <a href="{{ $ctaData['button_primary_link'] ?? '#' }}" class="bg-[#017A85] hover:bg-[#01656e] text-white text-sm font-bold px-8 py-3.5 rounded-full transition shadow-lg text-center">{{ $ctaData['button_primary_text'] ?? 'Daftar Online Sekarang' }}</a>
+                        <a href="{{ route('pendaftaran.create') }}" class="bg-[#017A85] hover:bg-[#01656e] text-white text-sm font-bold px-8 py-3.5 rounded-full transition shadow-lg text-center">{{ $ctaData['button_primary_text'] ?? 'Daftar Online Sekarang' }}</a>
                         <a href="{{ $ctaData['button_secondary_link'] ?? '#' }}" class="bg-white hover:bg-gray-50 text-gray-800 text-sm font-bold px-8 py-3.5 rounded-full transition shadow-sm text-center border border-gray-100">{{ $ctaData['button_secondary_text'] ?? 'Unduh Brosur (PDF)' }}</a>
                     </div>
                     
