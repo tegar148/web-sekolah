@@ -282,48 +282,51 @@
 
                     <form action="{{ route('pendaftaran.store-step1') }}" method="POST" id="form-step1">
                         @csrf
+                        @if(isset($pendaftaran))
+                        <input type="hidden" name="pendaftaran_id" value="{{ $pendaftaran->id }}">
+                        @endif
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2" for="nama_lengkap">Nama Lengkap <span class="text-red-500">*</span></label>
                                 <input type="text" id="nama_lengkap" name="nama_lengkap"
                                     class="form-input" placeholder="Masukkan nama sesuai ijazah"
-                                    value="{{ old('nama_lengkap') }}" required>
+                                    value="{{ old('nama_lengkap', $pendaftaran->nama_lengkap ?? '') }}" required>
                                 @error('nama_lengkap')<p class="mt-1 text-xs text-red-500">{{ $message }}</p>@enderror
                             </div>
 
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="nik">NIK (Nomor Induk Kependudukan)</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="nik">NIK (Nomor Induk Kependudukan) <span class="text-red-500">*</span></label>
                                 <input type="text" id="nik" name="nik"
                                     class="form-input" placeholder="16 digit NIK"
-                                    value="{{ old('nik') }}" maxlength="16">
+                                    value="{{ old('nik', $pendaftaran->nik ?? '') }}" maxlength="16" required>
                                 @error('nik')<p class="mt-1 text-xs text-red-500">{{ $message }}</p>@enderror
                             </div>
 
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="tempat_lahir">Tempat Lahir</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="tempat_lahir">Tempat Lahir <span class="text-red-500">*</span></label>
                                 <input type="text" id="tempat_lahir" name="tempat_lahir"
                                     class="form-input" placeholder="Kota/Kabupaten"
-                                    value="{{ old('tempat_lahir') }}">
+                                    value="{{ old('tempat_lahir', $pendaftaran->tempat_lahir ?? '') }}" required>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="tanggal_lahir">Tanggal Lahir</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="tanggal_lahir">Tanggal Lahir <span class="text-red-500">*</span></label>
                                 <input type="date" id="tanggal_lahir" name="tanggal_lahir"
                                     class="form-input"
-                                    value="{{ old('tanggal_lahir') }}">
+                                    value="{{ old('tanggal_lahir', isset($pendaftaran->tanggal_lahir) ? $pendaftaran->tanggal_lahir->format('Y-m-d') : '') }}" required>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">Jenis Kelamin</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Jenis Kelamin <span class="text-red-500">*</span></label>
                                 <div class="flex gap-3">
-                                    <label class="radio-card flex-1 {{ old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}" id="label-laki" onclick="selectGender('Laki-laki')">
-                                        <input type="radio" name="jenis_kelamin" value="Laki-laki" {{ old('jenis_kelamin') == 'Laki-laki' ? 'checked' : '' }}>
+                                    <label class="radio-card flex-1 {{ old('jenis_kelamin', $pendaftaran->jenis_kelamin ?? '') == 'Laki-laki' ? 'selected' : '' }}" id="label-laki" onclick="selectGender('Laki-laki')">
+                                        <input type="radio" name="jenis_kelamin" value="Laki-laki" {{ old('jenis_kelamin', $pendaftaran->jenis_kelamin ?? '') == 'Laki-laki' ? 'checked' : '' }} required>
                                         <span class="radio-dot"></span>
                                         Laki-laki
                                     </label>
-                                    <label class="radio-card flex-1 {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}" id="label-perempuan" onclick="selectGender('Perempuan')">
-                                        <input type="radio" name="jenis_kelamin" value="Perempuan" {{ old('jenis_kelamin') == 'Perempuan' ? 'checked' : '' }}>
+                                    <label class="radio-card flex-1 {{ old('jenis_kelamin', $pendaftaran->jenis_kelamin ?? '') == 'Perempuan' ? 'selected' : '' }}" id="label-perempuan" onclick="selectGender('Perempuan')">
+                                        <input type="radio" name="jenis_kelamin" value="Perempuan" {{ old('jenis_kelamin', $pendaftaran->jenis_kelamin ?? '') == 'Perempuan' ? 'checked' : '' }} required>
                                         <span class="radio-dot"></span>
                                         Perempuan
                                     </label>
@@ -331,16 +334,16 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="sekolah_asal">Sekolah Asal</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="sekolah_asal">Sekolah Asal <span class="text-red-500">*</span></label>
                                 <input type="text" id="sekolah_asal" name="sekolah_asal"
                                     class="form-input" placeholder="SMP / MTs Asal"
-                                    value="{{ old('sekolah_asal') }}">
+                                    value="{{ old('sekolah_asal', $pendaftaran->sekolah_asal ?? '') }}" required>
                             </div>
 
                             <div class="md:col-span-2">
-                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="alamat_lengkap">Alamat Lengkap</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="alamat_lengkap">Alamat Lengkap <span class="text-red-500">*</span></label>
                                 <textarea id="alamat_lengkap" name="alamat_lengkap"
-                                    class="form-input" placeholder="Nama jalan, RT/RW, Desa, Kecamatan">{{ old('alamat_lengkap') }}</textarea>
+                                    class="form-input" placeholder="Nama jalan, RT/RW, Desa, Kecamatan" required>{{ old('alamat_lengkap', $pendaftaran->alamat_lengkap ?? '') }}</textarea>
                             </div>
 
                         </div>
@@ -370,53 +373,53 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="nama_ayah">Nama Ayah</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="nama_ayah">Nama Ayah <span class="text-red-500">*</span></label>
                                 <input type="text" id="nama_ayah" name="nama_ayah"
                                     class="form-input" placeholder="Nama lengkap ayah"
-                                    value="{{ old('nama_ayah', $pendaftaran->nama_ayah) }}">
+                                    value="{{ old('nama_ayah', $pendaftaran->nama_ayah) }}" required>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="nama_ibu">Nama Ibu</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="nama_ibu">Nama Ibu <span class="text-red-500">*</span></label>
                                 <input type="text" id="nama_ibu" name="nama_ibu"
                                     class="form-input" placeholder="Nama lengkap ibu"
-                                    value="{{ old('nama_ibu', $pendaftaran->nama_ibu) }}">
+                                    value="{{ old('nama_ibu', $pendaftaran->nama_ibu) }}" required>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="pekerjaan_ayah">Pekerjaan Ayah</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="pekerjaan_ayah">Pekerjaan Ayah <span class="text-red-500">*</span></label>
                                 <input type="text" id="pekerjaan_ayah" name="pekerjaan_ayah"
                                     class="form-input" placeholder="Misal: Petani, PNS, Wiraswasta"
-                                    value="{{ old('pekerjaan_ayah', $pendaftaran->pekerjaan_ayah) }}">
+                                    value="{{ old('pekerjaan_ayah', $pendaftaran->pekerjaan_ayah) }}" required>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="pekerjaan_ibu">Pekerjaan Ibu</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="pekerjaan_ibu">Pekerjaan Ibu <span class="text-red-500">*</span></label>
                                 <input type="text" id="pekerjaan_ibu" name="pekerjaan_ibu"
                                     class="form-input" placeholder="Misal: Ibu Rumah Tangga, Guru"
-                                    value="{{ old('pekerjaan_ibu', $pendaftaran->pekerjaan_ibu) }}">
+                                    value="{{ old('pekerjaan_ibu', $pendaftaran->pekerjaan_ibu) }}" required>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="no_hp_wali">No. HP Wali (WhatsApp)</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="no_hp_wali">No. HP Wali (WhatsApp) <span class="text-red-500">*</span></label>
                                 <input type="tel" id="no_hp_wali" name="no_hp_wali"
                                     class="form-input" placeholder="08xxxxxxxxxx"
-                                    value="{{ old('no_hp_wali', $pendaftaran->no_hp_wali) }}">
+                                    value="{{ old('no_hp_wali', $pendaftaran->no_hp_wali) }}" required>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="email_wali">Email Wali</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="email_wali">Email Wali <span class="text-red-500">*</span></label>
                                 <input type="email" id="email_wali" name="email_wali"
                                     class="form-input" placeholder="email@contoh.com"
-                                    value="{{ old('email_wali', $pendaftaran->email_wali) }}">
+                                    value="{{ old('email_wali', $pendaftaran->email_wali) }}" required>
                             </div>
 
                         </div>
 
                         <div class="flex items-center justify-between mt-8 pt-6 border-t border-gray-100">
-                            <button type="submit" formaction="{{ route('pendaftaran.save-draft') }}" class="btn-draft">Simpan Draft</button>
+                            <button type="submit" formnovalidate formaction="{{ route('pendaftaran.save-draft') }}" class="btn-draft">Simpan Draft</button>
                             <div class="flex gap-3">
-                                <a href="{{ route('pendaftaran.step2', ['id' => $pendaftaran->id]) }}" class="btn-outline">Sebelumnya</a>
+                                <a href="{{ route('pendaftaran.create', ['id' => $pendaftaran->id]) }}" class="btn-outline">Sebelumnya</a>
                                 <button type="submit" class="btn-primary">Lanjutkan →</button>
                             </div>
                         </div>
@@ -458,9 +461,9 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="alasan_memilih">Alasan Memilih Jurusan</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="alasan_memilih">Alasan Memilih Jurusan <span class="text-red-500">*</span></label>
                                 <textarea id="alasan_memilih" name="alasan_memilih"
-                                    class="form-input" placeholder="Ceritakan alasan Anda memilih jurusan tersebut...">{{ old('alasan_memilih', $pendaftaran->alasan_memilih) }}</textarea>
+                                    class="form-input" placeholder="Ceritakan alasan Anda memilih jurusan tersebut..." required>{{ old('alasan_memilih', $pendaftaran->alasan_memilih) }}</textarea>
                             </div>
 
                         </div>
@@ -483,7 +486,7 @@
                         </div>
 
                         <div class="flex items-center justify-between mt-8 pt-6 border-t border-gray-100">
-                            <button type="submit" formaction="{{ route('pendaftaran.save-draft') }}" class="btn-draft">Simpan Draft</button>
+                            <button type="submit" formnovalidate formaction="{{ route('pendaftaran.save-draft') }}" class="btn-draft">Simpan Draft</button>
                             <div class="flex gap-3">
                                 <a href="{{ route('pendaftaran.step2', ['id' => $pendaftaran->id]) }}" class="btn-outline">Sebelumnya</a>
                                 <button type="submit" class="btn-primary">Lanjutkan →</button>
@@ -512,10 +515,11 @@
                                 ['field' => 'foto_pas',    'label' => 'Pas Foto 3×4 (JPG/PNG)',      'icon' => '🖼️', 'existing' => $pendaftaran->foto_pas],
                             ] as $doc)
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">{{ $doc['label'] }}</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">{{ $doc['label'] }} <span class="text-red-500">*</span></label>
                                 <label class="file-upload-zone block" for="upload_{{ $doc['field'] }}">
                                     <input type="file" id="upload_{{ $doc['field'] }}" name="{{ $doc['field'] }}"
                                         accept=".pdf,.jpg,.jpeg,.png"
+                                        {{ $doc['existing'] ? '' : 'required' }}
                                         onchange="showFileName(this, '{{ $doc['field'] }}')">
                                     <div id="preview_{{ $doc['field'] }}">
                                         @if($doc['existing'])
@@ -544,7 +548,7 @@
                         </div>
 
                         <div class="flex items-center justify-between mt-8 pt-6 border-t border-gray-100">
-                            <button type="submit" formaction="{{ route('pendaftaran.save-draft') }}" class="btn-draft">Simpan Draft</button>
+                            <button type="submit" formnovalidate formaction="{{ route('pendaftaran.save-draft') }}" class="btn-draft">Simpan Draft</button>
                             <div class="flex gap-3">
                                 <a href="{{ route('pendaftaran.step3', ['id' => $pendaftaran->id]) }}" class="btn-outline">Sebelumnya</a>
                                 <button type="submit" class="btn-primary">

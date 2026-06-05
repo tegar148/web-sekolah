@@ -17,11 +17,17 @@ class PendaftaranController extends Controller
     // ---------------------------------------------------------------
     // Step 1: Tampilkan form awal
     // ---------------------------------------------------------------
-    public function create()
+    public function create(Request $request)
     {
+        $pendaftaran = null;
+        if ($request->has('id')) {
+            $pendaftaran = PendaftaranSiswa::find($request->id);
+        }
+
         return view('pendaftaran.index', [
-            'step'    => 1,
-            'jurusan' => $this->jurusan,
+            'step'        => 1,
+            'pendaftaran' => $pendaftaran,
+            'jurusan'     => $this->jurusan,
         ]);
     }
 
@@ -32,19 +38,24 @@ class PendaftaranController extends Controller
     {
         $data = $request->validate([
             'nama_lengkap'  => 'required|string|max:200',
-            'nik'           => 'nullable|digits:16',
-            'tempat_lahir'  => 'nullable|string|max:100',
-            'tanggal_lahir' => 'nullable|date',
-            'jenis_kelamin' => 'nullable|in:Laki-laki,Perempuan',
-            'sekolah_asal'  => 'nullable|string|max:200',
-            'alamat_lengkap'=> 'nullable|string|max:500',
+            'nik'           => 'required|digits:16',
+            'tempat_lahir'  => 'required|string|max:100',
+            'tanggal_lahir' => 'required|date',
+            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+            'sekolah_asal'  => 'required|string|max:200',
+            'alamat_lengkap'=> 'required|string|max:500',
         ]);
 
-        $data['status']       = 'draft';
-        $data['step_terakhir']= 1;
-        $data['kode_pendaftaran'] = PendaftaranSiswa::generateKode();
-
-        $pendaftaran = PendaftaranSiswa::create($data);
+        if ($request->has('pendaftaran_id') && $request->pendaftaran_id) {
+            $pendaftaran = PendaftaranSiswa::findOrFail($request->pendaftaran_id);
+            $data['step_terakhir'] = max($pendaftaran->step_terakhir, 1);
+            $pendaftaran->update($data);
+        } else {
+            $data['status']       = 'draft';
+            $data['step_terakhir']= 1;
+            $data['kode_pendaftaran'] = PendaftaranSiswa::generateKode();
+            $pendaftaran = PendaftaranSiswa::create($data);
+        }
 
         return redirect()->route('pendaftaran.step2', ['id' => $pendaftaran->id]);
     }
@@ -67,12 +78,12 @@ class PendaftaranController extends Controller
         $pendaftaran = PendaftaranSiswa::findOrFail($request->pendaftaran_id);
 
         $data = $request->validate([
-            'nama_ayah'      => 'nullable|string|max:200',
-            'nama_ibu'       => 'nullable|string|max:200',
-            'pekerjaan_ayah' => 'nullable|string|max:100',
-            'pekerjaan_ibu'  => 'nullable|string|max:100',
-            'no_hp_wali'     => 'nullable|string|max:20',
-            'email_wali'     => 'nullable|email|max:100',
+            'nama_ayah'      => 'required|string|max:200',
+            'nama_ibu'       => 'required|string|max:200',
+            'pekerjaan_ayah' => 'required|string|max:100',
+            'pekerjaan_ibu'  => 'required|string|max:100',
+            'no_hp_wali'     => 'required|string|max:20',
+            'email_wali'     => 'required|email|max:100',
         ]);
 
         $data['step_terakhir'] = 2;
@@ -101,7 +112,7 @@ class PendaftaranController extends Controller
         $data = $request->validate([
             'pilihan_jurusan_1' => 'required|string|max:200',
             'pilihan_jurusan_2' => 'nullable|string|max:200',
-            'alasan_memilih'    => 'nullable|string|max:1000',
+            'alasan_memilih'    => 'required|string|max:1000',
         ]);
 
         $data['step_terakhir'] = 3;
@@ -128,10 +139,10 @@ class PendaftaranController extends Controller
         $pendaftaran = PendaftaranSiswa::findOrFail($request->pendaftaran_id);
 
         $request->validate([
-            'foto_ijazah' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'foto_kk'     => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'foto_akta'   => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'foto_pas'    => 'nullable|file|mimes:jpg,jpeg,png|max:1024',
+            'foto_ijazah' => ($pendaftaran->foto_ijazah ? 'nullable' : 'required') . '|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'foto_kk'     => ($pendaftaran->foto_kk ? 'nullable' : 'required') . '|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'foto_akta'   => ($pendaftaran->foto_akta ? 'nullable' : 'required') . '|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'foto_pas'    => ($pendaftaran->foto_pas ? 'nullable' : 'required') . '|file|mimes:jpg,jpeg,png|max:1024',
         ]);
 
         $data = ['step_terakhir' => 4];
