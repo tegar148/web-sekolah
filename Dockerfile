@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     libwebp-dev \
+    libzip-dev \
     zip \
     unzip \
     git \
@@ -13,9 +14,9 @@ RUN apt-get update && apt-get install -y \
     nodejs \
     npm
 
-# Mengonfigurasi dan menginstal ekstensi PHP (GD untuk kompresi gambar & WebP, PDO untuk koneksi MySQL)
+# Mengonfigurasi dan menginstal ekstensi PHP (GD untuk kompresi gambar & WebP, PDO untuk koneksi MySQL, zip untuk Excel export)
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-install pdo_mysql gd
+    && docker-php-ext-install pdo_mysql gd zip
 
 # Meningkatkan batas upload PHP (default 8MB -> 64MB)
 RUN echo "upload_max_filesize = 64M" > /usr/local/etc/php/conf.d/uploads.ini \
