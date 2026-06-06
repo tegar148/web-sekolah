@@ -12,6 +12,16 @@
         <p class="text-sm text-gray-500 mt-1">Daftar masuk formulir pendaftaran online PPDB. <span class="font-semibold text-slate-700">View only.</span></p>
     </div>
     <div class="flex items-center gap-3">
+        {{-- Tombol Export Excel --}}
+        <a href="{{ route('admin.pendaftaran.export-excel', request()->only(['search', 'status', 'jurusan'])) }}"
+           class="group relative inline-flex items-center gap-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white text-xs font-bold px-5 py-3 rounded-2xl shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transition-all duration-200 hover:-translate-y-0.5">
+            <svg class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            Export Excel
+            <span class="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse border-2 border-white"></span>
+        </a>
+
         {{-- Statistik ringkas --}}
         <div class="flex items-center gap-2 bg-white border border-slate-200 rounded-2xl px-5 py-3 shadow-sm">
             <div class="text-center px-3 border-r border-slate-100">

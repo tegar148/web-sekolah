@@ -207,6 +207,7 @@ Route::prefix('admin')->middleware(\App\Http\Middleware\AdminAuth::class)->group
 
     // Pendaftaran PPDB (view only)
     Route::get('/pendaftaran', [PendaftaranAdminController::class, 'index'])->name('admin.pendaftaran.index');
+    Route::get('/pendaftaran/export-excel', [PendaftaranAdminController::class, 'exportExcel'])->name('admin.pendaftaran.export-excel');
 
     Route::resource('fasilitas', FasilitasController::class)->except(['show'])->names([
         'index'   => 'admin.fasilitas.index',

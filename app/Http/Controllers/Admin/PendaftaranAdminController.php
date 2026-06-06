@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\PendaftaranSiswa;
+use App\Exports\PendaftaranExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PendaftaranAdminController extends Controller
 {
@@ -72,5 +74,15 @@ class PendaftaranAdminController extends Controller
         return view('admin.pendaftaran.index', compact(
             'pendaftarans', 'total', 'terkirim', 'draft', 'diterima', 'pendaftaranJson'
         ));
+    }
+
+    /**
+     * Export data pendaftaran ke file Excel (.xlsx).
+     */
+    public function exportExcel(Request $request)
+    {
+        $filename = 'Data_Pendaftaran_PPDB_' . date('Y-m-d_His') . '.xlsx';
+
+        return Excel::download(new PendaftaranExport($request), $filename);
     }
 }
