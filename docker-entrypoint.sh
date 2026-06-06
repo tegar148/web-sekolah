@@ -8,9 +8,8 @@ chown -R www-data:www-data storage bootstrap/cache
 chmod -R ug+rwX storage bootstrap/cache
 chmod -R 777 storage bootstrap/cache
 
-if [ ! -f vendor/autoload.php ]; then
-  composer install --no-interaction --prefer-dist --optimize-autoloader
-fi
+# Selalu sinkronkan composer dependencies (karena volume mount bisa menimpa vendor dari build)
+composer install --no-interaction --prefer-dist --optimize-autoloader
 
 if [ ! -f .env ]; then
   cp .env.example .env
