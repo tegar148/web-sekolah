@@ -46,8 +46,8 @@
                     @forelse($beritas as $item)
                     <div class="bg-white rounded-lg border border-gray-100 shadow-sm overflow-hidden hover:shadow-xl transition-shadow duration-300 group flex flex-col">
                         <div class="w-full h-56 bg-slate-900 relative overflow-hidden shrink-0">
-                            @if($item->image_path)
-                            <img src="{{ Storage::url($item->image_path) }}" alt="{{ $item->title }}" class="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700">
+                            @if($item->image_src)
+                            <img src="{{ $item->image_src }}" alt="{{ $item->title }}" class="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700" referrerpolicy="no-referrer">
                             @endif
                             <div class="absolute top-4 left-4 bg-[#111827] text-white text-[9px] font-bold tracking-widest uppercase px-3 py-1 shadow">{{ $item->category }}</div>
                         </div>
@@ -56,9 +56,13 @@
                                 <span class="w-4 h-[1px] bg-gray-300 block"></span> {{ \Carbon\Carbon::parse($item->published_at)->format('d M Y') }}
                             </p>
                             <h3 class="text-xl font-bold text-gray-900 mb-4 leading-snug group-hover:text-blue-600 transition-colors">{{ $item->title }}</h3>
+                            @if($item->excerpt)
                             <p class="text-sm text-gray-500 line-clamp-3 mb-6">{{ $item->excerpt }}</p>
+                            @endif
                             <div class="mt-auto">
-                                <a href="{{ route('berita.show', $item->slug) }}" class="text-[11px] font-bold text-gray-900 group-hover:text-blue-600 uppercase tracking-widest border-b border-gray-300 group-hover:border-blue-600 transition-colors pb-1">READ MORE <span class="text-lg leading-none relative top-[1px]">&rarr;</span></a>
+                                <a href="{{ $item->berita_url }}" {{ $item->is_external ? 'target="_blank" rel="noopener noreferrer"' : '' }} class="text-[11px] font-bold text-gray-900 group-hover:text-blue-600 uppercase tracking-widest border-b border-gray-300 group-hover:border-blue-600 transition-colors pb-1">
+                                    {{ $item->is_external ? 'BUKA LINK' : 'READ MORE' }} <span class="text-lg leading-none relative top-[1px]">&rarr;</span>
+                                </a>
                             </div>
                         </div>
                     </div>

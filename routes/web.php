@@ -181,6 +181,7 @@ Route::prefix('admin')->middleware(\App\Http\Middleware\AdminAuth::class)->group
     Route::put('/admin/ppdb/step/{step}', [\App\Http\Controllers\Admin\PpdbController::class, 'updateStep'])->name('admin.ppdb.step.update');
     Route::delete('/admin/ppdb/step/{step}', [\App\Http\Controllers\Admin\PpdbController::class, 'destroyStep'])->name('admin.ppdb.step.destroy');
 
+    Route::get('/berita/fetch-meta', [\App\Http\Controllers\Admin\BeritaController::class, 'fetchMeta'])->name('admin.berita.fetch-meta');
     Route::get('/berita', [\App\Http\Controllers\Admin\BeritaController::class, 'index'])->name('admin.berita.index');
     Route::post('/berita', [\App\Http\Controllers\Admin\BeritaController::class, 'store'])->name('admin.berita.store');
     Route::get('/berita/{berita}/edit', [\App\Http\Controllers\Admin\BeritaController::class, 'edit'])->name('admin.berita.edit');

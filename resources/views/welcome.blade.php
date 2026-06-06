@@ -82,8 +82,8 @@
                 @forelse($beritaItems as $item)
                 <div class="{{ $beritaItems->count() > 1 ? 'snap-center shrink-0' : '' }} w-[85vw] max-w-[320px] md:w-auto md:max-w-none bg-white rounded-lg border border-gray-100 shadow-sm overflow-hidden hover:shadow-xl transition-shadow duration-300 group flex flex-col">
                     <div class="w-full h-56 bg-slate-900 relative overflow-hidden shrink-0">
-                        @if($item->image_path)
-                        <img src="{{ Storage::url($item->image_path) }}" alt="{{ $item->title }}" class="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700">
+                        @if($item->image_src)
+                        <img src="{{ $item->image_src }}" alt="{{ $item->title }}" class="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700" referrerpolicy="no-referrer">
                         @endif
                         <div class="absolute top-4 left-4 bg-[#111827] text-white text-[9px] font-bold tracking-widest uppercase px-3 py-1 shadow">{{ $item->category }}</div>
                     </div>

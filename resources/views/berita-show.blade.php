@@ -45,9 +45,9 @@
     <!-- Main Content Section -->
     <main class="w-full bg-white pb-20 md:pb-32">
         <div class="max-w-4xl mx-auto px-6 -mt-8 relative z-10">
-            @if($berita->image_path)
+            @if($berita->image_src)
             <div class="w-full aspect-video rounded-2xl overflow-hidden shadow-xl mb-12 bg-gray-100">
-                <img src="{{ Storage::url($berita->image_path) }}" alt="{{ $berita->title }}" class="w-full h-full object-cover">
+                <img src="{{ $berita->image_src }}" alt="{{ $berita->title }}" class="w-full h-full object-cover" referrerpolicy="no-referrer">
             </div>
             @endif
 
