@@ -12,24 +12,27 @@ return new class extends Migration
             $table->renameColumn('nama_lengkap', 'nama');
             $table->renameColumn('pilihan_jurusan_1', 'minat_jurusan');
             
-            $table->dropColumn([
-                'nik',
-                'tempat_lahir',
-                'tanggal_lahir',
-                'alamat_lengkap',
-                'nama_ayah',
-                'nama_ibu',
-                'pekerjaan_ayah',
-                'pekerjaan_ibu',
-                'no_hp_wali',
-                'email_wali',
-                'pilihan_jurusan_2',
-                'alasan_memilih',
-                'foto_ijazah',
-                'foto_kk',
-                'foto_akta',
-                'foto_pas',
-            ]);
+            // Mengubah kolom-kolom lama menjadi nullable agar tidak error saat insert data baru
+            // tanpa harus menghapus (drop) datanya.
+            $table->string('nik', 16)->nullable()->change();
+            $table->string('tempat_lahir')->nullable()->change();
+            $table->date('tanggal_lahir')->nullable()->change();
+            $table->text('alamat_lengkap')->nullable()->change();
+            
+            $table->string('nama_ayah')->nullable()->change();
+            $table->string('nama_ibu')->nullable()->change();
+            $table->string('pekerjaan_ayah')->nullable()->change();
+            $table->string('pekerjaan_ibu')->nullable()->change();
+            $table->string('no_hp_wali')->nullable()->change();
+            $table->string('email_wali')->nullable()->change();
+            
+            $table->string('pilihan_jurusan_2')->nullable()->change();
+            $table->text('alasan_memilih')->nullable()->change();
+            
+            $table->string('foto_ijazah')->nullable()->change();
+            $table->string('foto_kk')->nullable()->change();
+            $table->string('foto_akta')->nullable()->change();
+            $table->string('foto_pas')->nullable()->change();
         });
     }
 
@@ -39,25 +42,8 @@ return new class extends Migration
             $table->renameColumn('nama', 'nama_lengkap');
             $table->renameColumn('minat_jurusan', 'pilihan_jurusan_1');
             
-            $table->string('nik', 16)->nullable();
-            $table->string('tempat_lahir')->nullable();
-            $table->date('tanggal_lahir')->nullable();
-            $table->text('alamat_lengkap')->nullable();
-            
-            $table->string('nama_ayah')->nullable();
-            $table->string('nama_ibu')->nullable();
-            $table->string('pekerjaan_ayah')->nullable();
-            $table->string('pekerjaan_ibu')->nullable();
-            $table->string('no_hp_wali')->nullable();
-            $table->string('email_wali')->nullable();
-            
-            $table->string('pilihan_jurusan_2')->nullable();
-            $table->text('alasan_memilih')->nullable();
-            
-            $table->string('foto_ijazah')->nullable();
-            $table->string('foto_kk')->nullable();
-            $table->string('foto_akta')->nullable();
-            $table->string('foto_pas')->nullable();
+            // Revert them to non-nullable if they were previously strictly required
+            // (Assumed behavior, adjust as necessary depending on original schema)
         });
     }
 };
