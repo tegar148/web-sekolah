@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Data Pendaftaran')
-@section('breadcrumb', 'Pendaftaran Manager')
+@section('title', 'Data Pra-PPDB')
+@section('breadcrumb', 'Pra-PPDB Manager')
 
 @section('content')
 
@@ -271,7 +271,7 @@ function openDetail(id) {
         html += '<div class="p-8">';
         html += '<div class="flex items-start justify-between mb-6">';
         html +=   '<div>';
-        html +=     '<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Kode Pendaftaran</p>';
+        html +=     '<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">ID Pra-PPDB</p>';
         html +=     '<h2 class="text-xl font-bold text-[#017A85] tracking-wider">' + d.kode + '</h2>';
         html +=     '<div class="flex items-center gap-3 mt-2">';
         html +=       '<span class="text-[10px] font-bold px-2.5 py-1 rounded-full ' + st.cls + '">' + st.text + '</span>';
