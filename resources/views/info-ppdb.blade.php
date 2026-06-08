@@ -171,13 +171,10 @@
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 leading-tight tracking-tight">{{ $sections['cta']->title ?? 'Siap Bergabung dengan Keluarga Besar UNIK?' }}</h2>
                     
                     <div class="flex flex-col sm:flex-row gap-4 mb-6">
-                        <a href="{{ route('pendaftaran.create') }}" class="bg-[#017A85] hover:bg-[#01656e] text-white text-sm font-bold px-8 py-3.5 rounded-full transition shadow-lg text-center">{{ $ctaData['button_primary_text'] ?? 'Daftar Online Sekarang' }}</a>
+                        <a href="{{ route('pendaftaran.create') }}" class="bg-[#017A85] hover:bg-[#01656e] text-white text-sm font-bold px-8 py-3.5 rounded-full transition shadow-lg text-center">{{ $ctaData['button_primary_text'] ?? 'Isi Formulir Pra-PPDB' }}</a>
                         <a href="{{ $ctaData['button_secondary_link'] ?? '#' }}" class="bg-white hover:bg-gray-50 text-gray-800 text-sm font-bold px-8 py-3.5 rounded-full transition shadow-sm text-center border border-gray-100">{{ $ctaData['button_secondary_text'] ?? 'Unduh Brosur (PDF)' }}</a>
                     </div>
                     
-                    <div class="flex items-center gap-2 text-[#015B63] text-sm">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-                        <span class="font-medium">{{ $ctaData['info_text'] ?? 'Pendaftaran gelombang pertama tersisa 5 hari lagi.' }}</span>
                     </div>
                 </div>
             </div>

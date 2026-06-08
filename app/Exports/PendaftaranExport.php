@@ -38,7 +38,7 @@ class PendaftaranExport implements FromQuery, WithHeadings, WithMapping, WithSty
         if ($this->request->filled('search')) {
             $q = $this->request->search;
             $query->where(function ($sub) use ($q) {
-                $sub->where('nama_lengkap', 'like', "%{$q}%")
+                $sub->where('nama', 'like', "%{$q}%")
                     ->orWhere('kode_pendaftaran', 'like', "%{$q}%");
             });
         }
@@ -48,7 +48,7 @@ class PendaftaranExport implements FromQuery, WithHeadings, WithMapping, WithSty
         }
 
         if ($this->request->filled('jurusan')) {
-            $query->where('pilihan_jurusan_1', $this->request->jurusan);
+            $query->where('minat_jurusan', $this->request->jurusan);
         }
 
         return $query;
@@ -60,21 +60,9 @@ class PendaftaranExport implements FromQuery, WithHeadings, WithMapping, WithSty
             'No',
             'Kode Pendaftaran',
             'Nama Lengkap',
-            'NIK',
-            'Tempat Lahir',
-            'Tanggal Lahir',
             'Jenis Kelamin',
             'Sekolah Asal',
-            'Alamat Lengkap',
-            'Nama Ayah',
-            'Nama Ibu',
-            'Pekerjaan Ayah',
-            'Pekerjaan Ibu',
-            'No. HP Wali',
-            'Email Wali',
-            'Pilihan Jurusan 1',
-            'Pilihan Jurusan 2',
-            'Alasan Memilih',
+            'Minat Jurusan',
             'Status',
             'Tanggal Dikirim',
             'Tanggal Dibuat',
@@ -96,22 +84,10 @@ class PendaftaranExport implements FromQuery, WithHeadings, WithMapping, WithSty
         return [
             $this->rowNumber,
             $pendaftaran->kode_pendaftaran ?? '-',
-            $pendaftaran->nama_lengkap ?? '-',
-            "'" . ($pendaftaran->nik ?? '-'),  // prefix with ' to keep leading zeros
-            $pendaftaran->tempat_lahir ?? '-',
-            $pendaftaran->tanggal_lahir ? $pendaftaran->tanggal_lahir->format('d-m-Y') : '-',
+            $pendaftaran->nama ?? '-',
             $pendaftaran->jenis_kelamin ?? '-',
             $pendaftaran->sekolah_asal ?? '-',
-            $pendaftaran->alamat_lengkap ?? '-',
-            $pendaftaran->nama_ayah ?? '-',
-            $pendaftaran->nama_ibu ?? '-',
-            $pendaftaran->pekerjaan_ayah ?? '-',
-            $pendaftaran->pekerjaan_ibu ?? '-',
-            $pendaftaran->no_hp_wali ?? '-',
-            $pendaftaran->email_wali ?? '-',
-            $pendaftaran->pilihan_jurusan_1 ?? '-',
-            $pendaftaran->pilihan_jurusan_2 ?? '-',
-            $pendaftaran->alasan_memilih ?? '-',
+            $pendaftaran->minat_jurusan ?? '-',
             $statusLabels[$pendaftaran->status] ?? ucfirst($pendaftaran->status),
             $pendaftaran->submitted_at ? $pendaftaran->submitted_at->format('d-m-Y H:i') : '-',
             $pendaftaran->created_at->format('d-m-Y H:i'),
@@ -121,7 +97,7 @@ class PendaftaranExport implements FromQuery, WithHeadings, WithMapping, WithSty
     public function styles(Worksheet $sheet)
     {
         $lastRow = $sheet->getHighestRow();
-        $lastCol = 'U'; // Column U = 21 columns
+        $lastCol = 'I'; // Column I = 9 columns
 
         // Style header row
         $sheet->getStyle("A1:{$lastCol}1")->applyFromArray([

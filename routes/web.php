@@ -103,15 +103,8 @@ Route::get('/info-ppdb', function () {
 
 // ── PENDAFTARAN ONLINE ────────────────────────────────────────────
 Route::get('/pendaftaran',              [PendaftaranController::class, 'create'])->name('pendaftaran.create');
-Route::post('/pendaftaran/step-1',      [PendaftaranController::class, 'storeStep1'])->name('pendaftaran.store-step1');
-Route::get('/pendaftaran/step-2',       [PendaftaranController::class, 'step2'])->name('pendaftaran.step2');
-Route::post('/pendaftaran/step-2',      [PendaftaranController::class, 'storeStep2'])->name('pendaftaran.store-step2');
-Route::get('/pendaftaran/step-3',       [PendaftaranController::class, 'step3'])->name('pendaftaran.step3');
-Route::post('/pendaftaran/step-3',      [PendaftaranController::class, 'storeStep3'])->name('pendaftaran.store-step3');
-Route::get('/pendaftaran/step-4',       [PendaftaranController::class, 'step4'])->name('pendaftaran.step4');
-Route::post('/pendaftaran/step-4',      [PendaftaranController::class, 'storeStep4'])->name('pendaftaran.store-step4');
+Route::post('/pendaftaran/store',       [PendaftaranController::class, 'store'])->name('pendaftaran.store');
 Route::get('/pendaftaran/sukses',       [PendaftaranController::class, 'sukses'])->name('pendaftaran.sukses');
-Route::post('/pendaftaran/save-draft',  [PendaftaranController::class, 'saveDraft'])->name('pendaftaran.save-draft');
 
 Route::get('/siswa/kalender', function () {
     $sections = SiteSection::where('page', 'siswa-kalender')->orderBy('sort_order')->get()->keyBy('section_key');

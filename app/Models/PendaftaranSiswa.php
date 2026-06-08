@@ -13,30 +13,10 @@ class PendaftaranSiswa extends Model
 
     protected $fillable = [
         'kode_pendaftaran',
-        // Step 1 - Data Pribadi
-        'nama_lengkap',
-        'nik',
-        'tempat_lahir',
-        'tanggal_lahir',
+        'nama',
         'jenis_kelamin',
         'sekolah_asal',
-        'alamat_lengkap',
-        // Step 2 - Data Wali
-        'nama_ayah',
-        'nama_ibu',
-        'pekerjaan_ayah',
-        'pekerjaan_ibu',
-        'no_hp_wali',
-        'email_wali',
-        // Step 3 - Pilihan Jurusan
-        'pilihan_jurusan_1',
-        'pilihan_jurusan_2',
-        'alasan_memilih',
-        // Step 4 - Dokumen
-        'foto_ijazah',
-        'foto_kk',
-        'foto_akta',
-        'foto_pas',
+        'minat_jurusan',
         // Status
         'status',
         'step_terakhir',
