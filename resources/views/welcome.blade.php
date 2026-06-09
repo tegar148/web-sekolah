@@ -97,7 +97,7 @@
                         @endif
                         <div class="mt-auto">
                             <a href="{{ $item->berita_url }}" {{ $item->is_external ? 'target="_blank" rel="noopener noreferrer"' : '' }} class="text-[11px] font-bold text-gray-900 group-hover:text-blue-600 uppercase tracking-widest border-b border-gray-300 group-hover:border-blue-600 transition-colors pb-1">
-                                {{ $item->is_external ? 'BUKA LINK' : 'READ MORE' }} <span class="text-lg leading-none relative top-[1px]">&rarr;</span>
+                                {{ $item->is_external ? 'BUKA LINK' : 'BACA SELENGKAPNYA' }} <span class="text-lg leading-none relative top-[1px]">&rarr;</span>
                             </a>
                         </div>
                     </div>
