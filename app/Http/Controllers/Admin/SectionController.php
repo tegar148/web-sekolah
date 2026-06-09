@@ -116,6 +116,11 @@ class SectionController extends Controller
             $validated['extra_data'] = $request->input('hero_data');
         }
 
+        if ($section->section_key === 'sambutan' && $request->has('sambutan_data')) {
+            $existingExtraData = is_array($section->extra_data) ? $section->extra_data : [];
+            $validated['extra_data'] = array_merge($existingExtraData, $request->input('sambutan_data'));
+        }
+
         if ($request->has('remove_image') && $section->image) {
             \Illuminate\Support\Facades\Storage::disk('public')->delete($section->image);
             $validated['image'] = null;

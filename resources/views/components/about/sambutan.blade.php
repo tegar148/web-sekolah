@@ -33,8 +33,8 @@
         </div>
         
         <div class="mt-10">
-            <p class="text-gray-900 text-base font-bold">Suhartini</p>
-            <p class="text-[10px] text-blue-600 mt-1 uppercase tracking-widest font-bold">KEPALA SEKOLAH SMK NEGERI 1 MAESAN</p>
+            <p class="text-gray-900 text-base font-bold">{{ $sambutan->extra_data['nama_kepala_sekolah'] ?? 'Suhartini' }}</p>
+            <p class="text-[10px] text-blue-600 mt-1 uppercase tracking-widest font-bold">{{ $sambutan->extra_data['jabatan_kepala_sekolah'] ?? 'KEPALA SEKOLAH SMK NEGERI 1 MAESAN' }}</p>
         </div>
     </div>
 </section>

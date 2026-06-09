@@ -92,9 +92,13 @@
                             <span class="w-4 h-[1px] bg-gray-300 block"></span> {{ \Carbon\Carbon::parse($item->published_at)->format('d M Y') }}
                         </p>
                         <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-4 leading-snug group-hover:text-blue-600 transition-colors">{{ $item->title }}</h3>
+                        @if($item->excerpt)
                         <p class="text-sm text-gray-500 line-clamp-3 mb-6">{{ $item->excerpt }}</p>
+                        @endif
                         <div class="mt-auto">
-                            <a href="{{ route('berita.show', $item->slug) }}" class="text-[11px] font-bold text-gray-900 group-hover:text-blue-600 uppercase tracking-widest border-b border-gray-300 group-hover:border-blue-600 transition-colors pb-1">READ MORE <span class="text-lg leading-none relative top-[1px]">&rarr;</span></a>
+                            <a href="{{ $item->berita_url }}" {{ $item->is_external ? 'target="_blank" rel="noopener noreferrer"' : '' }} class="text-[11px] font-bold text-gray-900 group-hover:text-blue-600 uppercase tracking-widest border-b border-gray-300 group-hover:border-blue-600 transition-colors pb-1">
+                                {{ $item->is_external ? 'BUKA LINK' : 'READ MORE' }} <span class="text-lg leading-none relative top-[1px]">&rarr;</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -174,6 +178,131 @@
          </div>
          @endif
     </section>
+    @endif
+
+    <!-- Minat Jurusan Section -->
+    @php
+        $jurusanTotal   = array_sum($jurusanStats);
+        $jurusanPalette = ['#017A85', '#3B82F6', '#8B5CF6', '#F59E0B', '#10B981', '#EF4444'];
+        $jurusanLabels  = array_keys($jurusanStats);
+        $jurusanCounts  = array_values($jurusanStats);
+        $jurusanBg      = [];
+        foreach ($jurusanLabels as $i => $_) {
+            $jurusanBg[] = $jurusanPalette[$i % count($jurusanPalette)];
+        }
+    @endphp
+    <section class="py-10 md:py-14 bg-white">
+        <div class="max-w-6xl mx-auto px-6 md:px-12">
+            <!-- Header -->
+            <div class="mb-12 md:mb-16 border-b border-gray-100 pb-6">
+                <p class="text-[10px] font-bold text-[#017A85] uppercase tracking-widest mb-2">STATISTIK PRA-PPDB</p>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Minat Jurusan Calon Peserta Didik</h2>
+                <p class="text-sm text-gray-500 mt-2 max-w-xl">Distribusi pilihan jurusan berdasarkan data formulir Pra-PPDB yang telah masuk.</p>
+            </div>
+
+            @if($jurusanTotal > 0)
+            <div class="flex flex-col md:flex-row items-center md:items-start gap-12 md:gap-20">
+
+                <!-- Donut Chart -->
+                <div class="shrink-0 flex flex-col items-center">
+                    <div class="relative" style="width:220px;height:220px">
+                        <canvas id="welcomeChartJurusan" style="width:220px;height:220px;display:block"></canvas>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                            <p class="text-4xl font-black text-gray-900">{{ $jurusanTotal }}</p>
+                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Calon Pendaftar</p>
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold mt-4">Total Minat Tercatat</p>
+                </div>
+
+                <!-- Legend & Bars -->
+                <div class="flex-1 w-full space-y-5">
+                    @foreach($jurusanStats as $jurusan => $count)
+                    @php
+                        $idx        = array_search($jurusan, $jurusanLabels);
+                        $color      = $jurusanPalette[$idx % count($jurusanPalette)];
+                        $pct        = $jurusanTotal > 0 ? round($count / $jurusanTotal * 100) : 0;
+                        $isTop      = $loop->first;
+                    @endphp
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-3 h-3 rounded-full shrink-0" style="background:{{ $color }}"></span>
+                                <span class="text-sm font-{{ $isTop ? 'bold' : 'medium' }} text-gray-{{ $isTop ? '900' : '700' }}">
+                                    {{ $jurusan }}
+                                    @if($isTop)
+                                    <span class="ml-2 text-[9px] font-black uppercase tracking-widest text-[#017A85] bg-teal-50 px-2 py-0.5 rounded-full">TERPOPULER</span>
+                                    @endif
+                                </span>
+                            </div>
+                            <div class="text-right shrink-0 ml-4">
+                                <span class="text-sm font-bold text-gray-900">{{ $count }}</span>
+                                <span class="text-xs text-gray-400 ml-1">{{ $pct }}%</span>
+                            </div>
+                        </div>
+                        <!-- Progress bar -->
+                        <div class="w-full bg-gray-100 rounded-full h-2">
+                            <div class="h-2 rounded-full" style="width:{{ $pct }}%;background:{{ $color }}"></div>
+                        </div>
+                    </div>
+                    @endforeach
+
+                    <p class="text-[10px] text-gray-400 pt-4 border-t border-gray-100">
+                        * Data diambil dari formulir Pra-PPDB yang telah dikirimkan. Angka dapat berubah seiring waktu.
+                    </p>
+                </div>
+            </div>
+            @else
+            <!-- Empty state -->
+            <div class="flex flex-col items-center justify-center py-16 text-center">
+                <div class="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mb-4">
+                    <svg class="w-8 h-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/></svg>
+                </div>
+                <p class="text-sm text-gray-400 font-medium">Data Pra-PPDB belum tersedia.</p>
+                <a href="{{ route('pendaftaran.create') }}" class="mt-4 text-[11px] font-bold text-[#017A85] uppercase tracking-widest border-b border-[#017A85] pb-0.5">Daftar Sekarang →</a>
+            </div>
+            @endif
+        </div>
+    </section>
+
+    <!-- Chart.js for Jurusan Donut -->
+    @if($jurusanTotal > 0)
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+    (function () {
+        var el = document.getElementById('welcomeChartJurusan');
+        if (!el) return;
+        new Chart(el, {
+            type: 'doughnut',
+            data: {
+                labels: @json($jurusanLabels),
+                datasets: [{
+                    data: @json($jurusanCounts),
+                    backgroundColor: @json($jurusanBg),
+                    borderWidth: 4,
+                    borderColor: '#ffffff',
+                }]
+            },
+            options: {
+                cutout: '74%',
+                animation: false,
+                responsive: false,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(ctx) {
+                                var total = ctx.dataset.data.reduce(function(a,b){return a+b;}, 0);
+                                return ' ' + ctx.label + ': ' + ctx.parsed + ' (' + Math.round(ctx.parsed/total*100) + '%)';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    })();
+    </script>
     @endif
 
     <!-- Stats Banner Section (Admin Toggle) -->

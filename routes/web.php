@@ -18,9 +18,15 @@ use App\Models\SiteSection;
 // ============================================================
 
 Route::get('/', function () {
-    $sections = SiteSection::where('page', 'welcome')->orderBy('sort_order')->get()->keyBy('section_key');
-    $beritas = \App\Models\Berita::latest('published_at')->take(3)->get();
-    return view('welcome', compact('sections', 'beritas'));
+    $sections     = SiteSection::where('page', 'welcome')->orderBy('sort_order')->get()->keyBy('section_key');
+    $beritas      = \App\Models\Berita::latest('published_at')->take(3)->get();
+    $jurusanStats = \App\Models\PendaftaranSiswa::selectRaw('minat_jurusan, COUNT(*) as total')
+        ->whereNotNull('minat_jurusan')
+        ->groupBy('minat_jurusan')
+        ->orderByDesc('total')
+        ->pluck('total', 'minat_jurusan')
+        ->toArray();
+    return view('welcome', compact('sections', 'beritas', 'jurusanStats'));
 });
 
 Route::get('/sejarah', function () {

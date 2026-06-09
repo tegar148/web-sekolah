@@ -432,6 +432,24 @@
                             </div>
                         </div>
                     </div>
+                @elseif($section->section_key === 'sambutan')
+                    @php
+                        $sambutan_data = is_array($section->extra_data) ? $section->extra_data : (json_decode($section->extra_data ?? '{}', true) ?? []);
+                    @endphp
+                    <div class="space-y-4">
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">INFO KEPALA SEKOLAH</label>
+                        <p class="text-xs text-gray-500 -mt-2 mb-3">Nama dan jabatan yang ditampilkan di bawah isi sambutan pada halaman utama.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Nama Kepala Sekolah</label>
+                                <input type="text" name="sambutan_data[nama_kepala_sekolah]" value="{{ old('sambutan_data.nama_kepala_sekolah', $sambutan_data['nama_kepala_sekolah'] ?? 'Suhartini') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="Contoh: Budi Santoso, S.Pd.">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Jabatan / Gelar</label>
+                                <input type="text" name="sambutan_data[jabatan_kepala_sekolah]" value="{{ old('sambutan_data.jabatan_kepala_sekolah', $sambutan_data['jabatan_kepala_sekolah'] ?? 'KEPALA SEKOLAH SMK NEGERI 1 MAESAN') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="Contoh: KEPALA SEKOLAH SMK NEGERI 1 MAESAN">
+                            </div>
+                        </div>
+                    </div>
                 @elseif($section->page === 'info-ppdb' && $section->section_key === 'bantuan')
                     @php
                         $bantuanData = is_array($section->extra_data) ? $section->extra_data : json_decode($section->extra_data ?? '{}', true);
