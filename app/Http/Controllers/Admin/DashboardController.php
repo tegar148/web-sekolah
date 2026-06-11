@@ -34,9 +34,17 @@ class DashboardController extends Controller
             ->pluck('total', 'minat_jurusan')
             ->toArray();
 
+        $ppdbBySekolah = PendaftaranSiswa::selectRaw('sekolah_asal, COUNT(*) as total')
+            ->whereNotNull('sekolah_asal')
+            ->where('sekolah_asal', '!=', '')
+            ->groupBy('sekolah_asal')
+            ->orderByDesc('total')
+            ->pluck('total', 'sekolah_asal')
+            ->toArray();
+
         return view('admin.dashboard', compact(
             'stats', 'recentSections',
-            'ppdbTotal', 'ppdbByStatus', 'ppdbByJurusan'
+            'ppdbTotal', 'ppdbByStatus', 'ppdbByJurusan', 'ppdbBySekolah'
         ));
     }
 }

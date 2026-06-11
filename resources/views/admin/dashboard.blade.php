@@ -90,48 +90,52 @@
 <!-- Donut Charts + Recent Sections -->
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
 
-    <!-- Donut: Status -->
+    <!-- Donut: Asal Sekolah -->
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
         <div class="flex items-center justify-between mb-5">
             <div>
-                <h3 class="font-bold text-gray-900 text-sm">Status Pendaftaran</h3>
+                <h3 class="font-bold text-gray-900 text-sm">Asal Sekolah</h3>
                 <p class="text-[10px] text-gray-400 mt-0.5 uppercase tracking-widest">Pra-PPDB · Distribusi</p>
             </div>
             <div class="w-8 h-8 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/></svg>
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18M10 3v18M14 3v18"/><rect x="3" y="3" width="18" height="18" rx="2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
             </div>
         </div>
 
-        @if($ppdbTotal > 0)
+        @php
+            $sekolahTotal = array_sum($ppdbBySekolah);
+            $sekolahPalette = ['bg-teal-500','bg-cyan-500','bg-sky-500','bg-indigo-500','bg-violet-500','bg-pink-500','bg-rose-500','bg-orange-400','bg-amber-400','bg-lime-500'];
+            $si = 0;
+        @endphp
+
+        @if($sekolahTotal > 0)
         <div class="relative flex items-center justify-center mb-5" style="height:180px">
-            <canvas id="chartStatus" style="width:180px;height:180px;display:block"></canvas>
+            <canvas id="chartSekolah" style="width:180px;height:180px;display:block"></canvas>
             <div class="absolute text-center pointer-events-none">
-                <p class="text-2xl font-black text-gray-900">{{ $ppdbTotal }}</p>
-                <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Total</p>
+                <p class="text-2xl font-black text-gray-900">{{ count($ppdbBySekolah) }}</p>
+                <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Sekolah</p>
             </div>
         </div>
 
         <!-- Legend -->
-        <div class="space-y-2">
-            @foreach($ppdbStatuses as $key => $info)
-            @php $count = $ppdbByStatus[$key] ?? 0; @endphp
-            @if($count > 0)
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full {{ $info['dot'] }} shrink-0"></span>
-                    <span class="text-xs text-gray-600 font-medium">{{ $info['label'] }}</span>
+        <div style="max-height:144px; overflow-y:auto; padding-right:4px;" class="sekolah-scroll-list space-y-2">
+            @foreach($ppdbBySekolah as $sekolah => $count)
+            @php $dotClass = $sekolahPalette[$si % count($sekolahPalette)]; $si++; @endphp
+            <div class="flex items-center justify-between py-0.5">
+                <div class="flex items-center gap-2 min-w-0">
+                    <span class="w-2.5 h-2.5 rounded-full {{ $dotClass }} shrink-0"></span>
+                    <span class="text-xs text-gray-600 font-medium truncate" title="{{ $sekolah }}">{{ Str::limit($sekolah, 22) }}</span>
                 </div>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 shrink-0 ml-2">
                     <span class="text-xs font-bold text-gray-800">{{ $count }}</span>
-                    <span class="text-[10px] text-gray-400">{{ $ppdbTotal > 0 ? round($count/$ppdbTotal*100) : 0 }}%</span>
+                    <span class="text-[10px] text-gray-400">{{ $sekolahTotal > 0 ? round($count/$sekolahTotal*100) : 0 }}%</span>
                 </div>
             </div>
-            @endif
             @endforeach
         </div>
         @else
         <div class="flex flex-col items-center justify-center py-10 text-gray-300">
-            <svg class="w-14 h-14 mb-3 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/></svg>
+            <svg class="w-14 h-14 mb-3 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M3 14h18M10 3v18M14 3v18"/></svg>
             <p class="text-sm text-gray-400 font-medium">Belum ada data</p>
         </div>
         @endif
@@ -258,60 +262,52 @@
 @endsection
 
 @push('scripts')
+<style>
+.sekolah-scroll-list::-webkit-scrollbar {
+    width: 4px;
+}
+.sekolah-scroll-list::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 99px;
+}
+.sekolah-scroll-list::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 99px;
+}
+.sekolah-scroll-list::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+</style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
 (function () {
-    // ── Status Chart ─────────────────────────────────────────────
+    // ── Asal Sekolah Chart ───────────────────────────────────────
     @php
-        $statusLabels = [];
-        $statusCounts = [];
-        $statusColors = [
-            'draft'        => '#9CA3AF',
-            'terkirim'     => '#3B82F6',
-            'diverifikasi' => '#F59E0B',
-            'diterima'     => '#10B981',
-            'ditolak'      => '#EF4444',
-        ];
-        $statusHover = [
-            'draft'        => '#6B7280',
-            'terkirim'     => '#2563EB',
-            'diverifikasi' => '#D97706',
-            'diterima'     => '#059669',
-            'ditolak'      => '#DC2626',
-        ];
-        $statusBg    = [];
-        $statusHv    = [];
-        foreach ($ppdbByStatus as $key => $count) {
-            $statusLabels[] = match($key) {
-                'draft'        => 'Draft',
-                'terkirim'     => 'Terkirim',
-                'diverifikasi' => 'Diverifikasi',
-                'diterima'     => 'Diterima',
-                'ditolak'      => 'Ditolak',
-                default        => ucfirst($key),
-            };
-            $statusCounts[] = $count;
-            $statusBg[]     = $statusColors[$key] ?? '#9CA3AF';
-            $statusHv[]     = $statusHover[$key] ?? '#6B7280';
+        $sekolahLabels  = array_keys($ppdbBySekolah);
+        $sekolahCounts  = array_values($ppdbBySekolah);
+        $sekolahPaletteHex = ['#14B8A6','#06B6D4','#0EA5E9','#6366F1','#8B5CF6','#EC4899','#F43F5E','#FB923C','#FBBF24','#84CC16'];
+        $sekolahBg = [];
+        foreach ($sekolahLabels as $i => $s) {
+            $sekolahBg[] = $sekolahPaletteHex[$i % count($sekolahPaletteHex)];
         }
     @endphp
 
-    const statusEl = document.getElementById('chartStatus');
-    if (statusEl) {
-        new Chart(statusEl, {
+    const sekolahEl = document.getElementById('chartSekolah');
+    if (sekolahEl) {
+        new Chart(sekolahEl, {
             type: 'doughnut',
             data: {
-                labels: @json($statusLabels),
+                labels: @json($sekolahLabels),
                 datasets: [{
-                    data: @json($statusCounts),
-                    backgroundColor: @json($statusBg),
+                    data: @json($sekolahCounts),
+                    backgroundColor: @json($sekolahBg),
                     borderWidth: 3,
                     borderColor: '#ffffff',
                 }]
             },
             options: {
                 cutout: '72%',
-                animation: false,
+                animation: { duration: 600, easing: 'easeInOutQuart' },
                 responsive: false,
                 maintainAspectRatio: false,
                 plugins: {
