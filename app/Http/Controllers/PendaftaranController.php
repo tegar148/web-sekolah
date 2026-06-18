@@ -29,10 +29,13 @@ class PendaftaranController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'nama'          => 'required|string|max:200',
-            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'sekolah_asal'  => 'required|string|max:200',
-            'minat_jurusan' => 'required|string|max:200',
+            'nama'              => 'required|string|max:200',
+            'jenis_kelamin'     => 'required|in:Laki-laki,Perempuan',
+            'sekolah_asal'      => 'required|string|max:200',
+            'kota_kabupaten'    => 'nullable|string|max:200',
+            'kelurahan_desa'    => 'nullable|string|max:200',
+            'alamat_lengkap'    => 'nullable|string|max:1000',
+            'minat_jurusan'     => 'required|string|max:200',
         ]);
 
         $data['status'] = 'terkirim';

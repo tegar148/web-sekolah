@@ -47,6 +47,7 @@ class SectionController extends Controller
             'is_visible'  => 'boolean',
             'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:51200',
             'images.*'    => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:51200',
+            'fasilitas_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:51200',
         ]);
 
         $validated['is_visible'] = $request->boolean('is_visible');
@@ -61,7 +62,45 @@ class SectionController extends Controller
         }
 
         if ($section->section_key === 'fasilitas_jurusan' && $request->has('fasilitas_data')) {
-            $validated['content'] = json_encode(array_values($request->input('fasilitas_data')));
+            $fasilitasItems = array_values($request->input('fasilitas_data'));
+
+            // Handle file uploads per item
+            foreach ($fasilitasItems as $i => &$item) {
+                // Handle remove_image flag
+                if (isset($item['remove_image']) && $item['remove_image'] == '1') {
+                    if (!empty($item['image']) && \Illuminate\Support\Facades\Storage::disk('public')->exists($item['image'])) {
+                        \Illuminate\Support\Facades\Storage::disk('public')->delete($item['image']);
+                    }
+                    $item['image'] = null;
+                }
+                unset($item['remove_image']);
+
+                // Find the original index from the request to match uploaded file
+                $originalIndexes = array_keys($request->input('fasilitas_data'));
+                $originalIndex = $originalIndexes[$i] ?? $i;
+
+                if ($request->hasFile("fasilitas_images.{$originalIndex}")) {
+                    // Delete old file if it's a storage path
+                    if (!empty($item['image']) && !str_starts_with($item['image'], 'http') && \Illuminate\Support\Facades\Storage::disk('public')->exists($item['image'])) {
+                        \Illuminate\Support\Facades\Storage::disk('public')->delete($item['image']);
+                    }
+
+                    $file = $request->file("fasilitas_images.{$originalIndex}");
+                    $filename = Str::uuid() . '.webp';
+                    $path = 'sections/fasilitas/' . $filename;
+
+                    $manager = new ImageManager(new Driver());
+                    $img = $manager->read($file->getPathname());
+                    $img->scaleDown(width: 1200, height: 1200);
+                    $encoded = $img->toWebp(80);
+
+                    \Illuminate\Support\Facades\Storage::disk('public')->put($path, (string) $encoded);
+                    $item['image'] = $path;
+                }
+            }
+            unset($item); // break reference
+
+            $validated['content'] = json_encode($fasilitasItems);
         }
 
         if ($section->section_key === 'osis' && $request->has('osis_data')) {

@@ -285,8 +285,31 @@
                                         <textarea name="fasilitas_data[{{$i}}][desc]" rows="4" class="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-[#017A85] transition">{{ $item['desc'] ?? '' }}</textarea>
                                     </div>
                                     <div class="md:col-span-2">
-                                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">URL Gambar Khusus (Opsional, akan pakai default jika kosong)</label>
-                                        <input type="text" name="fasilitas_data[{{$i}}][image]" value="{{ $item['image'] ?? '' }}" class="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-[#017A85] transition" placeholder="https://images.unsplash.com/...">
+                                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Foto Fasilitas (Opsional)</label>
+                                        @php
+                                            $imgVal = $item['image'] ?? '';
+                                            $isStoragePath = $imgVal && !str_starts_with($imgVal, 'http');
+                                            $isUrl = $imgVal && str_starts_with($imgVal, 'http');
+                                        @endphp
+                                        @if($isStoragePath && Storage::disk('public')->exists($imgVal))
+                                            <div class="mb-2 relative inline-block group">
+                                                <img src="{{ Storage::url($imgVal) }}" alt="Fasilitas" class="h-24 rounded-lg border border-gray-200 object-cover">
+                                                <div class="absolute inset-0 bg-black/50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                    <label class="cursor-pointer bg-red-500 text-white text-[9px] font-bold px-2 py-1 rounded flex items-center gap-1 hover:bg-red-600 transition">
+                                                        <input type="checkbox" name="fasilitas_data[{{$i}}][remove_image]" value="1" class="hidden" onchange="toggleFasilitasImg(this)">
+                                                        Hapus
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="fasilitas_data[{{$i}}][image]" value="{{ $imgVal }}">
+                                        @elseif($isUrl)
+                                            <div class="mb-2 flex items-center gap-3">
+                                                <img src="{{ $imgVal }}" alt="Fasilitas" class="h-24 rounded-lg border border-gray-200 object-cover">
+                                                <input type="hidden" name="fasilitas_data[{{$i}}][image]" value="{{ $imgVal }}">
+                                            </div>
+                                        @endif
+                                        <input type="file" name="fasilitas_images[{{$i}}]" accept="image/*" class="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-4 py-2.5 file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-[#017A85] file:text-white hover:file:bg-[#01656e] transition">
+                                        <p class="text-[10px] text-gray-400 mt-1">Format: JPG, PNG, WEBP. Otomatis dikompresi ke WebP. Kosongkan jika tidak ingin mengubah gambar.</p>
                                     </div>
                                 </div>
                             </div>
@@ -326,12 +349,23 @@
                                             <textarea name="fasilitas_data[${index}][desc]" rows="4" class="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-[#017A85] transition"></textarea>
                                         </div>
                                         <div class="md:col-span-2">
-                                            <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">URL Gambar Khusus (Opsional)</label>
-                                            <input type="text" name="fasilitas_data[${index}][image]" class="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-[#017A85] transition" placeholder="https://images.unsplash.com/...">
+                                            <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Foto Fasilitas (Opsional)</label>
+                                            <input type="file" name="fasilitas_images[${index}]" accept="image/*" class="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-lg px-4 py-2.5 file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-[#017A85] file:text-white hover:file:bg-[#01656e] transition">
+                                            <p class="text-[10px] text-gray-400 mt-1">Format: JPG, PNG, WEBP. Otomatis dikompresi ke WebP.</p>
                                         </div>
                                     </div>
                                 `;
                                 container.appendChild(row);
+                            }
+
+                            function toggleFasilitasImg(checkbox) {
+                                // Optionally hide the preview when checked
+                                const wrapper = checkbox.closest('.group');
+                                if (checkbox.checked && wrapper) {
+                                    wrapper.style.opacity = '0.3';
+                                } else if (wrapper) {
+                                    wrapper.style.opacity = '1';
+                                }
                             }
                         </script>
                     </div>

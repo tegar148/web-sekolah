@@ -59,15 +59,12 @@
 <!-- PPDB Summary Stats Row -->
 @php
     $ppdbStatuses = [
-        'draft'        => ['label' => 'Draft',        'color' => 'bg-gray-100 text-gray-600',     'dot' => 'bg-gray-400'],
-        'terkirim'     => ['label' => 'Terkirim',     'color' => 'bg-blue-50 text-blue-600',      'dot' => 'bg-blue-500'],
-        'diverifikasi' => ['label' => 'Diverifikasi', 'color' => 'bg-amber-50 text-amber-600',    'dot' => 'bg-amber-500'],
-        'diterima'     => ['label' => 'Diterima',     'color' => 'bg-emerald-50 text-emerald-600','dot' => 'bg-emerald-500'],
-        'ditolak'      => ['label' => 'Ditolak',      'color' => 'bg-red-50 text-red-600',        'dot' => 'bg-red-500'],
+        'draft'    => ['label' => 'Draft',    'color' => 'bg-gray-100 text-gray-600', 'dot' => 'bg-gray-400'],
+        'terkirim' => ['label' => 'Terkirim', 'color' => 'bg-blue-50 text-blue-600',  'dot' => 'bg-blue-500'],
     ];
 @endphp
 
-<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
     <div class="bg-gradient-to-br from-[#017A85] to-[#01656e] rounded-2xl p-5 text-white shadow-md shadow-teal-500/20 col-span-1">
         <p class="text-[9px] font-bold uppercase tracking-widest opacity-70 mb-1">Total Pra-PPDB</p>
         <p class="text-4xl font-black">{{ $ppdbTotal }}</p>
@@ -194,29 +191,57 @@
         @endif
     </div>
 
-    <!-- Recent Sections -->
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div class="p-6 border-b border-gray-100 flex items-center justify-between">
-            <h3 class="font-bold text-gray-900 text-sm">Section Terbaru</h3>
-            <a href="{{ route('admin.sections.index') }}" class="text-[11px] font-bold text-[#017A85] hover:underline uppercase tracking-wider">Lihat Semua</a>
-        </div>
-        <div class="divide-y divide-gray-50">
-            @forelse($recentSections as $s)
-            <div class="px-6 py-4 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="w-2 h-2 rounded-full {{ $s->is_visible ? 'bg-teal-500' : 'bg-gray-300' }}"></div>
-                    <div>
-                        <p class="text-sm font-bold text-gray-800">{{ $s->title ?? $s->section_key }}</p>
-                        <p class="text-[10px] text-gray-400 uppercase tracking-wider">{{ $s->page }} &bull; {{ $s->section_key }}</p>
-                    </div>
-                </div>
-                <span class="text-[10px] text-gray-400">{{ $s->updated_at->diffForHumans() }}</span>
+    <!-- Donut: Kelurahan/Desa -->
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <div class="flex items-center justify-between mb-5">
+            <div>
+                <h3 class="font-bold text-gray-900 text-sm">Kelurahan / Desa</h3>
+                <p class="text-[10px] text-gray-400 mt-0.5 uppercase tracking-widest">Pra-PPDB · Asal Domisili</p>
             </div>
-            @empty
-            <div class="px-6 py-8 text-center text-gray-400 text-sm">Belum ada section. Jalankan seeder terlebih dahulu.</div>
-            @endforelse
+            <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
         </div>
+
+        @php
+            $kelurahanTotal = array_sum($ppdbByKelurahan);
+            $kelurahanPalette = ['bg-emerald-500','bg-teal-500','bg-cyan-400','bg-green-500','bg-lime-500','bg-sky-500','bg-indigo-400','bg-violet-400','bg-fuchsia-400','bg-rose-400'];
+            $ki = 0;
+        @endphp
+
+        @if($kelurahanTotal > 0)
+        <div class="relative flex items-center justify-center mb-5" style="height:180px">
+            <canvas id="chartKelurahan" style="width:180px;height:180px;display:block"></canvas>
+            <div class="absolute text-center pointer-events-none">
+                <p class="text-2xl font-black text-gray-900">{{ count($ppdbByKelurahan) }}</p>
+                <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Desa</p>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div style="max-height:144px; overflow-y:auto; padding-right:4px;" class="kelurahan-scroll-list space-y-2">
+            @foreach($ppdbByKelurahan as $kelurahan => $count)
+            @php $dotKel = $kelurahanPalette[$ki % count($kelurahanPalette)]; $ki++; @endphp
+            <div class="flex items-center justify-between py-0.5">
+                <div class="flex items-center gap-2 min-w-0">
+                    <span class="w-2.5 h-2.5 rounded-full {{ $dotKel }} shrink-0"></span>
+                    <span class="text-xs text-gray-600 font-medium truncate" title="{{ $kelurahan }}">{{ Str::limit($kelurahan, 20) }}</span>
+                </div>
+                <div class="flex items-center gap-2 shrink-0 ml-2">
+                    <span class="text-xs font-bold text-gray-800">{{ $count }}</span>
+                    <span class="text-[10px] text-gray-400">{{ $kelurahanTotal > 0 ? round($count/$kelurahanTotal*100) : 0 }}%</span>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        @else
+        <div class="flex flex-col items-center justify-center py-10 text-gray-300">
+            <svg class="w-14 h-14 mb-3 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <p class="text-sm text-gray-400 font-medium">Belum ada data</p>
+        </div>
+        @endif
     </div>
+
 
 </div>
 
@@ -263,18 +288,22 @@
 
 @push('scripts')
 <style>
-.sekolah-scroll-list::-webkit-scrollbar {
+.sekolah-scroll-list::-webkit-scrollbar,
+.kelurahan-scroll-list::-webkit-scrollbar {
     width: 4px;
 }
-.sekolah-scroll-list::-webkit-scrollbar-track {
+.sekolah-scroll-list::-webkit-scrollbar-track,
+.kelurahan-scroll-list::-webkit-scrollbar-track {
     background: #f1f5f9;
     border-radius: 99px;
 }
-.sekolah-scroll-list::-webkit-scrollbar-thumb {
+.sekolah-scroll-list::-webkit-scrollbar-thumb,
+.kelurahan-scroll-list::-webkit-scrollbar-thumb {
     background: #cbd5e1;
     border-radius: 99px;
 }
-.sekolah-scroll-list::-webkit-scrollbar-thumb:hover {
+.sekolah-scroll-list::-webkit-scrollbar-thumb:hover,
+.kelurahan-scroll-list::-webkit-scrollbar-thumb:hover {
     background: #94a3b8;
 }
 </style>
@@ -352,6 +381,47 @@
             options: {
                 cutout: '72%',
                 animation: false,
+                responsive: false,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => ` ${ctx.label}: ${ctx.parsed} (${Math.round(ctx.parsed / ctx.dataset.data.reduce((a,b)=>a+b,0)*100)}%)`
+                        }
+                    }
+                },
+            }
+        });
+    }
+
+    // ── Kelurahan/Desa Chart ─────────────────────────────────────
+    @php
+        $kelurahanLabels = array_keys($ppdbByKelurahan);
+        $kelurahanCounts = array_values($ppdbByKelurahan);
+        $kelurahanPaletteHex = ['#10B981','#14B8A6','#22D3EE','#22C55E','#84CC16','#0EA5E9','#818CF8','#A78BFA','#E879F9','#FB7185'];
+        $kelurahanBg = [];
+        foreach ($kelurahanLabels as $i => $k) {
+            $kelurahanBg[] = $kelurahanPaletteHex[$i % count($kelurahanPaletteHex)];
+        }
+    @endphp
+
+    const kelurahanEl = document.getElementById('chartKelurahan');
+    if (kelurahanEl) {
+        new Chart(kelurahanEl, {
+            type: 'doughnut',
+            data: {
+                labels: @json($kelurahanLabels),
+                datasets: [{
+                    data: @json($kelurahanCounts),
+                    backgroundColor: @json($kelurahanBg),
+                    borderWidth: 3,
+                    borderColor: '#ffffff',
+                }]
+            },
+            options: {
+                cutout: '72%',
+                animation: { duration: 600, easing: 'easeInOutQuart' },
                 responsive: false,
                 maintainAspectRatio: false,
                 plugins: {

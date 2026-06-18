@@ -182,6 +182,30 @@
                                 @error('sekolah_asal')<p class="mt-1 text-xs text-red-500">{{ $message }}</p>@enderror
                             </div>
 
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="kota_kabupaten">Kota / Kabupaten</label>
+                                <input type="text" id="kota_kabupaten" name="kota_kabupaten"
+                                    class="form-input" placeholder="Contoh: Bondowoso"
+                                    value="{{ old('kota_kabupaten') }}">
+                                @error('kota_kabupaten')<p class="mt-1 text-xs text-red-500">{{ $message }}</p>@enderror
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="kelurahan_desa">Kelurahan / Desa</label>
+                                <input type="text" id="kelurahan_desa" name="kelurahan_desa"
+                                    class="form-input" placeholder="Contoh: Maesan"
+                                    value="{{ old('kelurahan_desa') }}">
+                                @error('kelurahan_desa')<p class="mt-1 text-xs text-red-500">{{ $message }}</p>@enderror
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="alamat_lengkap">Alamat Lengkap</label>
+                                <textarea id="alamat_lengkap" name="alamat_lengkap"
+                                    class="form-input" rows="3"
+                                    placeholder="Contoh: Jl. Raya Maesan No. 10, RT 001/RW 002">{{ old('alamat_lengkap') }}</textarea>
+                                @error('alamat_lengkap')<p class="mt-1 text-xs text-red-500">{{ $message }}</p>@enderror
+                            </div>
+
                             <div class="md:col-span-2">
                                 <label class="block text-sm font-semibold text-gray-700 mb-2" for="minat_jurusan">Minat Jurusan <span class="text-red-500">*</span></label>
                                 <select id="minat_jurusan" name="minat_jurusan" class="form-input" required>

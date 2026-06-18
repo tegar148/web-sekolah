@@ -16,6 +16,9 @@ class PendaftaranSiswa extends Model
         'nama',
         'jenis_kelamin',
         'sekolah_asal',
+        'kota_kabupaten',
+        'kelurahan_desa',
+        'alamat_lengkap',
         'minat_jurusan',
         // Status
         'status',
