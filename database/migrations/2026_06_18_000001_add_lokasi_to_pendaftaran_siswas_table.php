@@ -9,10 +9,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pendaftaran_siswas', function (Blueprint $table) {
-            $table->string('kota_kabupaten')->nullable()->after('sekolah_asal');
-            $table->string('kelurahan_desa')->nullable()->after('kota_kabupaten');
+            if (!Schema::hasColumn('pendaftaran_siswas', 'kota_kabupaten')) {
+                $table->string('kota_kabupaten')->nullable()->after('sekolah_asal');
+            }
+            if (!Schema::hasColumn('pendaftaran_siswas', 'kelurahan_desa')) {
+                $table->string('kelurahan_desa')->nullable()->after('kota_kabupaten');
+            }
             // kolom alamat_lengkap sudah ada (dari migration awal), pastikan nullable
-            $table->text('alamat_lengkap')->nullable()->change();
+            if (Schema::hasColumn('pendaftaran_siswas', 'alamat_lengkap')) {
+                $table->text('alamat_lengkap')->nullable()->change();
+            }
         });
     }
 
