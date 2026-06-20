@@ -172,7 +172,15 @@
                     
                     <div class="flex flex-col sm:flex-row gap-4 mb-6">
                         <a href="{{ route('pendaftaran.create') }}" class="bg-[#017A85] hover:bg-[#01656e] text-white text-sm font-bold px-8 py-3.5 rounded-full transition shadow-lg text-center">{{ $ctaData['button_primary_text'] ?? 'Isi Formulir Pra-PPDB' }}</a>
-                        <a href="{{ $ctaData['button_secondary_link'] ?? '#' }}" class="bg-white hover:bg-gray-50 text-gray-800 text-sm font-bold px-8 py-3.5 rounded-full transition shadow-sm text-center border border-gray-100">{{ $ctaData['button_secondary_text'] ?? 'Unduh Brosur (PDF)' }}</a>
+                        @php
+                            $brosurLink = null;
+                            if (!empty($ctaData['brosur_pdf']) && \Illuminate\Support\Facades\Storage::disk('public')->exists($ctaData['brosur_pdf'])) {
+                                $brosurLink = \Illuminate\Support\Facades\Storage::url($ctaData['brosur_pdf']);
+                            } elseif (!empty($ctaData['button_secondary_link']) && $ctaData['button_secondary_link'] !== '#') {
+                                $brosurLink = $ctaData['button_secondary_link'];
+                            }
+                        @endphp
+                        <a href="{{ $brosurLink ?? '#' }}" {{ $brosurLink && str_contains($brosurLink, '.pdf') ? 'target="_blank" download' : '' }} class="bg-white hover:bg-gray-50 text-gray-800 text-sm font-bold px-8 py-3.5 rounded-full transition shadow-sm text-center border border-gray-100">{{ $ctaData['button_secondary_text'] ?? 'Unduh Brosur (PDF)' }}</a>
                     </div>
                     
                     </div>

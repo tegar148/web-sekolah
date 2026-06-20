@@ -522,8 +522,54 @@
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Link Tombol Secondary</label>
-                                <input type="text" name="cta_data[button_secondary_link]" value="{{ old('cta_data.button_secondary_link', $ctaData['button_secondary_link'] ?? '#') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition">
+                                <input type="text" name="cta_data[button_secondary_link]" value="{{ old('cta_data.button_secondary_link', $ctaData['button_secondary_link'] ?? '#') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition" placeholder="Kosongkan jika pakai Upload PDF">
+                                <p class="text-[10px] text-gray-400 mt-1">Isi jika pakai link eksternal. Kosongkan jika menggunakan file PDF upload di bawah.</p>
                             </div>
+
+                            {{-- PDF Upload khusus info-ppdb CTA --}}
+                            @if($section->page === 'info-ppdb')
+                            <div class="md:col-span-2">
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-2">Upload File Brosur PDF</label>
+
+                                @php $existingPdf = $ctaData['brosur_pdf'] ?? null; @endphp
+                                @if($existingPdf && \Illuminate\Support\Facades\Storage::disk('public')->exists($existingPdf))
+                                <div class="mb-3 flex items-center gap-4 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3" id="pdf-preview-box">
+                                    <div class="flex items-center justify-center w-10 h-10 bg-red-100 rounded-lg shrink-0">
+                                        <svg class="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-xs font-bold text-gray-700 truncate">{{ basename($existingPdf) }}</p>
+                                        <a href="{{ \Illuminate\Support\Facades\Storage::url($existingPdf) }}" target="_blank" class="text-[10px] text-[#017A85] hover:underline font-medium">Lihat / Download PDF →</a>
+                                    </div>
+                                    <label class="flex items-center gap-1.5 cursor-pointer bg-red-50 text-red-600 hover:bg-red-100 text-[10px] font-bold px-3 py-1.5 rounded-lg border border-red-200 transition shrink-0">
+                                        <input type="checkbox" name="cta_remove_pdf" value="1" class="hidden" onchange="togglePdfRemove(this)">
+                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                        Hapus PDF
+                                    </label>
+                                    <input type="hidden" name="cta_data[brosur_pdf]" value="{{ $existingPdf }}">
+                                </div>
+                                @endif
+
+                                <input type="file" name="cta_brosur_pdf" accept=".pdf,application/pdf" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-3 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-[#017A85] file:text-white hover:file:bg-[#01656e] transition cursor-pointer">
+                                <div class="flex items-center gap-2 mt-2">
+                                    <span class="inline-flex items-center gap-1 bg-red-50 text-red-600 text-[10px] font-bold px-2.5 py-1 rounded-lg border border-red-100">
+                                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                                        PDF ONLY
+                                    </span>
+                                    <p class="text-[10px] text-gray-400">Format: PDF saja. Maks 20MB. Jika diupload, PDF ini diprioritaskan sebagai link brosur di halaman publik.</p>
+                                </div>
+                                <script>
+                                    function togglePdfRemove(checkbox) {
+                                        const box = document.getElementById('pdf-preview-box');
+                                        if (box) {
+                                            box.style.opacity = checkbox.checked ? '0.4' : '1';
+                                            box.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
+                                        }
+                                    }
+                                </script>
+                            </div>
+                            @endif
+
                             <div class="md:col-span-2">
                                 <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Teks Informasi Tambahan (Bawah)</label>
                                 <input type="text" name="cta_data[info_text]" value="{{ old('cta_data.info_text', $ctaData['info_text'] ?? 'Pendaftaran gelombang pertama tersisa 5 hari lagi.') }}" class="w-full bg-[#F8FAFC] border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#017A85]/20 focus:border-[#017A85] transition">

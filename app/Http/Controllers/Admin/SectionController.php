@@ -48,6 +48,7 @@ class SectionController extends Controller
             'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:51200',
             'images.*'    => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:51200',
             'fasilitas_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:51200',
+            'cta_brosur_pdf' => 'nullable|file|mimes:pdf|max:20480',
         ]);
 
         $validated['is_visible'] = $request->boolean('is_visible');
@@ -148,7 +149,37 @@ class SectionController extends Controller
         }
 
         if ($section->section_key === 'cta' && $request->has('cta_data')) {
-            $validated['extra_data'] = $request->input('cta_data');
+            $ctaData = $request->input('cta_data');
+
+            // Get existing PDF path from hidden input (sent back by form)
+            $existingPdf = $ctaData['brosur_pdf'] ?? (is_array($section->extra_data) ? ($section->extra_data['brosur_pdf'] ?? null) : null);
+
+            // Handle PDF removal
+            if ($request->boolean('cta_remove_pdf')) {
+                if ($existingPdf && \Illuminate\Support\Facades\Storage::disk('public')->exists($existingPdf)) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete($existingPdf);
+                }
+                $ctaData['brosur_pdf'] = null;
+            } else {
+                // Preserve existing PDF path
+                $ctaData['brosur_pdf'] = $existingPdf;
+            }
+
+            // Handle new PDF upload
+            if ($request->hasFile('cta_brosur_pdf')) {
+                // Delete old PDF if exists
+                if ($existingPdf && \Illuminate\Support\Facades\Storage::disk('public')->exists($existingPdf)) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete($existingPdf);
+                }
+
+                $file = $request->file('cta_brosur_pdf');
+                $filename = Str::uuid() . '.pdf';
+                $path = 'sections/brosur/' . $filename;
+                \Illuminate\Support\Facades\Storage::disk('public')->put($path, file_get_contents($file->getPathname()));
+                $ctaData['brosur_pdf'] = $path;
+            }
+
+            $validated['extra_data'] = $ctaData;
         }
 
         if ($section->section_key === 'hero' && $request->has('hero_data')) {
