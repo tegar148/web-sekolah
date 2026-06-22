@@ -150,7 +150,12 @@
             @foreach($fasilitas_data as $i => $item)
             <div class="flex-none w-[85%] sm:w-[60%] md:w-[45%] lg:w-[40%] snap-center group cursor-pointer">
                 <div class="relative h-72 rounded-[2rem] overflow-hidden mb-6 shadow-sm border border-gray-100">
-                    <img src="{{ !empty($item['image']) ? $item['image'] : 'https://images.unsplash.com/photo-1549468057-0801a61aa4db?q=80&w=800&auto=format&fit=crop' }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="{{ $item['title'] ?? 'Fasilitas' }}">
+                    @php
+                        $fasilitasImgSrc = !empty($item['image'])
+                            ? (str_starts_with($item['image'], 'http') ? $item['image'] : Storage::url($item['image']))
+                            : 'https://images.unsplash.com/photo-1549468057-0801a61aa4db?q=80&w=800&auto=format&fit=crop';
+                    @endphp
+                    <img src="{{ $fasilitasImgSrc }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="{{ $item['title'] ?? 'Fasilitas' }}">
                     <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent flex flex-col justify-end p-8">
                         @if(!empty($item['tag']))
                         <span class="bg-teal-500 text-white text-[9px] font-bold px-2 py-1 rounded uppercase tracking-widest w-max mb-3">{{ $item['tag'] }}</span>
