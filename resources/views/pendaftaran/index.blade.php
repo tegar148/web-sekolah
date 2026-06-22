@@ -191,7 +191,7 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="kelurahan_desa">Kelurahan / Desa</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2" for="kelurahan_desa">Kecamatan</label>
                                 <input type="text" id="kelurahan_desa" name="kelurahan_desa"
                                     class="form-input" placeholder="Contoh: Maesan"
                                     value="{{ old('kelurahan_desa') }}">
