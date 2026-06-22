@@ -191,11 +191,11 @@
         @endif
     </div>
 
-    <!-- Donut: Kelurahan/Desa -->
+    <!-- Donut: Kecamatan -->
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
         <div class="flex items-center justify-between mb-5">
             <div>
-                <h3 class="font-bold text-gray-900 text-sm">Kelurahan / Desa</h3>
+                <h3 class="font-bold text-gray-900 text-sm">Kecamatan</h3>
                 <p class="text-[10px] text-gray-400 mt-0.5 uppercase tracking-widest">Pra-PPDB · Asal Domisili</p>
             </div>
             <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
@@ -214,7 +214,7 @@
             <canvas id="chartKelurahan" style="width:180px;height:180px;display:block"></canvas>
             <div class="absolute text-center pointer-events-none">
                 <p class="text-2xl font-black text-gray-900">{{ count($ppdbByKelurahan) }}</p>
-                <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Desa</p>
+                <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Kecamatan</p>
             </div>
         </div>
 
@@ -395,7 +395,7 @@
         });
     }
 
-    // ── Kelurahan/Desa Chart ─────────────────────────────────────
+    // ── Kecamatan Chart ─────────────────────────────────────────
     @php
         $kelurahanLabels = array_keys($ppdbByKelurahan);
         $kelurahanCounts = array_values($ppdbByKelurahan);
